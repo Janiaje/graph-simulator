@@ -40,11 +40,22 @@ class Graph {
     }
 
     /**
+     * Updates the graph to only show the given nodes and edges.
+     *
+     * @param nodes Array.<Object>
+     * @param edges Array.<Object>
+     */
+    _updateGraph(nodes, edges) {
+        this.clearGraph();
+
+        this._nodes.add(nodes);
+        this._edges.add(edges);
+    }
+
+    /**
      * Generate random graph.
      */
     generateRandomGraph(fullGraph) {
-        this.clearGraph();
-
         let numberOfNodes = 5;
 
         let nodes = [...Array(numberOfNodes).keys()].map((value) => {
@@ -60,8 +71,7 @@ class Graph {
 
         let edges = this._generateEdgesForFullGraph(numberOfNodes);
 
-        this._nodes.add(nodes);
-        this._edges.add(edges);
+        this._updateGraph(nodes, edges);
     }
 
     /**
@@ -142,7 +152,7 @@ class Graph {
     }
 
     /**
-     * Returns an node list
+     * Returns an node list.
      *
      * @returns {Array.<Object>}
      */
@@ -151,7 +161,7 @@ class Graph {
     }
 
     /**
-     * Returns an edge list
+     * Returns an edge list.
      *
      * @returns {Array.<Object>}
      */
@@ -159,6 +169,15 @@ class Graph {
         return this._getExportEdgeList();
     }
 
+    /**
+     * Returns data string with the given separator line by line for the header.
+     *
+     * @param separator string
+     * @param header Array.<string>
+     * @param rows Array.<Object>
+     *
+     * @returns {string}
+     */
     _createDataFile(separator, header, rows) {
         rows = rows.map((node) => {
             let row = [];
@@ -181,7 +200,7 @@ class Graph {
     }
 
     /**
-     * Returns CSV representing the nodes of the graph
+     * Returns CSV representing the nodes of the graph.
      *
      * @returns {string}
      */
@@ -190,12 +209,53 @@ class Graph {
     }
 
     /**
-     * Returns CSV representing the nodes of the graph
+     * Returns CSV representing the nodes of the graph.
      *
      * @returns {string}
      */
     exportEdgeCSV() {
         return this._createDataFile(",", this._exportEdgeListFormat, this._getExportEdgeList());
+    }
+
+
+    /**
+     * Returns parsed data string.
+     *
+     * @param separator string
+     * @param dataString string
+     *
+     * @returns {{nodes: *, header: *}}
+     */
+    _parseDataFile(separator, dataString) {
+        dataString = dataString.split("\n");
+
+        let header = dataString.shift().split(separator);
+
+        return dataString.map((row) => {
+            row = row.split(separator);
+            let rowObject = {};
+
+            for (let i = 0; i < header.length; i++) {
+                rowObject[header[i]] = row[i];
+            }
+
+            return rowObject;
+        });
+    }
+
+    /**
+     * Imports graph from the give CSVs.
+     *
+     * @param nodeCSV string
+     * @param edgeCSV string
+     */
+    importCSV(nodeCSV, edgeCSV) {
+        let separator = ",";
+
+        let nodes = this._parseDataFile(separator, nodeCSV);
+        let edges = this._parseDataFile(separator, edgeCSV);
+
+        this._updateGraph(nodes, edges);
     }
 }
 
