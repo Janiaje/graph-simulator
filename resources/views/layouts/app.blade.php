@@ -83,10 +83,7 @@
         </nav>
 
         <main class="py-4">
-            <home/>
-
-            <GenerateNewGraphModal/>
-{{--            <generate-new-modal v-if="generateNewModal == true"/>--}}
+            @yield('content')
         </main>
 
 
