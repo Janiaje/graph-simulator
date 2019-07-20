@@ -170,6 +170,16 @@ class Graph {
     }
 
     /**
+     * Imports graph from the given lists.
+     *
+     * @param nodeList Array.<Object>
+     * @param edgeList Array.<Object>
+     */
+    importGraphFromList(nodeList, edgeList) {
+        this._updateGraph(nodeList, edgeList);
+    }
+
+    /**
      * Returns data string with the given separator line by line for the header.
      *
      * @param separator string
@@ -217,7 +227,6 @@ class Graph {
         return this._createDataFile(",", this._exportEdgeListFormat, this._getExportEdgeList());
     }
 
-
     /**
      * Returns parsed data string.
      *
@@ -244,7 +253,7 @@ class Graph {
     }
 
     /**
-     * Imports graph from the give CSVs.
+     * Imports graph from the given CSVs.
      *
      * @param nodeCSV string
      * @param edgeCSV string
