@@ -12,6 +12,8 @@
 */
 
 Route::get('/', function () {
+    file_put_contents(public_path('index.html'), view('home'));
+
     return view('home');
 });
 
