@@ -1,117 +1,6 @@
-import vis from 'vis'
+import vis from "vis";
 
-class Graph {
-
-    /**
-     * @param container HTML element
-     * @param options Object
-     */
-    constructor(container, options = {}) {
-        this._options = options;
-
-        this._nodes = new vis.DataSet();
-        this._edges = new vis.DataSet();
-
-        this._network = new vis.Network(container, {
-            nodes: this._nodes,
-            edges: this._edges
-        }, this._options);
-
-        // Parser part
-
-        this._exportNodeListFormat = [
-            'id',
-            'label',
-        ];
-
-        this._exportEdgeListFormat = [
-            'id',
-            'from',
-            'to',
-        ];
-    }
-
-    /**
-     * Delete all nodes and edges.
-     */
-    clearGraph() {
-        this._nodes.clear();
-        this._edges.clear();
-    }
-
-    /**
-     * Updates the graph to only show the given nodes and edges.
-     *
-     * @param nodes Array.<Object>
-     * @param edges Array.<Object>
-     */
-    _updateGraph(nodes, edges) {
-        this.clearGraph();
-
-        this._nodes.add(nodes);
-        this._edges.add(edges);
-    }
-
-    /**
-     * Generate random graph.
-     */
-    generateRandomGraph(fullGraph) {
-        let numberOfNodes = 5;
-
-        let nodes = [...Array(numberOfNodes).keys()].map((value) => {
-            return {id: value + 1, label: 'Node ' + value}
-        });
-
-        // let edges = [...Array(this.numberOfEdges).keys()].map((value) => {
-        //     let from = Math.floor(Math.random() * numberOfNodes) + 1;
-        //     let to = Math.floor(Math.random() * numberOfNodes) + 1;
-        //
-        //     return {from: from, to: to}
-        // });
-
-        let edges = this._generateEdgesForFullGraph(numberOfNodes);
-
-        this._updateGraph(nodes, edges);
-    }
-
-    /**
-     * Generate edges for full graph.
-     *
-     * @param numberOfNodes int
-     */
-    _generateEdgesForFullGraph(numberOfNodes) {
-        let edges = [];
-
-        this._range(1, numberOfNodes)
-            .forEach((from) => {
-                this._range(1, numberOfNodes)
-                    .splice(from, numberOfNodes - from)
-                    .forEach((to) => {
-                        edges.push({
-                            from: from,
-                            to: to
-                        })
-                    })
-            });
-
-        return edges
-    }
-
-    /**
-     * Create range (array containing all the numbers from-to the given parameters).
-     *
-     * @param from int
-     * @param to int
-     *
-     * @returns {Array.<int>}
-     */
-    _range(from, to) {
-        return [...Array(to - from + 1).keys()]
-            .map(value => value + from)
-    }
-
-
-    // Parser part
+let Parser = {
 
     /**
      * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
@@ -131,7 +20,7 @@ class Graph {
 
             return newObject;
         });
-    }
+    },
 
     /**
      * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
@@ -140,7 +29,7 @@ class Graph {
      */
     _getExportNodeList() {
         return this._formatObjectList(this._exportNodeListFormat, this._nodes.get());
-    }
+    },
 
     /**
      * Returns an edgeList with only the properties specified in the _exportEdgeListFormat list.
@@ -149,7 +38,9 @@ class Graph {
      */
     _getExportEdgeList() {
         return this._formatObjectList(this._exportEdgeListFormat, this._edges.get());
-    }
+    },
+
+    // List
 
     /**
      * Returns an node list.
@@ -158,7 +49,7 @@ class Graph {
      */
     exportNodeList() {
         return this._getExportNodeList();
-    }
+    },
 
     /**
      * Returns an edge list.
@@ -167,7 +58,7 @@ class Graph {
      */
     exportEdgeList() {
         return this._getExportEdgeList();
-    }
+    },
 
     /**
      * Imports graph from the given lists.
@@ -177,7 +68,9 @@ class Graph {
      */
     importList(nodeList, edgeList) {
         this._updateGraph(nodeList, edgeList);
-    }
+    },
+
+    // CSV
 
     /**
      * Returns data string with the given separator line by line for the header.
@@ -207,7 +100,7 @@ class Graph {
         csv = csv.join("\n");
 
         return csv;
-    }
+    },
 
     /**
      * Returns CSV representing the nodes of the graph.
@@ -216,7 +109,7 @@ class Graph {
      */
     exportNodeCSV() {
         return this._createDataFile(",", this._exportNodeListFormat, this._getExportNodeList());
-    }
+    },
 
     /**
      * Returns CSV representing the nodes of the graph.
@@ -225,7 +118,7 @@ class Graph {
      */
     exportEdgeCSV() {
         return this._createDataFile(",", this._exportEdgeListFormat, this._getExportEdgeList());
-    }
+    },
 
     /**
      * Returns parsed data string.
@@ -250,7 +143,7 @@ class Graph {
 
             return rowObject;
         });
-    }
+    },
 
     /**
      * Imports graph from the given CSVs.
@@ -265,7 +158,9 @@ class Graph {
         let edges = this._parseDataFile(separator, edgeCSV);
 
         this._updateGraph(nodes, edges);
-    }
+    },
+
+    // Gephi JSON
 
     /**
      * Imports graph from the given CSVs.
@@ -284,6 +179,7 @@ class Graph {
 
         this._updateGraph(parsed.nodes, parsed.edges)
     }
-}
 
-export default Graph;
+};
+
+export default Parser;
