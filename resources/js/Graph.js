@@ -175,7 +175,7 @@ class Graph {
      * @param nodeList Array.<Object>
      * @param edgeList Array.<Object>
      */
-    importGraphFromList(nodeList, edgeList) {
+    importList(nodeList, edgeList) {
         this._updateGraph(nodeList, edgeList);
     }
 
@@ -265,6 +265,24 @@ class Graph {
         let edges = this._parseDataFile(separator, edgeCSV);
 
         this._updateGraph(nodes, edges);
+    }
+
+    /**
+     * Imports graph from the given CSVs.
+     *
+     * @param json String
+     * @param fixed Boolean
+     * @param parseColor Boolean
+     */
+    importGephiJSON(json, fixed = true, parseColor = true) {
+        let options = {
+            fixed: fixed,
+            parseColor: parseColor
+        };
+
+        let parsed = vis.network.gephiParser.parseGephi(json, options);
+
+        this._updateGraph(parsed.nodes, parsed.edges)
     }
 }
 
