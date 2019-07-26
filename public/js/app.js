@@ -1688,43 +1688,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GenerateNewGraphModal.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GenerateNewGraphModal.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "GenerateNewGraphModal"
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Home.vue?vue&type=script&lang=js& ***!
@@ -97019,93 +96982,6 @@ exports["default"] = FloydWarshall;
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GenerateNewGraphModal.vue?vue&type=template&id=75c25c22&scoped=true&":
-/*!************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GenerateNewGraphModal.vue?vue&type=template&id=75c25c22&scoped=true& ***!
-  \************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "modal", attrs: { tabindex: "-1", role: "dialog" } },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c("h5", { staticClass: "modal-title" }, [
-                  _vm._v("Modal title")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("p", [_vm._v("Modal body text goes here.")])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                  [_vm._v("Save changes")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Close")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&scoped=true&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&scoped=true& ***!
@@ -109457,7 +109333,6 @@ module.exports = function(module) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./components/GenerateNewGraphModal.vue": "./resources/js/components/GenerateNewGraphModal.vue",
 	"./components/Home.vue": "./resources/js/components/Home.vue",
 	"./components/VisGraph.vue": "./resources/js/components/VisGraph.vue"
 };
@@ -109529,7 +109404,10 @@ function () {
     this._network = new vis__WEBPACK_IMPORTED_MODULE_0___default.a.Network(container, {
       nodes: this._nodes,
       edges: this._edges
-    }, this._options);
+    }, this._options); // Parser part
+
+    this._exportNodeListFormat = ['id', 'label'];
+    this._exportEdgeListFormat = ['id', 'from', 'to'];
   }
   /**
    * Delete all nodes and edges.
@@ -109544,13 +109422,28 @@ function () {
       this._edges.clear();
     }
     /**
-     * Generate random graph
+     * Updates the graph to only show the given nodes and edges.
+     *
+     * @param nodes Array.<Object>
+     * @param edges Array.<Object>
+     */
+
+  }, {
+    key: "_updateGraph",
+    value: function _updateGraph(nodes, edges) {
+      this.clearGraph();
+
+      this._nodes.add(nodes);
+
+      this._edges.add(edges);
+    }
+    /**
+     * Generate random graph.
      */
 
   }, {
     key: "generateRandomGraph",
     value: function generateRandomGraph(fullGraph) {
-      this.clearGraph();
       var numberOfNodes = 5;
 
       var nodes = _toConsumableArray(Array(numberOfNodes).keys()).map(function (value) {
@@ -109568,12 +109461,12 @@ function () {
 
       var edges = this._generateEdgesForFullGraph(numberOfNodes);
 
-      this._nodes.add(nodes);
-
-      this._edges.add(edges);
+      this._updateGraph(nodes, edges);
     }
     /**
-     * Generate edges for full graph
+     * Generate edges for full graph.
+     *
+     * @param numberOfNodes int
      */
 
   }, {
@@ -109595,7 +109488,12 @@ function () {
       return edges;
     }
     /**
-     * Create range (array containing all the numbers from-to the given parameters)
+     * Create range (array containing all the numbers from-to the given parameters).
+     *
+     * @param from int
+     * @param to int
+     *
+     * @returns {Array.<int>}
      */
 
   }, {
@@ -109604,6 +109502,195 @@ function () {
       return _toConsumableArray(Array(to - from + 1).keys()).map(function (value) {
         return value + from;
       });
+    } // Parser part
+
+    /**
+     * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
+     *
+     * @param propertyNamesArray Array.String
+     * @param arrayOfObjects Array.<Object>
+     *
+     * @returns {Array.<Object>}
+     */
+
+  }, {
+    key: "_formatObjectList",
+    value: function _formatObjectList(propertyNamesArray, arrayOfObjects) {
+      return arrayOfObjects.map(function (object) {
+        var newObject = {};
+        propertyNamesArray.forEach(function (key) {
+          newObject[key] = object[key];
+        });
+        return newObject;
+      });
+    }
+    /**
+     * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
+     *
+     * @returns {Array.<Object>}
+     */
+
+  }, {
+    key: "_getExportNodeList",
+    value: function _getExportNodeList() {
+      return this._formatObjectList(this._exportNodeListFormat, this._nodes.get());
+    }
+    /**
+     * Returns an edgeList with only the properties specified in the _exportEdgeListFormat list.
+     *
+     * @returns {Array.<Object>}
+     */
+
+  }, {
+    key: "_getExportEdgeList",
+    value: function _getExportEdgeList() {
+      return this._formatObjectList(this._exportEdgeListFormat, this._edges.get());
+    }
+    /**
+     * Returns an node list.
+     *
+     * @returns {Array.<Object>}
+     */
+
+  }, {
+    key: "exportNodeList",
+    value: function exportNodeList() {
+      return this._getExportNodeList();
+    }
+    /**
+     * Returns an edge list.
+     *
+     * @returns {Array.<Object>}
+     */
+
+  }, {
+    key: "exportEdgeList",
+    value: function exportEdgeList() {
+      return this._getExportEdgeList();
+    }
+    /**
+     * Imports graph from the given lists.
+     *
+     * @param nodeList Array.<Object>
+     * @param edgeList Array.<Object>
+     */
+
+  }, {
+    key: "importList",
+    value: function importList(nodeList, edgeList) {
+      this._updateGraph(nodeList, edgeList);
+    }
+    /**
+     * Returns data string with the given separator line by line for the header.
+     *
+     * @param separator string
+     * @param header Array.<string>
+     * @param rows Array.<Object>
+     *
+     * @returns {string}
+     */
+
+  }, {
+    key: "_createDataFile",
+    value: function _createDataFile(separator, header, rows) {
+      rows = rows.map(function (node) {
+        var row = [];
+        header.forEach(function (key) {
+          row.push(node[key]);
+        });
+        row = row.join(separator);
+        return row;
+      });
+      header = header.join(separator);
+      var csv = [header].concat(rows);
+      csv = csv.join("\n");
+      return csv;
+    }
+    /**
+     * Returns CSV representing the nodes of the graph.
+     *
+     * @returns {string}
+     */
+
+  }, {
+    key: "exportNodeCSV",
+    value: function exportNodeCSV() {
+      return this._createDataFile(",", this._exportNodeListFormat, this._getExportNodeList());
+    }
+    /**
+     * Returns CSV representing the nodes of the graph.
+     *
+     * @returns {string}
+     */
+
+  }, {
+    key: "exportEdgeCSV",
+    value: function exportEdgeCSV() {
+      return this._createDataFile(",", this._exportEdgeListFormat, this._getExportEdgeList());
+    }
+    /**
+     * Returns parsed data string.
+     *
+     * @param separator string
+     * @param dataString string
+     *
+     * @returns {{nodes: *, header: *}}
+     */
+
+  }, {
+    key: "_parseDataFile",
+    value: function _parseDataFile(separator, dataString) {
+      dataString = dataString.split("\n");
+      var header = dataString.shift().split(separator);
+      return dataString.map(function (row) {
+        row = row.split(separator);
+        var rowObject = {};
+
+        for (var i = 0; i < header.length; i++) {
+          rowObject[header[i]] = row[i];
+        }
+
+        return rowObject;
+      });
+    }
+    /**
+     * Imports graph from the given CSVs.
+     *
+     * @param nodeCSV string
+     * @param edgeCSV string
+     */
+
+  }, {
+    key: "importCSV",
+    value: function importCSV(nodeCSV, edgeCSV) {
+      var separator = ",";
+
+      var nodes = this._parseDataFile(separator, nodeCSV);
+
+      var edges = this._parseDataFile(separator, edgeCSV);
+
+      this._updateGraph(nodes, edges);
+    }
+    /**
+     * Imports graph from the given CSVs.
+     *
+     * @param json String
+     * @param fixed Boolean
+     * @param parseColor Boolean
+     */
+
+  }, {
+    key: "importGephiJSON",
+    value: function importGephiJSON(json) {
+      var fixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var parseColor = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var options = {
+        fixed: fixed,
+        parseColor: parseColor
+      };
+      var parsed = vis__WEBPACK_IMPORTED_MODULE_0___default.a.network.gephiParser.parseGephi(json, options);
+
+      this._updateGraph(parsed.nodes, parsed.edges);
     }
   }]);
 
@@ -109709,75 +109796,6 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
-
-/***/ }),
-
-/***/ "./resources/js/components/GenerateNewGraphModal.vue":
-/*!***********************************************************!*\
-  !*** ./resources/js/components/GenerateNewGraphModal.vue ***!
-  \***********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GenerateNewGraphModal_vue_vue_type_template_id_75c25c22_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GenerateNewGraphModal.vue?vue&type=template&id=75c25c22&scoped=true& */ "./resources/js/components/GenerateNewGraphModal.vue?vue&type=template&id=75c25c22&scoped=true&");
-/* harmony import */ var _GenerateNewGraphModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GenerateNewGraphModal.vue?vue&type=script&lang=js& */ "./resources/js/components/GenerateNewGraphModal.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _GenerateNewGraphModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GenerateNewGraphModal_vue_vue_type_template_id_75c25c22_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GenerateNewGraphModal_vue_vue_type_template_id_75c25c22_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  "75c25c22",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/GenerateNewGraphModal.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/GenerateNewGraphModal.vue?vue&type=script&lang=js&":
-/*!************************************************************************************!*\
-  !*** ./resources/js/components/GenerateNewGraphModal.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GenerateNewGraphModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./GenerateNewGraphModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GenerateNewGraphModal.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GenerateNewGraphModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/GenerateNewGraphModal.vue?vue&type=template&id=75c25c22&scoped=true&":
-/*!******************************************************************************************************!*\
-  !*** ./resources/js/components/GenerateNewGraphModal.vue?vue&type=template&id=75c25c22&scoped=true& ***!
-  \******************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GenerateNewGraphModal_vue_vue_type_template_id_75c25c22_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./GenerateNewGraphModal.vue?vue&type=template&id=75c25c22&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GenerateNewGraphModal.vue?vue&type=template&id=75c25c22&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GenerateNewGraphModal_vue_vue_type_template_id_75c25c22_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GenerateNewGraphModal_vue_vue_type_template_id_75c25c22_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
 
 /***/ }),
 
@@ -109937,8 +109955,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Janiaje\PhpstormProjects\thesis\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Janiaje\PhpstormProjects\thesis\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/janiaje/PhpstormProjects/thesis/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/janiaje/PhpstormProjects/thesis/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
