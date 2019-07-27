@@ -70,20 +70,7 @@ let Generator = {
                 })
             });
 
-        return edges
-    },
-
-    /**
-     * Create range (array containing all the numbers from-to the given parameters).
-     *
-     * @param from Integer
-     * @param to Integer
-     *
-     * @returns {Array.<Integer>}
-     */
-    _range(from, to) {
-        return [...Array(to - from + 1).keys()]
-            .map(value => value + from)
+        return edges;
     },
 
     /**
@@ -95,7 +82,6 @@ let Generator = {
      * @returns {Array.<Object>}
      */
     _removeEdgesUntilCount(edges, numberOfEdges) {
-
         while (edges.length > numberOfEdges) {
             let index = Math.floor(Math.random() * (edges.length - 1));
             edges.splice(index, 1);

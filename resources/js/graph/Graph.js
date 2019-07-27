@@ -1,6 +1,8 @@
 import vis from 'vis'
-import Parser from "./Parser";
+import Analyzer from "./Analyzer";
 import Generator from "./Generator";
+import Parser from "./Parser";
+import Tools from "./Tools";
 
 class Graph {
 
@@ -82,7 +84,9 @@ class Graph {
 }
 
 // Trait method assigns
+Object.assign(Graph.prototype, Tools);
 Object.assign(Graph.prototype, Parser);
 Object.assign(Graph.prototype, Generator);
+Object.assign(Graph.prototype, Analyzer);
 
 export default Graph;

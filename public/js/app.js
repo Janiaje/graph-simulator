@@ -1709,9 +1709,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home"
 });
@@ -1766,6 +1763,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "VisGraph",
@@ -1775,12 +1794,14 @@ __webpack_require__.r(__webpack_exports__);
       numberOfEdges: 3,
       simpleGraph: true,
       directedGraph: false,
-      physicsAllowed: true
+      physicsAllowed: true,
+      analytics: []
     };
   },
   mounted: function mounted() {
     var container = document.getElementById('vis-graph');
     this.$options.graph = new _graph_Graph__WEBPACK_IMPORTED_MODULE_0__["default"](container);
+    this.generateRandomGraph();
   },
   methods: {
     clearGraph: function clearGraph() {
@@ -1788,6 +1809,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     generateRandomGraph: function generateRandomGraph() {
       this.$options.graph.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+    },
+    showAnalytics: function showAnalytics() {
+      this.analytics = this.$options.graph.getAnalytics(this.directedGraph);
     }
   },
   watch: {
@@ -97015,26 +97039,14 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "card-header" }, [
+      _vm._v("\n        Dashboard\n    ")
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [_c("vis-graph")], 1)
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _vm._v("\n        Dashboard\n        "),
-      _c("div", { staticClass: "float-right" }, [
-        _c("button", { staticClass: "btn btn-info btn-sm" }, [
-          _vm._v("Fullscreen")
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -97270,25 +97282,83 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-primary",
-        attrs: { type: "button" },
-        on: { click: _vm.clearGraph }
-      },
-      [_vm._v("Clear Graph")]
-    ),
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button" },
+          on: { click: _vm.clearGraph }
+        },
+        [_vm._v("Clear Graph")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button" },
+          on: { click: _vm.generateRandomGraph }
+        },
+        [_vm._v("Generate Random Graph")]
+      ),
+      _vm._v(" "),
+      _vm.analytics.length === 0
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { type: "button" },
+              on: { click: _vm.showAnalytics }
+            },
+            [_vm._v("Show\n            Analytics\n        ")]
+          )
+        : _vm._e()
+    ]),
     _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-primary",
-        attrs: { type: "button" },
-        on: { click: _vm.generateRandomGraph }
-      },
-      [_vm._v("Generate Random Graph")]
-    ),
+    _c("div", { staticClass: "list-group" }, [
+      _c(
+        "div",
+        { staticClass: "row" },
+        _vm._l(_vm.analytics, function(info) {
+          return _c("div", { staticClass: "col-3" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "list-group-item list-group-item-action flex-column align-items-start",
+                attrs: { href: "#" }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "d-flex w-100 justify-content-between" },
+                  [
+                    _c("h5", { staticClass: "mb-1" }, [
+                      _vm._v(_vm._s(info.title))
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("p", {
+                  staticClass: "mb-1",
+                  domProps: { innerHTML: _vm._s(info.value) }
+                }),
+                _vm._v(" "),
+                _c("small", [
+                  _c(
+                    "a",
+                    { attrs: { href: info.helpLink, target: "_blank" } },
+                    [_vm._v("Documentation")]
+                  )
+                ])
+              ]
+            )
+          ])
+        }),
+        0
+      )
+    ]),
     _vm._v(" "),
     _c("div", { staticStyle: { height: "800px" }, attrs: { id: "vis-graph" } })
   ])
@@ -109706,6 +109776,56 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/graph/Analyzer.js":
+/*!****************************************!*\
+  !*** ./resources/js/graph/Analyzer.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var Analyzer = {
+  getAnalytics: function getAnalytics(directed) {
+    return [{
+      'title': 'Average degree',
+      'value': directed ? "\n                    <ul>\n                        <li>Outgoing degree: ".concat(this.getAverageDegree('outgoing'), " </li>\n                        <li>Incoming degree: ").concat(this.getAverageDegree('incoming'), " </li>\n                    </ul>\n                    ") : this.getAverageDegree('degree'),
+      'helpLink': 'http://networksciencebook.com/chapter/2#degree'
+    }];
+  },
+  getAverageDegree: function getAverageDegree(type) {
+    var nodes = this._getFormattedNodeList();
+
+    var edges = this._getFormattedEdgeList();
+
+    var summedDegree = this._fillDegrees(nodes, edges).map(function (node) {
+      return node[type];
+    }).reduce(function (a, b) {
+      return a + b;
+    });
+
+    return summedDegree / nodes.length;
+  },
+  _fillDegrees: function _fillDegrees(nodes, edgesParameter) {
+    var _this = this;
+
+    nodes.map(function (node) {
+      node.outgoing = _this._cloneArray(edgesParameter).filter(function (edge) {
+        return edge.from === node.id;
+      }).length;
+      node.incoming = _this._cloneArray(edgesParameter).filter(function (edge) {
+        return edge.to === node.id;
+      }).length;
+      node.degree = node.outgoing + node.incoming;
+      return node;
+    });
+    return nodes;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (Analyzer);
+
+/***/ }),
+
 /***/ "./resources/js/graph/Generator.js":
 /*!*****************************************!*\
   !*** ./resources/js/graph/Generator.js ***!
@@ -109715,14 +109835,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 var Generator = {
   /**
    * Generate random graph
@@ -109808,20 +109920,6 @@ var Generator = {
   },
 
   /**
-   * Create range (array containing all the numbers from-to the given parameters).
-   *
-   * @param from Integer
-   * @param to Integer
-   *
-   * @returns {Array.<Integer>}
-   */
-  _range: function _range(from, to) {
-    return _toConsumableArray(Array(to - from + 1).keys()).map(function (value) {
-      return value + from;
-    });
-  },
-
-  /**
    * Deletes random elements of an array until the give count is reached.
    *
    * @param edges Array.<Object>
@@ -109853,13 +109951,17 @@ var Generator = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vis */ "./node_modules/vis/dist/vis.js");
 /* harmony import */ var vis__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vis__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Parser */ "./resources/js/graph/Parser.js");
+/* harmony import */ var _Analyzer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Analyzer */ "./resources/js/graph/Analyzer.js");
 /* harmony import */ var _Generator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Generator */ "./resources/js/graph/Generator.js");
+/* harmony import */ var _Parser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Parser */ "./resources/js/graph/Parser.js");
+/* harmony import */ var _Tools__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Tools */ "./resources/js/graph/Tools.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
 
 
 
@@ -109951,8 +110053,10 @@ function () {
 }(); // Trait method assigns
 
 
-Object.assign(Graph.prototype, _Parser__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object.assign(Graph.prototype, _Tools__WEBPACK_IMPORTED_MODULE_4__["default"]);
+Object.assign(Graph.prototype, _Parser__WEBPACK_IMPORTED_MODULE_3__["default"]);
 Object.assign(Graph.prototype, _Generator__WEBPACK_IMPORTED_MODULE_2__["default"]);
+Object.assign(Graph.prototype, _Analyzer__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (Graph);
 
 /***/ }),
@@ -109993,7 +110097,7 @@ var Parser = {
    *
    * @returns {Array.<Object>}
    */
-  _getExportNodeList: function _getExportNodeList() {
+  _getFormattedNodeList: function _getFormattedNodeList() {
     return this._formatObjectList(this._exportNodeListFormat, this._nodes.get());
   },
 
@@ -110002,18 +110106,18 @@ var Parser = {
    *
    * @returns {Array.<Object>}
    */
-  _getExportEdgeList: function _getExportEdgeList() {
+  _getFormattedEdgeList: function _getFormattedEdgeList() {
     return this._formatObjectList(this._exportEdgeListFormat, this._edges.get());
   },
   // List
 
   /**
-   * Returns an node list.
+   * Returns a node list.
    *
    * @returns {Array.<Object>}
    */
   exportNodeList: function exportNodeList() {
-    return this._getExportNodeList();
+    return this._getFormattedNodeList();
   },
 
   /**
@@ -110022,7 +110126,7 @@ var Parser = {
    * @returns {Array.<Object>}
    */
   exportEdgeList: function exportEdgeList() {
-    return this._getExportEdgeList();
+    return this._getFormattedEdgeList();
   },
 
   /**
@@ -110066,7 +110170,7 @@ var Parser = {
    * @returns {string}
    */
   exportNodeCSV: function exportNodeCSV() {
-    return this._createDataFile(",", this._exportNodeListFormat, this._getExportNodeList());
+    return this._createDataFile(",", this._exportNodeListFormat, this._getFormattedNodeList());
   },
 
   /**
@@ -110075,7 +110179,7 @@ var Parser = {
    * @returns {string}
    */
   exportEdgeCSV: function exportEdgeCSV() {
-    return this._createDataFile(",", this._exportEdgeListFormat, this._getExportEdgeList());
+    return this._createDataFile(",", this._exportEdgeListFormat, this._getFormattedEdgeList());
   },
 
   /**
@@ -110141,6 +110245,53 @@ var Parser = {
 
 /***/ }),
 
+/***/ "./resources/js/graph/Tools.js":
+/*!*************************************!*\
+  !*** ./resources/js/graph/Tools.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+var Tools = {
+  /**
+   * Create range (array containing all the numbers from-to the given parameters).
+   *
+   * @param from int
+   * @param to int
+   *
+   * @returns {Array.<int>}
+   */
+  _range: function _range(from, to) {
+    return _toConsumableArray(Array(to - from + 1).keys()).map(function (value) {
+      return value + from;
+    });
+  },
+
+  /**
+   * Create range (array containing all the numbers from-to the given parameters).
+   *
+   *  @param array Array
+   *
+   * @returns {Array}
+   */
+  _cloneArray: function _cloneArray(array) {
+    return _toConsumableArray(array);
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (Tools);
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -110159,8 +110310,8 @@ var Parser = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/janiaje/PhpstormProjects/thesis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/janiaje/PhpstormProjects/thesis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/janiaje/temp/thesis/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/janiaje/temp/thesis/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
