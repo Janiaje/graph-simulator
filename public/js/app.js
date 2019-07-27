@@ -1727,7 +1727,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Graph__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Graph */ "./resources/js/Graph.js");
+/* harmony import */ var _graph_Graph__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../graph/Graph */ "./resources/js/graph/Graph.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1763,19 +1773,26 @@ __webpack_require__.r(__webpack_exports__);
     return {
       numberOfNodes: 10,
       numberOfEdges: 3,
-      simpleGraph: false
+      simpleGraph: true,
+      directedGraph: false,
+      physicsAllowed: true
     };
   },
   mounted: function mounted() {
     var container = document.getElementById('vis-graph');
-    this.$options.graph = new _Graph__WEBPACK_IMPORTED_MODULE_0__["default"](container);
+    this.$options.graph = new _graph_Graph__WEBPACK_IMPORTED_MODULE_0__["default"](container);
   },
   methods: {
     clearGraph: function clearGraph() {
       this.$options.graph.clearGraph();
     },
     generateRandomGraph: function generateRandomGraph() {
-      this.$options.graph.generateRandomGraph();
+      this.$options.graph.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+    }
+  },
+  watch: {
+    physicsAllowed: function physicsAllowed(value) {
+      this.$options.graph.physicsAllowed(value);
     }
   }
 });
@@ -97057,6 +97074,7 @@ var render = function() {
         attrs: {
           id: "numberOfNodes",
           type: "number",
+          min: "1",
           placeholder: "Number of nodes to generate"
         },
         domProps: { value: _vm.numberOfNodes },
@@ -97075,9 +97093,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "numberOfEdges" } }, [
-        _vm._v("Email address")
-      ]),
+      _c("label", { attrs: { for: "numberOfEdges" } }, [_vm._v("Edges")]),
       _vm._v(" "),
       _c("input", {
         directives: [
@@ -97093,6 +97109,7 @@ var render = function() {
         attrs: {
           id: "numberOfEdges",
           type: "number",
+          min: "1",
           placeholder: "Number of edges to generate"
         },
         domProps: { value: _vm.numberOfEdges },
@@ -97155,6 +97172,100 @@ var render = function() {
           "label",
           { staticClass: "form-check-label", attrs: { for: "simpleGraph" } },
           [_vm._v("Simple graph")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-check" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.directedGraph,
+              expression: "directedGraph"
+            }
+          ],
+          staticClass: "form-check-input",
+          attrs: { type: "checkbox", id: "directedGraph" },
+          domProps: {
+            checked: Array.isArray(_vm.directedGraph)
+              ? _vm._i(_vm.directedGraph, null) > -1
+              : _vm.directedGraph
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.directedGraph,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.directedGraph = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.directedGraph = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.directedGraph = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "label",
+          { staticClass: "form-check-label", attrs: { for: "directedGraph" } },
+          [_vm._v("Directed graph")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-check" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.physicsAllowed,
+              expression: "physicsAllowed"
+            }
+          ],
+          staticClass: "form-check-input",
+          attrs: { type: "checkbox", id: "physicsAllowed" },
+          domProps: {
+            checked: Array.isArray(_vm.physicsAllowed)
+              ? _vm._i(_vm.physicsAllowed, null) > -1
+              : _vm.physicsAllowed
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.physicsAllowed,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.physicsAllowed = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.physicsAllowed = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.physicsAllowed = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "label",
+          { staticClass: "form-check-label", attrs: { for: "physicsAllowed" } },
+          [_vm._v("Physics allowed")]
         )
       ])
     ]),
@@ -109359,348 +109470,6 @@ webpackContext.id = "./resources/js sync recursive \\.vue$/";
 
 /***/ }),
 
-/***/ "./resources/js/Graph.js":
-/*!*******************************!*\
-  !*** ./resources/js/Graph.js ***!
-  \*******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vis */ "./node_modules/vis/dist/vis.js");
-/* harmony import */ var vis__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vis__WEBPACK_IMPORTED_MODULE_0__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-var Graph =
-/*#__PURE__*/
-function () {
-  /**
-   * @param container HTML element
-   * @param options Object
-   */
-  function Graph(container) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    _classCallCheck(this, Graph);
-
-    this._options = options;
-    this._nodes = new vis__WEBPACK_IMPORTED_MODULE_0___default.a.DataSet();
-    this._edges = new vis__WEBPACK_IMPORTED_MODULE_0___default.a.DataSet();
-    this._network = new vis__WEBPACK_IMPORTED_MODULE_0___default.a.Network(container, {
-      nodes: this._nodes,
-      edges: this._edges
-    }, this._options); // Parser part
-
-    this._exportNodeListFormat = ['id', 'label'];
-    this._exportEdgeListFormat = ['id', 'from', 'to'];
-  }
-  /**
-   * Delete all nodes and edges.
-   */
-
-
-  _createClass(Graph, [{
-    key: "clearGraph",
-    value: function clearGraph() {
-      this._nodes.clear();
-
-      this._edges.clear();
-    }
-    /**
-     * Updates the graph to only show the given nodes and edges.
-     *
-     * @param nodes Array.<Object>
-     * @param edges Array.<Object>
-     */
-
-  }, {
-    key: "_updateGraph",
-    value: function _updateGraph(nodes, edges) {
-      this.clearGraph();
-
-      this._nodes.add(nodes);
-
-      this._edges.add(edges);
-    }
-    /**
-     * Generate random graph.
-     */
-
-  }, {
-    key: "generateRandomGraph",
-    value: function generateRandomGraph(fullGraph) {
-      var numberOfNodes = 5;
-
-      var nodes = _toConsumableArray(Array(numberOfNodes).keys()).map(function (value) {
-        return {
-          id: value + 1,
-          label: 'Node ' + value
-        };
-      }); // let edges = [...Array(this.numberOfEdges).keys()].map((value) => {
-      //     let from = Math.floor(Math.random() * numberOfNodes) + 1;
-      //     let to = Math.floor(Math.random() * numberOfNodes) + 1;
-      //
-      //     return {from: from, to: to}
-      // });
-
-
-      var edges = this._generateEdgesForFullGraph(numberOfNodes);
-
-      this._updateGraph(nodes, edges);
-    }
-    /**
-     * Generate edges for full graph.
-     *
-     * @param numberOfNodes int
-     */
-
-  }, {
-    key: "_generateEdgesForFullGraph",
-    value: function _generateEdgesForFullGraph(numberOfNodes) {
-      var _this = this;
-
-      var edges = [];
-
-      this._range(1, numberOfNodes).forEach(function (from) {
-        _this._range(1, numberOfNodes).splice(from, numberOfNodes - from).forEach(function (to) {
-          edges.push({
-            from: from,
-            to: to
-          });
-        });
-      });
-
-      return edges;
-    }
-    /**
-     * Create range (array containing all the numbers from-to the given parameters).
-     *
-     * @param from int
-     * @param to int
-     *
-     * @returns {Array.<int>}
-     */
-
-  }, {
-    key: "_range",
-    value: function _range(from, to) {
-      return _toConsumableArray(Array(to - from + 1).keys()).map(function (value) {
-        return value + from;
-      });
-    } // Parser part
-
-    /**
-     * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
-     *
-     * @param propertyNamesArray Array.String
-     * @param arrayOfObjects Array.<Object>
-     *
-     * @returns {Array.<Object>}
-     */
-
-  }, {
-    key: "_formatObjectList",
-    value: function _formatObjectList(propertyNamesArray, arrayOfObjects) {
-      return arrayOfObjects.map(function (object) {
-        var newObject = {};
-        propertyNamesArray.forEach(function (key) {
-          newObject[key] = object[key];
-        });
-        return newObject;
-      });
-    }
-    /**
-     * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
-     *
-     * @returns {Array.<Object>}
-     */
-
-  }, {
-    key: "_getExportNodeList",
-    value: function _getExportNodeList() {
-      return this._formatObjectList(this._exportNodeListFormat, this._nodes.get());
-    }
-    /**
-     * Returns an edgeList with only the properties specified in the _exportEdgeListFormat list.
-     *
-     * @returns {Array.<Object>}
-     */
-
-  }, {
-    key: "_getExportEdgeList",
-    value: function _getExportEdgeList() {
-      return this._formatObjectList(this._exportEdgeListFormat, this._edges.get());
-    }
-    /**
-     * Returns an node list.
-     *
-     * @returns {Array.<Object>}
-     */
-
-  }, {
-    key: "exportNodeList",
-    value: function exportNodeList() {
-      return this._getExportNodeList();
-    }
-    /**
-     * Returns an edge list.
-     *
-     * @returns {Array.<Object>}
-     */
-
-  }, {
-    key: "exportEdgeList",
-    value: function exportEdgeList() {
-      return this._getExportEdgeList();
-    }
-    /**
-     * Imports graph from the given lists.
-     *
-     * @param nodeList Array.<Object>
-     * @param edgeList Array.<Object>
-     */
-
-  }, {
-    key: "importList",
-    value: function importList(nodeList, edgeList) {
-      this._updateGraph(nodeList, edgeList);
-    }
-    /**
-     * Returns data string with the given separator line by line for the header.
-     *
-     * @param separator string
-     * @param header Array.<string>
-     * @param rows Array.<Object>
-     *
-     * @returns {string}
-     */
-
-  }, {
-    key: "_createDataFile",
-    value: function _createDataFile(separator, header, rows) {
-      rows = rows.map(function (node) {
-        var row = [];
-        header.forEach(function (key) {
-          row.push(node[key]);
-        });
-        row = row.join(separator);
-        return row;
-      });
-      header = header.join(separator);
-      var csv = [header].concat(rows);
-      csv = csv.join("\n");
-      return csv;
-    }
-    /**
-     * Returns CSV representing the nodes of the graph.
-     *
-     * @returns {string}
-     */
-
-  }, {
-    key: "exportNodeCSV",
-    value: function exportNodeCSV() {
-      return this._createDataFile(",", this._exportNodeListFormat, this._getExportNodeList());
-    }
-    /**
-     * Returns CSV representing the nodes of the graph.
-     *
-     * @returns {string}
-     */
-
-  }, {
-    key: "exportEdgeCSV",
-    value: function exportEdgeCSV() {
-      return this._createDataFile(",", this._exportEdgeListFormat, this._getExportEdgeList());
-    }
-    /**
-     * Returns parsed data string.
-     *
-     * @param separator string
-     * @param dataString string
-     *
-     * @returns {{nodes: *, header: *}}
-     */
-
-  }, {
-    key: "_parseDataFile",
-    value: function _parseDataFile(separator, dataString) {
-      dataString = dataString.split("\n");
-      var header = dataString.shift().split(separator);
-      return dataString.map(function (row) {
-        row = row.split(separator);
-        var rowObject = {};
-
-        for (var i = 0; i < header.length; i++) {
-          rowObject[header[i]] = row[i];
-        }
-
-        return rowObject;
-      });
-    }
-    /**
-     * Imports graph from the given CSVs.
-     *
-     * @param nodeCSV string
-     * @param edgeCSV string
-     */
-
-  }, {
-    key: "importCSV",
-    value: function importCSV(nodeCSV, edgeCSV) {
-      var separator = ",";
-
-      var nodes = this._parseDataFile(separator, nodeCSV);
-
-      var edges = this._parseDataFile(separator, edgeCSV);
-
-      this._updateGraph(nodes, edges);
-    }
-    /**
-     * Imports graph from the given CSVs.
-     *
-     * @param json String
-     * @param fixed Boolean
-     * @param parseColor Boolean
-     */
-
-  }, {
-    key: "importGephiJSON",
-    value: function importGephiJSON(json) {
-      var fixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      var parseColor = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var options = {
-        fixed: fixed,
-        parseColor: parseColor
-      };
-      var parsed = vis__WEBPACK_IMPORTED_MODULE_0___default.a.network.gephiParser.parseGephi(json, options);
-
-      this._updateGraph(parsed.nodes, parsed.edges);
-    }
-  }]);
-
-  return Graph;
-}();
-
-/* harmony default export */ __webpack_exports__["default"] = (Graph);
-
-/***/ }),
-
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -109934,6 +109703,441 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VisGraph_vue_vue_type_template_id_b34c090e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/graph/Generator.js":
+/*!*****************************************!*\
+  !*** ./resources/js/graph/Generator.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+var Generator = {
+  /**
+   * Generate random graph
+   * .
+   * @param numberOfNodes Integer
+   * @param numberOfEdges Integer
+   * @param simpleGraph Boolean
+   * @param directed Boolean
+   */
+  generateRandomGraph: function generateRandomGraph(numberOfNodes, numberOfEdges) {
+    var simpleGraph = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    var directed = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+    var nodes = this._generateNodes(numberOfNodes);
+
+    var edges;
+
+    if (simpleGraph) {
+      edges = this._generateEdgesForFullGraph(numberOfNodes, directed);
+      edges = this._removeEdgesUntilCount(edges, numberOfEdges);
+    } else {
+      edges = this._range(1, numberOfEdges).map(function (value) {
+        var from = Math.floor(Math.random() * numberOfNodes) + 1;
+        var to = Math.floor(Math.random() * numberOfNodes) + 1;
+        return {
+          from: from,
+          to: to
+        };
+      });
+    }
+
+    if (directed) {
+      edges.map(function (edge) {
+        edge.arrows = 'to';
+        return edge;
+      });
+    }
+
+    this._updateGraph(nodes, edges);
+  },
+
+  /**
+   * Generate nodes.
+   *
+   * @param numberOfNodes Integer
+   */
+  _generateNodes: function _generateNodes(numberOfNodes) {
+    return this._range(1, numberOfNodes).map(function (value) {
+      return {
+        id: value,
+        label: 'Node ' + value
+      };
+    });
+  },
+
+  /**
+   * Generate edges for full graph.
+   *
+   * @param numberOfNodes Integer
+   * @param directed Boolean
+   */
+  _generateEdgesForFullGraph: function _generateEdgesForFullGraph(numberOfNodes, directed) {
+    var _this = this;
+
+    var edges = [];
+
+    this._range(1, numberOfNodes).forEach(function (from) {
+      var range = _this._range(1, numberOfNodes);
+
+      if (directed) {
+        range.splice(from, numberOfNodes - from);
+      }
+
+      range.forEach(function (to) {
+        edges.push({
+          from: from,
+          to: to
+        });
+      });
+    });
+
+    return edges;
+  },
+
+  /**
+   * Create range (array containing all the numbers from-to the given parameters).
+   *
+   * @param from Integer
+   * @param to Integer
+   *
+   * @returns {Array.<Integer>}
+   */
+  _range: function _range(from, to) {
+    return _toConsumableArray(Array(to - from + 1).keys()).map(function (value) {
+      return value + from;
+    });
+  },
+
+  /**
+   * Deletes random elements of an array until the give count is reached.
+   *
+   * @param edges Array.<Object>
+   * @param numberOfEdges Integer
+   *
+   * @returns {Array.<Object>}
+   */
+  _removeEdgesUntilCount: function _removeEdgesUntilCount(edges, numberOfEdges) {
+    while (edges.length > numberOfEdges) {
+      var index = Math.floor(Math.random() * (edges.length - 1));
+      edges.splice(index, 1);
+    }
+
+    return edges;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (Generator);
+
+/***/ }),
+
+/***/ "./resources/js/graph/Graph.js":
+/*!*************************************!*\
+  !*** ./resources/js/graph/Graph.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vis */ "./node_modules/vis/dist/vis.js");
+/* harmony import */ var vis__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vis__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Parser */ "./resources/js/graph/Parser.js");
+/* harmony import */ var _Generator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Generator */ "./resources/js/graph/Generator.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+var Graph =
+/*#__PURE__*/
+function () {
+  /**
+   * @param container HTML element
+   * @param options Object
+   */
+  function Graph(container) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Graph);
+
+    this._options = options;
+    this._nodes = new vis__WEBPACK_IMPORTED_MODULE_0___default.a.DataSet();
+    this._edges = new vis__WEBPACK_IMPORTED_MODULE_0___default.a.DataSet();
+    this._network = new vis__WEBPACK_IMPORTED_MODULE_0___default.a.Network(container, {
+      nodes: this._nodes,
+      edges: this._edges
+    }, this._options); // Parser part
+
+    this._exportNodeListFormat = ['id', 'label'];
+    this._exportEdgeListFormat = ['id', 'from', 'to'];
+  }
+  /**
+   * Delete all nodes and edges.
+   */
+
+
+  _createClass(Graph, [{
+    key: "clearGraph",
+    value: function clearGraph() {
+      this._nodes.clear();
+
+      this._edges.clear();
+    }
+    /**
+     * Updates the graph to only show the given nodes and edges.
+     *
+     * @param nodes Array.<Object>
+     * @param edges Array.<Object>
+     */
+
+  }, {
+    key: "_updateGraph",
+    value: function _updateGraph(nodes, edges) {
+      this.clearGraph();
+
+      this._nodes.add(nodes);
+
+      this._edges.add(edges);
+    }
+    /**
+     * Updates the graph's options.
+     */
+
+  }, {
+    key: "_updateOptions",
+    value: function _updateOptions() {
+      this._network.setOptions(this._options);
+    }
+    /**
+     * Turns physics on/off.
+     *
+     * @param allowed Boolean
+     */
+
+  }, {
+    key: "physicsAllowed",
+    value: function physicsAllowed(allowed) {
+      var physics = this._options.physics;
+
+      if (physics === undefined) {
+        physics = {};
+      }
+
+      physics.enabled = allowed;
+      this._options.physics = physics;
+
+      this._updateOptions();
+    }
+  }]);
+
+  return Graph;
+}(); // Trait method assigns
+
+
+Object.assign(Graph.prototype, _Parser__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object.assign(Graph.prototype, _Generator__WEBPACK_IMPORTED_MODULE_2__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (Graph);
+
+/***/ }),
+
+/***/ "./resources/js/graph/Parser.js":
+/*!**************************************!*\
+  !*** ./resources/js/graph/Parser.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vis */ "./node_modules/vis/dist/vis.js");
+/* harmony import */ var vis__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vis__WEBPACK_IMPORTED_MODULE_0__);
+
+var Parser = {
+  /**
+   * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
+   *
+   * @param propertyNamesArray Array.String
+   * @param arrayOfObjects Array.<Object>
+   *
+   * @returns {Array.<Object>}
+   */
+  _formatObjectList: function _formatObjectList(propertyNamesArray, arrayOfObjects) {
+    return arrayOfObjects.map(function (object) {
+      var newObject = {};
+      propertyNamesArray.forEach(function (key) {
+        newObject[key] = object[key];
+      });
+      return newObject;
+    });
+  },
+
+  /**
+   * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
+   *
+   * @returns {Array.<Object>}
+   */
+  _getExportNodeList: function _getExportNodeList() {
+    return this._formatObjectList(this._exportNodeListFormat, this._nodes.get());
+  },
+
+  /**
+   * Returns an edgeList with only the properties specified in the _exportEdgeListFormat list.
+   *
+   * @returns {Array.<Object>}
+   */
+  _getExportEdgeList: function _getExportEdgeList() {
+    return this._formatObjectList(this._exportEdgeListFormat, this._edges.get());
+  },
+  // List
+
+  /**
+   * Returns an node list.
+   *
+   * @returns {Array.<Object>}
+   */
+  exportNodeList: function exportNodeList() {
+    return this._getExportNodeList();
+  },
+
+  /**
+   * Returns an edge list.
+   *
+   * @returns {Array.<Object>}
+   */
+  exportEdgeList: function exportEdgeList() {
+    return this._getExportEdgeList();
+  },
+
+  /**
+   * Imports graph from the given lists.
+   *
+   * @param nodeList Array.<Object>
+   * @param edgeList Array.<Object>
+   */
+  importList: function importList(nodeList, edgeList) {
+    this._updateGraph(nodeList, edgeList);
+  },
+  // CSV
+
+  /**
+   * Returns data string with the given separator line by line for the header.
+   *
+   * @param separator string
+   * @param header Array.<string>
+   * @param rows Array.<Object>
+   *
+   * @returns {string}
+   */
+  _createDataFile: function _createDataFile(separator, header, rows) {
+    rows = rows.map(function (node) {
+      var row = [];
+      header.forEach(function (key) {
+        row.push(node[key]);
+      });
+      row = row.join(separator);
+      return row;
+    });
+    header = header.join(separator);
+    var csv = [header].concat(rows);
+    csv = csv.join("\n");
+    return csv;
+  },
+
+  /**
+   * Returns CSV representing the nodes of the graph.
+   *
+   * @returns {string}
+   */
+  exportNodeCSV: function exportNodeCSV() {
+    return this._createDataFile(",", this._exportNodeListFormat, this._getExportNodeList());
+  },
+
+  /**
+   * Returns CSV representing the nodes of the graph.
+   *
+   * @returns {string}
+   */
+  exportEdgeCSV: function exportEdgeCSV() {
+    return this._createDataFile(",", this._exportEdgeListFormat, this._getExportEdgeList());
+  },
+
+  /**
+   * Returns parsed data string.
+   *
+   * @param separator string
+   * @param dataString string
+   *
+   * @returns {{nodes: *, header: *}}
+   */
+  _parseDataFile: function _parseDataFile(separator, dataString) {
+    dataString = dataString.split("\n");
+    var header = dataString.shift().split(separator);
+    return dataString.map(function (row) {
+      row = row.split(separator);
+      var rowObject = {};
+
+      for (var i = 0; i < header.length; i++) {
+        rowObject[header[i]] = row[i];
+      }
+
+      return rowObject;
+    });
+  },
+
+  /**
+   * Imports graph from the given CSVs.
+   *
+   * @param nodeCSV string
+   * @param edgeCSV string
+   */
+  importCSV: function importCSV(nodeCSV, edgeCSV) {
+    var separator = ",";
+
+    var nodes = this._parseDataFile(separator, nodeCSV);
+
+    var edges = this._parseDataFile(separator, edgeCSV);
+
+    this._updateGraph(nodes, edges);
+  },
+  // Gephi JSON
+
+  /**
+   * Imports graph from the given CSVs.
+   *
+   * @param json String
+   * @param fixed Boolean
+   * @param parseColor Boolean
+   */
+  importGephiJSON: function importGephiJSON(json) {
+    var fixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var parseColor = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    var options = {
+      fixed: fixed,
+      parseColor: parseColor
+    };
+    var parsed = vis__WEBPACK_IMPORTED_MODULE_0___default.a.network.gephiParser.parseGephi(json, options);
+
+    this._updateGraph(parsed.nodes, parsed.edges);
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (Parser);
 
 /***/ }),
 

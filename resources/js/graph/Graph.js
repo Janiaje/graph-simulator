@@ -54,6 +54,31 @@ class Graph {
         this._edges.add(edges);
     }
 
+    /**
+     * Updates the graph's options.
+     */
+    _updateOptions() {
+        this._network.setOptions(this._options);
+    }
+
+    /**
+     * Turns physics on/off.
+     *
+     * @param allowed Boolean
+     */
+    physicsAllowed(allowed) {
+        let physics = this._options.physics;
+
+        if (physics === undefined) {
+            physics = {};
+        }
+
+        physics.enabled = allowed;
+
+        this._options.physics = physics;
+
+        this._updateOptions();
+    }
 }
 
 // Trait method assigns
