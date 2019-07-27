@@ -109792,8 +109792,8 @@ var Generator = {
     this._range(1, numberOfNodes).forEach(function (from) {
       var range = _this._range(1, numberOfNodes);
 
-      if (directed) {
-        range.splice(from, numberOfNodes - from);
+      if (!directed) {
+        range.splice(0, from);
       }
 
       range.forEach(function (to) {
