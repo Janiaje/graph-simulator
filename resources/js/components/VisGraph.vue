@@ -19,15 +19,37 @@
             </div>
         </div>
 
-        <button type="button" class="btn btn-primary" @click="clearGraph">Clear Graph</button>
-        <button type="button" class="btn btn-primary" @click="generateRandomGraph">Generate Random Graph</button>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" @click="clearGraph">Clear Graph</button>
+            <button type="button" class="btn btn-primary" @click="generateRandomGraph">Generate Random Graph</button>
+            <button type="button" class="btn btn-primary" @click="showAnalytics" v-if="analytics.length === 0">Show
+                Analytics
+            </button>
+        </div>
+
+        <div class="list-group">
+            <div class="row">
+                <div class="col-3" v-for="info in analytics">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ info.title }}</h5>
+                            <!--<small>3 days ago</small>-->
+                        </div>
+                        <p class="mb-1" v-html="info.value"></p>
+                        <small>
+                            <a :href="info.helpLink" target="_blank">Documentation</a>
+                        </small>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <div id="vis-graph" style="height: 800px"/>
     </div>
 </template>
 
 <script>
-    import Graph from "../Graph";
+    import Graph from "../graph/Graph";
 
     export default {
         name: "VisGraph",
@@ -35,13 +57,16 @@
             return {
                 numberOfNodes: 10,
                 numberOfEdges: 3,
-                simpleGraph: false
+                simpleGraph: false,
+                directedGraph: false,
+                analytics: []
             }
         },
 
         mounted() {
             let container = document.getElementById('vis-graph');
             this.$options.graph = new Graph(container);
+            this.generateRandomGraph();
         },
 
         methods: {
@@ -51,6 +76,10 @@
 
             generateRandomGraph() {
                 this.$options.graph.generateRandomGraph();
+            },
+
+            showAnalytics() {
+                this.analytics = this.$options.graph.getAnalytics(this.directedGraph);
             },
         }
     }
