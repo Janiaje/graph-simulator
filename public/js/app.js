@@ -1773,6 +1773,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "VisGraph",
@@ -1780,8 +1792,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       numberOfNodes: 10,
       numberOfEdges: 3,
-      simpleGraph: false,
+      simpleGraph: true,
       directedGraph: false,
+      physicsAllowed: true,
       analytics: []
     };
   },
@@ -1795,10 +1808,15 @@ __webpack_require__.r(__webpack_exports__);
       this.$options.graph.clearGraph();
     },
     generateRandomGraph: function generateRandomGraph() {
-      this.$options.graph.generateRandomGraph();
+      this.$options.graph.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
     },
     showAnalytics: function showAnalytics() {
       this.analytics = this.$options.graph.getAnalytics(this.directedGraph);
+    }
+  },
+  watch: {
+    physicsAllowed: function physicsAllowed(value) {
+      this.$options.graph.physicsAllowed(value);
     }
   }
 });
@@ -97068,6 +97086,7 @@ var render = function() {
         attrs: {
           id: "numberOfNodes",
           type: "number",
+          min: "1",
           placeholder: "Number of nodes to generate"
         },
         domProps: { value: _vm.numberOfNodes },
@@ -97086,9 +97105,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "numberOfEdges" } }, [
-        _vm._v("Email address")
-      ]),
+      _c("label", { attrs: { for: "numberOfEdges" } }, [_vm._v("Edges")]),
       _vm._v(" "),
       _c("input", {
         directives: [
@@ -97104,6 +97121,7 @@ var render = function() {
         attrs: {
           id: "numberOfEdges",
           type: "number",
+          min: "1",
           placeholder: "Number of edges to generate"
         },
         domProps: { value: _vm.numberOfEdges },
@@ -97167,6 +97185,100 @@ var render = function() {
           { staticClass: "form-check-label", attrs: { for: "simpleGraph" } },
           [_vm._v("Simple graph")]
         )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-check" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.directedGraph,
+              expression: "directedGraph"
+            }
+          ],
+          staticClass: "form-check-input",
+          attrs: { type: "checkbox", id: "directedGraph" },
+          domProps: {
+            checked: Array.isArray(_vm.directedGraph)
+              ? _vm._i(_vm.directedGraph, null) > -1
+              : _vm.directedGraph
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.directedGraph,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.directedGraph = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.directedGraph = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.directedGraph = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "label",
+          { staticClass: "form-check-label", attrs: { for: "directedGraph" } },
+          [_vm._v("Directed graph")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-check" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.physicsAllowed,
+              expression: "physicsAllowed"
+            }
+          ],
+          staticClass: "form-check-input",
+          attrs: { type: "checkbox", id: "physicsAllowed" },
+          domProps: {
+            checked: Array.isArray(_vm.physicsAllowed)
+              ? _vm._i(_vm.physicsAllowed, null) > -1
+              : _vm.physicsAllowed
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.physicsAllowed,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.physicsAllowed = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.physicsAllowed = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.physicsAllowed = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "label",
+          { staticClass: "form-check-label", attrs: { for: "physicsAllowed" } },
+          [_vm._v("Physics allowed")]
+        )
       ])
     ]),
     _vm._v(" "),
@@ -97199,7 +97311,7 @@ var render = function() {
               attrs: { type: "button" },
               on: { click: _vm.showAnalytics }
             },
-            [_vm._v("Show Analytics")]
+            [_vm._v("Show\n            Analytics\n        ")]
           )
         : _vm._e()
     ]),
@@ -109723,57 +109835,103 @@ var Analyzer = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 var Generator = {
   /**
-   * Generate random graph.
+   * Generate random graph
+   * .
+   * @param numberOfNodes Integer
+   * @param numberOfEdges Integer
+   * @param simpleGraph Boolean
+   * @param directed Boolean
    */
-  generateRandomGraph: function generateRandomGraph(fullGraph) {
-    var numberOfNodes = 5;
+  generateRandomGraph: function generateRandomGraph(numberOfNodes, numberOfEdges) {
+    var simpleGraph = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    var directed = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-    var nodes = _toConsumableArray(Array(numberOfNodes).keys()).map(function (value) {
-      return {
-        id: value + 1,
-        label: 'Node ' + value
-      };
-    }); // let edges = [...Array(this.numberOfEdges).keys()].map((value) => {
-    //     let from = Math.floor(Math.random() * numberOfNodes) + 1;
-    //     let to = Math.floor(Math.random() * numberOfNodes) + 1;
-    //
-    //     return {from: from, to: to}
-    // });
+    var nodes = this._generateNodes(numberOfNodes);
 
+    var edges;
 
-    var edges = this._generateEdgesForFullGraph(numberOfNodes);
+    if (simpleGraph) {
+      edges = this._generateEdgesForFullGraph(numberOfNodes, directed);
+      edges = this._removeEdgesUntilCount(edges, numberOfEdges);
+    } else {
+      edges = this._range(1, numberOfEdges).map(function (value) {
+        var from = Math.floor(Math.random() * numberOfNodes) + 1;
+        var to = Math.floor(Math.random() * numberOfNodes) + 1;
+        return {
+          from: from,
+          to: to
+        };
+      });
+    }
+
+    if (directed) {
+      edges.map(function (edge) {
+        edge.arrows = 'to';
+        return edge;
+      });
+    }
 
     this._updateGraph(nodes, edges);
   },
 
   /**
+   * Generate nodes.
+   *
+   * @param numberOfNodes Integer
+   */
+  _generateNodes: function _generateNodes(numberOfNodes) {
+    return this._range(1, numberOfNodes).map(function (value) {
+      return {
+        id: value,
+        label: 'Node ' + value
+      };
+    });
+  },
+
+  /**
    * Generate edges for full graph.
    *
-   * @param numberOfNodes int
+   * @param numberOfNodes Integer
+   * @param directed Boolean
    */
-  _generateEdgesForFullGraph: function _generateEdgesForFullGraph(numberOfNodes) {
+  _generateEdgesForFullGraph: function _generateEdgesForFullGraph(numberOfNodes, directed) {
     var _this = this;
 
     var edges = [];
 
     this._range(1, numberOfNodes).forEach(function (from) {
-      _this._range(1, numberOfNodes).splice(from, numberOfNodes - from).forEach(function (to) {
+      var range = _this._range(1, numberOfNodes);
+
+      if (!directed) {
+        range.splice(0, from);
+      }
+
+      range.forEach(function (to) {
         edges.push({
           from: from,
           to: to
         });
       });
     });
+
+    return edges;
+  },
+
+  /**
+   * Deletes random elements of an array until the give count is reached.
+   *
+   * @param edges Array.<Object>
+   * @param numberOfEdges Integer
+   *
+   * @returns {Array.<Object>}
+   */
+  _removeEdgesUntilCount: function _removeEdgesUntilCount(edges, numberOfEdges) {
+    while (edges.length > numberOfEdges) {
+      var index = Math.floor(Math.random() * (edges.length - 1));
+      edges.splice(index, 1);
+    }
 
     return edges;
   }
@@ -109859,6 +110017,35 @@ function () {
       this._nodes.add(nodes);
 
       this._edges.add(edges);
+    }
+    /**
+     * Updates the graph's options.
+     */
+
+  }, {
+    key: "_updateOptions",
+    value: function _updateOptions() {
+      this._network.setOptions(this._options);
+    }
+    /**
+     * Turns physics on/off.
+     *
+     * @param allowed Boolean
+     */
+
+  }, {
+    key: "physicsAllowed",
+    value: function physicsAllowed(allowed) {
+      var physics = this._options.physics;
+
+      if (physics === undefined) {
+        physics = {};
+      }
+
+      physics.enabled = allowed;
+      this._options.physics = physics;
+
+      this._updateOptions();
     }
   }]);
 
@@ -110123,8 +110310,8 @@ var Tools = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/janiaje/PhpstormProjects/thesis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/janiaje/PhpstormProjects/thesis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/janiaje/temp/thesis/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/janiaje/temp/thesis/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
