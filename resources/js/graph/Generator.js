@@ -42,19 +42,6 @@ let Generator = {
             });
 
         return edges
-    },
-
-    /**
-     * Create range (array containing all the numbers from-to the given parameters).
-     *
-     * @param from int
-     * @param to int
-     *
-     * @returns {Array.<int>}
-     */
-    _range(from, to) {
-        return [...Array(to - from + 1).keys()]
-            .map(value => value + from)
     }
 
 };

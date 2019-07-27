@@ -27,7 +27,7 @@ let Parser = {
      *
      * @returns {Array.<Object>}
      */
-    _getExportNodeList() {
+    _getFormattedNodeList() {
         return this._formatObjectList(this._exportNodeListFormat, this._nodes.get());
     },
 
@@ -36,19 +36,19 @@ let Parser = {
      *
      * @returns {Array.<Object>}
      */
-    _getExportEdgeList() {
+    _getFormattedEdgeList() {
         return this._formatObjectList(this._exportEdgeListFormat, this._edges.get());
     },
 
     // List
 
     /**
-     * Returns an node list.
+     * Returns a node list.
      *
      * @returns {Array.<Object>}
      */
     exportNodeList() {
-        return this._getExportNodeList();
+        return this._getFormattedNodeList();
     },
 
     /**
@@ -57,7 +57,7 @@ let Parser = {
      * @returns {Array.<Object>}
      */
     exportEdgeList() {
-        return this._getExportEdgeList();
+        return this._getFormattedEdgeList();
     },
 
     /**
@@ -108,7 +108,7 @@ let Parser = {
      * @returns {string}
      */
     exportNodeCSV() {
-        return this._createDataFile(",", this._exportNodeListFormat, this._getExportNodeList());
+        return this._createDataFile(",", this._exportNodeListFormat, this._getFormattedNodeList());
     },
 
     /**
@@ -117,7 +117,7 @@ let Parser = {
      * @returns {string}
      */
     exportEdgeCSV() {
-        return this._createDataFile(",", this._exportEdgeListFormat, this._getExportEdgeList());
+        return this._createDataFile(",", this._exportEdgeListFormat, this._getFormattedEdgeList());
     },
 
     /**
