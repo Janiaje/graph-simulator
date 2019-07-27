@@ -109904,7 +109904,11 @@ var Generator = {
     this._range(1, numberOfNodes).forEach(function (from) {
       var range = _this._range(1, numberOfNodes);
 
-      if (!directed) {
+      if (directed) {
+        // Don't allow loop edges
+        range.splice(from - 1, 1);
+      } else {
+        // Don't allow loop edges AND parallel edges
         range.splice(0, from);
       }
 
@@ -110310,8 +110314,8 @@ var Tools = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/janiaje/temp/thesis/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/janiaje/temp/thesis/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/janiaje/PhpstormProjects/thesis/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/janiaje/PhpstormProjects/thesis/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

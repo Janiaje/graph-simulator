@@ -58,7 +58,11 @@ let Generator = {
             .forEach((from) => {
                 let range = this._range(1, numberOfNodes);
 
-                if (!directed) {
+                if (directed) {
+                    // Don't allow loop edges
+                    range.splice(from - 1, 1);
+                } else {
+                    // Don't allow loop edges AND parallel edges
                     range.splice(0, from);
                 }
 
