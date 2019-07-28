@@ -36,11 +36,11 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="modificationDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Modification
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu" aria-labelledby="modificationDropdown">
                             <a class="dropdown-item disabled" href="#" data-toggle="modal"
                                data-target="#importGraph">Import (later)</a>
                             <a class="dropdown-item disabled" href="#" data-toggle="modal"
@@ -58,13 +58,22 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="analyticsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Analytics
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu" aria-labelledby="analyticsDropdown">
                             <a class="dropdown-item" href="#" data-toggle="modal"
                                data-target="#showAnalytics" @click="showAnalytics">Show</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="simulationDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Analytics
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="simulationDropdown">
+                            <a class="dropdown-item disabled" href="#">Coming later</a>
                         </div>
                     </li>
                 </ul>
