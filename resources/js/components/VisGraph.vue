@@ -2,14 +2,14 @@
     <div>
         <div class="form-group">
             <label for="numberOfNodes">Nodes</label>
-            <input id="numberOfNodes" type="number" min="1" class="form-control"
+            <input id="numberOfNodes" type="number" min="1" max="100" class="form-control"
                    placeholder="Number of nodes to generate"
                    v-model.number="numberOfNodes">
         </div>
 
         <div class="form-group">
             <label for="numberOfEdges">Edges</label>
-            <input id="numberOfEdges" type="number" min="1" class="form-control"
+            <input id="numberOfEdges" type="number" min="1" max="1000" class="form-control"
                    placeholder="Number of edges to generate"
                    v-model.number="numberOfEdges">
         </div>
@@ -22,6 +22,10 @@
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="directedGraph" v-model="directedGraph">
                 <label class="form-check-label" for="directedGraph">Directed graph</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="lowGravity" v-model="lowGravity">
+                <label class="form-check-label" for="lowGravity">Low gravity</label>
             </div>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="physicsAllowed" v-model="physicsAllowed">
@@ -70,6 +74,7 @@
                 simpleGraph: true,
                 directedGraph: false,
                 physicsAllowed: true,
+                lowGravity: false,
                 analytics: []
             }
         },
@@ -97,6 +102,9 @@
         watch: {
             physicsAllowed: function (value) {
                 this.$options.graph.physicsAllowed(value);
+            },
+            lowGravity: function (value) {
+                this.$options.graph.lowGravity(value);
             }
         }
     }

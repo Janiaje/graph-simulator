@@ -1785,6 +1785,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "VisGraph",
@@ -1795,6 +1799,7 @@ __webpack_require__.r(__webpack_exports__);
       simpleGraph: true,
       directedGraph: false,
       physicsAllowed: true,
+      lowGravity: false,
       analytics: []
     };
   },
@@ -1817,6 +1822,9 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     physicsAllowed: function physicsAllowed(value) {
       this.$options.graph.physicsAllowed(value);
+    },
+    lowGravity: function lowGravity(value) {
+      this.$options.graph.lowGravity(value);
     }
   }
 });
@@ -97087,6 +97095,7 @@ var render = function() {
           id: "numberOfNodes",
           type: "number",
           min: "1",
+          max: "100",
           placeholder: "Number of nodes to generate"
         },
         domProps: { value: _vm.numberOfNodes },
@@ -97122,6 +97131,7 @@ var render = function() {
           id: "numberOfEdges",
           type: "number",
           min: "1",
+          max: "1000",
           placeholder: "Number of edges to generate"
         },
         domProps: { value: _vm.numberOfEdges },
@@ -97231,6 +97241,53 @@ var render = function() {
           "label",
           { staticClass: "form-check-label", attrs: { for: "directedGraph" } },
           [_vm._v("Directed graph")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-check" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.lowGravity,
+              expression: "lowGravity"
+            }
+          ],
+          staticClass: "form-check-input",
+          attrs: { type: "checkbox", id: "lowGravity" },
+          domProps: {
+            checked: Array.isArray(_vm.lowGravity)
+              ? _vm._i(_vm.lowGravity, null) > -1
+              : _vm.lowGravity
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.lowGravity,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.lowGravity = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.lowGravity = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.lowGravity = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "label",
+          { staticClass: "form-check-label", attrs: { for: "lowGravity" } },
+          [_vm._v("Low gravity")]
         )
       ]),
       _vm._v(" "),
@@ -110051,6 +110108,65 @@ function () {
 
       this._updateOptions();
     }
+    /**
+     * Turns physics on/off.
+     *
+     * @param on Boolean
+     */
+
+  }, {
+    key: "lowGravity",
+    value: function lowGravity(on) {
+      var physics = {};
+
+      if (on === true) {
+        physics = {
+          stabilization: false,
+          barnesHut: {
+            gravitationalConstant: -10000,
+            springConstant: 0.002,
+            springLength: 150
+          }
+        };
+      } else {
+        physics = {
+          stabilization: {
+            enabled: true,
+            iterations: 1000,
+            updateInterval: 50,
+            onlyDynamicEdges: false,
+            fit: true
+          },
+          barnesHut: {
+            gravitationalConstant: -2000,
+            springConstant: 0.04,
+            springLength: 95
+          }
+        };
+      }
+
+      this._options.physics = physics;
+
+      this._updateOptions();
+    }
+    /**
+     * Change network options.
+     *
+     * @param key String
+     * @param value
+     */
+
+  }, {
+    key: "changeOptions",
+    value: function changeOptions(key, value) {
+      var keyParts = key.split('.');
+      key = keyParts.pop();
+      var parentString = keyParts.join('.');
+      var parent = this.accessObjectByString(parentString);
+      parent[key] = value;
+
+      this._updateOptions();
+    }
   }]);
 
   return Graph;
@@ -110290,6 +110406,25 @@ var Tools = {
    */
   _cloneArray: function _cloneArray(array) {
     return _toConsumableArray(array);
+  },
+  accessObjectByString: function accessObjectByString(string, object) {
+    string = string.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+
+    string = string.replace(/^\./, ''); // strip a leading dot
+
+    var a = string.split('.');
+
+    for (var i = 0, n = a.length; i < n; ++i) {
+      var k = a[i];
+
+      if (k in object) {
+        object = object[k];
+      } else {
+        return;
+      }
+    }
+
+    return object;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (Tools);

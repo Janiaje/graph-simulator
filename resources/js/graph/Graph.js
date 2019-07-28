@@ -81,6 +81,64 @@ class Graph {
 
         this._updateOptions();
     }
+
+    /**
+     * Turns physics on/off.
+     *
+     * @param on Boolean
+     */
+    lowGravity(on) {
+        let physics = {};
+
+        if (on === true) {
+            physics = {
+                stabilization: false,
+                barnesHut: {
+                    gravitationalConstant: -10000,
+                    springConstant: 0.002,
+                    springLength: 150
+                }
+            };
+        } else {
+            physics = {
+                stabilization: {
+                    enabled: true,
+                    iterations: 1000,
+                    updateInterval: 50,
+                    onlyDynamicEdges: false,
+                    fit: true,
+                },
+                barnesHut: {
+                    gravitationalConstant: -2000,
+                    springConstant: 0.04,
+                    springLength: 95
+                }
+            };
+        }
+
+        this._options.physics = physics;
+
+        this._updateOptions();
+    }
+
+    /**
+     * Change network options.
+     *
+     * @param key String
+     * @param value
+     */
+    changeOptions(key, value) {
+        let keyParts = key.split('.');
+        key = keyParts.pop();
+
+        let parentString = keyParts.join('.');
+        let parent = this.accessObjectByString(parentString);
+
+        parent[key] = value;
+
+        this._updateOptions();
+    }
+
 }
 
 // Trait method assigns

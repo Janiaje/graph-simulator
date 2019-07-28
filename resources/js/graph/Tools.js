@@ -21,6 +21,22 @@ let Tools = {
      */
     _cloneArray(array) {
         return [...array];
+    },
+
+    accessObjectByString(string, object) {
+        string = string.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+        string = string.replace(/^\./, '');           // strip a leading dot
+
+        const a = string.split('.');
+        for (let i = 0, n = a.length; i < n; ++i) {
+            const k = a[i];
+            if (k in object) {
+                object = object[k];
+            } else {
+                return;
+            }
+        }
+        return object;
     }
 
 };
