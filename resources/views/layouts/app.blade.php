@@ -43,7 +43,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#" data-toggle="modal"
                                data-target="#generateGraph">Generate</a>
-                            <a class="dropdown-item" href="#">Edit (later)</a>
+                            <a class="dropdown-item disabled" href="#">Edit (later)</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" @click="clearGraph">Clear</a>
                         </div>

@@ -98189,7 +98189,11 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-primary",
-                attrs: { type: "button", "data-dismiss": "modal" },
+                attrs: {
+                  type: "button",
+                  "data-dismiss": "modal",
+                  autofocus: ""
+                },
                 on: { click: _vm.generateRandomGraph }
               },
               [_vm._v("Generate\n        ")]
