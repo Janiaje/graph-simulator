@@ -48,6 +48,10 @@ const app = new Vue({
         window.addEventListener('resize', this.handleResize);
     },
 
+    mounted() {
+        $('#generateGraph').modal('show')
+    },
+
     destroyed() {
         window.removeEventListener('resize', this.handleResize);
     }

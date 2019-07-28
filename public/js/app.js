@@ -110614,6 +110614,9 @@ var app = new Vue({
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
   },
+  mounted: function mounted() {
+    $('#generateGraph').modal('show');
+  },
   destroyed: function destroyed() {
     window.removeEventListener('resize', this.handleResize);
   }
