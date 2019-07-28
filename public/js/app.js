@@ -1871,6 +1871,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Modal",
   props: {
@@ -1919,10 +1920,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ShowAnalyticsModal",
   data: function data() {
@@ -1931,7 +1928,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.analytics = graph.getAnalytics(this.directedGraph);
+    var _this = this;
+
+    eventHub.$on('showAnalytics', function () {
+      _this.analytics = graph.getAnalytics(_this.directedGraph);
+    });
   }
 });
 
@@ -98326,55 +98327,42 @@ var render = function() {
       {
         key: "body",
         fn: function() {
-          return [
-            _c("div", { staticClass: "list-group" }, [
+          return _vm._l(_vm.analytics, function(info) {
+            return _c("div", { staticClass: "list-group" }, [
               _c(
-                "div",
-                { staticClass: "row" },
-                _vm._l(_vm.analytics, function(info) {
-                  return _c("div", { staticClass: "col-3" }, [
+                "a",
+                {
+                  staticClass:
+                    "list-group-item list-group-item-action flex-column align-items-start",
+                  attrs: { href: "#" }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "d-flex w-100 justify-content-between" },
+                    [
+                      _c("h5", { staticClass: "mb-1" }, [
+                        _vm._v(_vm._s(info.title))
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("p", {
+                    staticClass: "mb-1",
+                    domProps: { innerHTML: _vm._s(info.value) }
+                  }),
+                  _vm._v(" "),
+                  _c("small", [
                     _c(
                       "a",
-                      {
-                        staticClass:
-                          "list-group-item list-group-item-action flex-column align-items-start",
-                        attrs: { href: "#" }
-                      },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "d-flex w-100 justify-content-between"
-                          },
-                          [
-                            _c("h5", { staticClass: "mb-1" }, [
-                              _vm._v(_vm._s(info.title))
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("p", {
-                          staticClass: "mb-1",
-                          domProps: { innerHTML: _vm._s(info.value) }
-                        }),
-                        _vm._v(" "),
-                        _c("small", [
-                          _c(
-                            "a",
-                            {
-                              attrs: { href: info.helpLink, target: "_blank" }
-                            },
-                            [_vm._v("Documentation")]
-                          )
-                        ])
-                      ]
+                      { attrs: { href: info.helpLink, target: "_blank" } },
+                      [_vm._v("Documentation")]
                     )
                   ])
-                }),
-                0
+                ]
               )
             ])
-          ]
+          })
         },
         proxy: true
       }
@@ -110595,6 +110583,7 @@ files.keys().map(function (key) {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+window.eventHub = new Vue();
 var app = new Vue({
   el: '#app',
   data: function data() {
@@ -110608,6 +110597,9 @@ var app = new Vue({
     },
     clearGraph: function clearGraph() {
       graph.clearGraph();
+    },
+    showAnalytics: function showAnalytics() {
+      eventHub.$emit('showAnalytics');
     }
   },
   created: function created() {
