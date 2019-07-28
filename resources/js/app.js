@@ -27,4 +27,28 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 const app = new Vue({
     el: '#app',
+    data() {
+        return {
+            graphHeight: 0,
+        }
+    },
+
+    methods: {
+        handleResize() {
+            this.graphHeight = window.innerHeight - 55;
+        },
+
+        clearGraph() {
+            graph.clearGraph();
+        }
+    },
+
+    created() {
+        this.handleResize();
+        window.addEventListener('resize', this.handleResize);
+    },
+
+    destroyed() {
+        window.removeEventListener('resize', this.handleResize);
+    }
 });

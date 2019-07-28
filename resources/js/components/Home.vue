@@ -1,12 +1,9 @@
 <template>
-    <div class="card">
-        <div class="card-header">
-            Dashboard
-        </div>
+    <div style="height: 100%">
+        <vis-graph/>
 
-        <div class="card-body">
-            <vis-graph/>
-        </div>
+        <generate-graph-modal/>
+        <show-analytics-modal/>
     </div>
 </template>
 

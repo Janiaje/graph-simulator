@@ -21,6 +21,10 @@ let Analyzer = {
         let nodes = this._getFormattedNodeList();
         let edges = this._getFormattedEdgeList();
 
+        if (nodes.length === 0) {
+            return [];
+        }
+
         let summedDegree = this._fillDegrees(nodes, edges)
             .map(node => node[type])
             .reduce((a, b) => {

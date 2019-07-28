@@ -35,57 +35,33 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Graph settings
+                                Modification
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#" @click="generateNewModal = true">Generate new</a>
-                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#generateGraph">Generate</a>
+                                <a class="dropdown-item" href="#">Edit (later)</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" href="#" @click="clearGraph">Clear</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Analytics
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                   data-target="#showAnalytics">Show</a>
                             </div>
                         </li>
                     </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    {{--                    <ul class="navbar-nav ml-auto">--}}
-                    {{--                        <!-- Authentication Links -->--}}
-                    {{--                        @guest--}}
-                    {{--                            <li class="nav-item">--}}
-                    {{--                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>--}}
-                    {{--                            </li>--}}
-                    {{--                            @if (Route::has('register'))--}}
-                    {{--                                <li class="nav-item">--}}
-                    {{--                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>--}}
-                    {{--                                </li>--}}
-                    {{--                            @endif--}}
-                    {{--                        @else--}}
-                    {{--                            <li class="nav-item dropdown">--}}
-                    {{--                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>--}}
-                    {{--                                    {{ Auth::user()->name }} <span class="caret"></span>--}}
-                    {{--                                </a>--}}
-
-                    {{--                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">--}}
-                    {{--                                    <a class="dropdown-item" href="{{ route('logout') }}"--}}
-                    {{--                                       onclick="event.preventDefault();--}}
-                    {{--                                                     document.getElementById('logout-form').submit();">--}}
-                    {{--                                        {{ __('Logout') }}--}}
-                    {{--                                    </a>--}}
-
-                    {{--                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
-                    {{--                                        @csrf--}}
-                    {{--                                    </form>--}}
-                    {{--                                </div>--}}
-                    {{--                            </li>--}}
-                    {{--                        @endguest--}}
-                    {{--                    </ul>--}}
                 </div>
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
+        <main v-bind:style="{ height: graphHeight + 'px' }">
+            <home/>
         </main>
-
 
     </div>
 </body>

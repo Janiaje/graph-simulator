@@ -12,9 +12,9 @@
 */
 
 Route::get('/', function () {
-    file_put_contents(public_path('index.html'), view('home'));
+    file_put_contents(public_path('index.html'), view('layouts.app'));
 
-    return view('home');
+    return view('layouts.app');
 });
 
 //Auth::routes();

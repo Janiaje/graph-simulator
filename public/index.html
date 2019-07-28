@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="NuBuJAC7AVvG25zIgoH475s1m3tlkNBIM1IubYAl">
+    <meta name="csrf-token" content="ominn4h3ROwNjnlMyngPKtNfQ4P8y62a9lQz8qiE">
 
     <title>Thesis</title>
 
@@ -35,63 +35,31 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Graph settings
+                                Modification
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#" @click="generateNewModal = true">Generate new</a>
-                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#generateGraph">Generate</a>
+                                <a class="dropdown-item" href="#">Edit (later)</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" href="#" @click="clearGraph">Clear</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Analytics
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#showAnalytics">Show</a>
                             </div>
                         </li>
                     </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-
-                    
-                    
-                    
-                    
-                    
-                    
-
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                 </div>
             </div>
         </nav>
 
-        <main class="py-4">
-            <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
+        <main v-bind:style="{ height: graphHeight + 'px' }">
             <home/>
-        </div>
-    </div>
-</div>
         </main>
-
 
     </div>
 </body>
