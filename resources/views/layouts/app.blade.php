@@ -43,8 +43,8 @@
                         <div class="dropdown-menu" aria-labelledby="modificationDropdown">
                             <a class="dropdown-item disabled" href="#" data-toggle="modal"
                                data-target="#importGraph">Import (later)</a>
-                            <a class="dropdown-item disabled" href="#" data-toggle="modal"
-                               data-target="#exportGraph">Export (later)</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal"
+                               data-target="#exportGraph">Export</a>
 
                             <div class="dropdown-divider"></div>
 

@@ -2,6 +2,8 @@
     <div style="height: 100%">
         <vis-graph/>
 
+        <import-modal/>
+        <export-modal/>
         <generate-graph-modal/>
         <show-analytics-modal/>
     </div>

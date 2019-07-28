@@ -32,6 +32,7 @@ class Graph {
             'id',
             'from',
             'to',
+            'arrows',
         ];
     }
 
