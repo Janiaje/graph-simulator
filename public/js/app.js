@@ -1810,6 +1810,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "GenerateGraphModal",
   data: function data() {
@@ -98196,7 +98197,7 @@ var render = function() {
                 },
                 on: { click: _vm.generateRandomGraph }
               },
-              [_vm._v("Generate\n        ")]
+              [_vm._v("\n            Generate\n        ")]
             )
           ]
         },
