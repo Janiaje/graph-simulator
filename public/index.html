@@ -38,7 +38,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="modificationDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Modification
+                            Modifications
                         </a>
                         <div class="dropdown-menu" aria-labelledby="modificationDropdown">
                             <a class="dropdown-item disabled" href="#" data-toggle="modal"
@@ -70,7 +70,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="simulationDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Analytics
+                            Simulations
                         </a>
                         <div class="dropdown-menu" aria-labelledby="simulationDropdown">
                             <a class="dropdown-item disabled" href="#">Coming later</a>
