@@ -98230,7 +98230,7 @@ var render = function() {
         id: _vm.id,
         tabindex: "-1",
         role: "dialog",
-        "aria-labelledby": "exampleModalLabel",
+        "aria-labelledby": _vm.id + "ModalLabel",
         "aria-hidden": "true"
       }
     },
@@ -98248,7 +98248,7 @@ var render = function() {
                 "h5",
                 {
                   staticClass: "modal-title",
-                  attrs: { id: "exampleModalLabel" }
+                  attrs: { id: _vm.id + "ModalLabel" }
                 },
                 [_vm._t("header")],
                 2
