@@ -12,9 +12,66 @@
                     <option value="GephiJSON">Gephi JSON</option>
                 </select>
             </div>
-        </template>
 
-        <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
+            <div class="row" v-show="type === 'CSV'">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="nodeListFile">Upload node-list file</label>
+                        <b-form-file
+                            id="nodeListFile"
+                            v-model="nodeListFile"
+                            :state="Boolean(nodeListFile)"
+                            placeholder="Choose a file..."
+                            drop-placeholder="Drop file here..."
+                        ></b-form-file>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="edgeListFile">Upload edge-list file</label>
+                        <b-form-file
+                            id="edgeListFile"
+                            v-model="edgeListFile"
+                            :state="Boolean(edgeListFile)"
+                            placeholder="Choose a file..."
+                            drop-placeholder="Drop file here..."
+                        ></b-form-file>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" v-show="type === 'GephiJSON'">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="gephiFile">Upload Gephi JSON file</label>
+                        <b-form-file
+                            id="gephiFile"
+                            v-model="gephiFile"
+                            :state="Boolean(gephiFile)"
+                            placeholder="Choose a file..."
+                            drop-placeholder="Drop file here..."
+                        ></b-form-file>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="gephiFixed"
+                                           v-model="gephiFixed">
+                                    <label class="form-check-label" for="gephiFixed">Fix in place after import</label>
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="gephiParseColor"
+                                       v-model="gephiParseColor">
+                                <label class="form-check-label" for="gephiParseColor">Parse the color instead of copy
+                                    (adds borders, highlights etc.)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
 
         <template v-slot:footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -26,43 +83,78 @@
 </template>
 
 <script>
-    import vue2Dropzone from 'vue2-dropzone'
-    import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+    import {BFormFile} from 'bootstrap-vue';
+
+    Vue.component('b-form-file', BFormFile);
 
     export default {
         name: "ImportModal",
-        components: {
-            vueDropzone: vue2Dropzone
-        },
-
         data() {
             return {
                 type: 'CSV',
-                dropzoneOptions: {
-                    url: 'https://httpbin.org/post',
-                    thumbnailWidth: 150,
-                    maxFilesize: 0.5,
-                    headers: {"My-Awesome-Header": "header value"}
-                }
+                nodeListFile: null,
+                nodeListFileContent: null,
+                edgeListFile: null,
+                edgeListFileContent: null,
+                gephiFile: null,
+                gephiFixed: true,
+                gephiParseColor: true
             }
         },
 
         methods: {
             importGraph() {
-                let data;
+                let file, reader;
 
                 switch (this.type) {
-                    case 'nodeListCSV':
-                        data = graph.exportNodeCSV();
+                    case 'CSV':
+                        // TODO: better binding
+
+                        file = $('#nodeListFile')[0].files[0];
+                        reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.nodeListFileContent = e.target.result;
+                            this.CSVUploadFinished();
+                        };
+                        reader.readAsText(file);
+
+                        file = $('#edgeListFile')[0].files[0];
+                        reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.edgeListFileContent = e.target.result;
+                            this.CSVUploadFinished();
+                        };
+                        reader.readAsText(file);
+
                         break;
-                    case 'edgeListCSV':
-                        data = graph.exportEdgeCSV();
+                    case 'GephiJSON':
+                        file = $('#gephiFile')[0].files[0];
+                        reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.gephiJSONUploadFinished(e.target.result);
+                        };
+                        reader.readAsText(file);
+
+
                         break;
                     default:
                         return;
                 }
+            },
 
-                this.download(`${this.type}_${this.getFormattedDate()}.csv`, data);
+            CSVUploadFinished() {
+                if (this.nodeListFileContent === null || this.edgeListFileContent === null) {
+                    return;
+                }
+
+                graph.importCSV(this.nodeListFileContent, this.edgeListFileContent);
+            },
+
+            gephiJSONUploadFinished(json) {
+                // TODO: descrease / turn off physics if  the graph is too big
+
+                json = JSON.parse(json);
+                graph.importGephiJSON(json, this.gephiFixed, this.gephiParseColor);
             }
         }
     }
