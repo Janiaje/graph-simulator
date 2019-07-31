@@ -14,7 +14,7 @@
             </div>
 
             <div class="row" v-show="type === 'CSV'">
-                <div class="col-6">
+                <div class="col-12">
                     <div class="form-group">
                         <label for="nodeListFile">Upload node-list file</label>
                         <b-form-file
@@ -26,7 +26,7 @@
                         ></b-form-file>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-12">
                     <div class="form-group">
                         <label for="edgeListFile">Upload edge-list file</label>
                         <b-form-file
