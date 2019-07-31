@@ -24,6 +24,10 @@ let Tools = {
     },
 
     accessObjectByString(string, object) {
+        if (string === '') {
+            return object;
+        }
+
         string = string.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
         string = string.replace(/^\./, '');           // strip a leading dot
 

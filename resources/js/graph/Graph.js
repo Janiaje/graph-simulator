@@ -18,13 +18,16 @@ class Graph {
 
         this._nodes = new vis.DataSet();
         this._edges = new vis.DataSet();
+        this._directed = false;
 
         this._network = new vis.Network(container, {
             nodes: this._nodes,
             edges: this._edges
         }, this._options);
 
-        this._directed = false;
+        if (Object.entries(this._options).length === 0) {
+            this._options = this._network.defaultOptions;
+        }
 
         // Parser part
 
@@ -138,7 +141,7 @@ class Graph {
         key = keyParts.pop();
 
         let parentString = keyParts.join('.');
-        let parent = this.accessObjectByString(parentString);
+        let parent = this.accessObjectByString(parentString, this._options);
 
         parent[key] = value;
 
