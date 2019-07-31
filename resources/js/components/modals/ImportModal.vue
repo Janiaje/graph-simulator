@@ -61,12 +61,38 @@
                                     <label class="form-check-label" for="gephiFixed">Fix in place after import</label>
                                 </div>
                             </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="gephiParseColor"
-                                       v-model="gephiParseColor">
-                                <label class="form-check-label" for="gephiParseColor">Parse the color instead of copy
-                                    (adds borders, highlights etc.)</label>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="gephiParseColor"
+                                           v-model="gephiParseColor">
+                                    <label class="form-check-label" for="gephiParseColor">Parse the color instead of
+                                        copy
+                                        (adds borders, highlights etc.)</label>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="lowGravity" v-model="lowGravity"
+                                   :disabled="!physicsAllowed">
+                            <label class="form-check-label" :class="{ 'line-through': !physicsAllowed }"
+                                   for="lowGravity">Low
+                                gravity</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="physicsAllowed"
+                                   v-model="physicsAllowed">
+                            <label class="form-check-label" for="physicsAllowed">Physics allowed</label>
                         </div>
                     </div>
                 </div>
@@ -92,6 +118,9 @@
         data() {
             return {
                 type: 'CSV',
+                physicsAllowed: true,
+                lowGravity: false,
+
                 nodeListFile: null,
                 nodeListFileContent: null,
                 edgeListFile: null,
@@ -151,15 +180,26 @@
             },
 
             gephiJSONUploadFinished(json) {
-                // TODO: descrease / turn off physics if  the graph is too big
+                // TODO: decrease / turn off physics if  the graph is too big
 
                 json = JSON.parse(json);
                 graph.importGephiJSON(json, this.gephiFixed, this.gephiParseColor);
+            }
+        },
+
+        watch: {
+            physicsAllowed: function (value) {
+                graph.physicsAllowed(value);
+            },
+            lowGravity: function (value) {
+                graph.lowGravity(value);
             }
         }
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    label.line-through {
+        text-decoration: line-through;
+    }
 </style>
