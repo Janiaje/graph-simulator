@@ -2047,7 +2047,70 @@ __webpack_require__.r(__webpack_exports__);
     showFooter: {
       type: Boolean,
       "default": true
+    },
+    mountedCallback: {}
+  },
+  methods: {
+    onClassChange: function onClassChange(classAttrValue) {
+      var classList = classAttrValue.split(' ');
+
+      if (classList.includes('show')) {
+        this.mountedCallback();
+      }
     }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    if (this.mountedCallback === undefined) {
+      return;
+    }
+
+    this.observer = new MutationObserver(function (mutations) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        var _loop = function _loop() {
+          var m = _step.value;
+          var newValue = m.target.getAttribute(m.attributeName);
+
+          _this.$nextTick(function () {
+            _this.onClassChange(newValue, m.oldValue);
+          });
+        };
+
+        for (var _iterator = mutations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          _loop();
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    });
+    this.observer.observe(this.$refs.modal, {
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ['class']
+    });
+  },
+  beforeDestroy: function beforeDestroy() {
+    if (this.mountedCallback === undefined) {
+      return;
+    }
+
+    this.observer.disconnect();
   }
 });
 
@@ -2089,15 +2152,12 @@ __webpack_require__.r(__webpack_exports__);
   name: "ShowAnalyticsModal",
   data: function data() {
     return {
-      analytics: []
+      analytics: [],
+      mountedCallback: function mountedCallback() {
+        // this is the modal component
+        this.$parent.analytics = graph.getAnalytics();
+      }
     };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    eventHub.$on('showAnalytics', function () {
-      _this.analytics = graph.getAnalytics(_this.directedGraph);
-    });
   }
 });
 
@@ -98128,14 +98188,10 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-primary",
-                attrs: {
-                  type: "button",
-                  "data-dismiss": "modal",
-                  autofocus: ""
-                },
+                attrs: { type: "button", "data-dismiss": "modal" },
                 on: { click: _vm.exportGraph }
               },
-              [_vm._v("\n            Generate\n        ")]
+              [_vm._v("\n            Download\n        ")]
             )
           ]
         },
@@ -98494,12 +98550,9 @@ var render = function() {
             _c(
               "button",
               {
+                ref: "generate",
                 staticClass: "btn btn-primary",
-                attrs: {
-                  type: "button",
-                  "data-dismiss": "modal",
-                  autofocus: ""
-                },
+                attrs: { type: "button", "data-dismiss": "modal" },
                 on: { click: _vm.generateRandomGraph }
               },
               [_vm._v("\n            Generate\n        ")]
@@ -98613,14 +98666,10 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary",
-                  attrs: {
-                    type: "button",
-                    "data-dismiss": "modal",
-                    autofocus: ""
-                  },
+                  attrs: { type: "button", "data-dismiss": "modal" },
                   on: { click: _vm.importGraph }
                 },
-                [_vm._v("\n            Generate\n        ")]
+                [_vm._v("\n            Import\n        ")]
               )
             ]
           },
@@ -98664,6 +98713,7 @@ var render = function() {
   return _c(
     "div",
     {
+      ref: "modal",
       staticClass: "modal fade",
       attrs: {
         id: _vm.id,
@@ -98753,7 +98803,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("modal", {
-    attrs: { id: "showAnalytics", showFooter: false },
+    attrs: {
+      id: "showAnalytics",
+      showFooter: false,
+      mountedCallback: _vm.mountedCallback
+    },
     scopedSlots: _vm._u([
       {
         key: "header",
@@ -111668,12 +111722,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var Analyzer = {
-  getAnalytics: function getAnalytics(directed) {
-    return [{
-      'title': 'Average degree',
-      'value': directed ? "\n                    <ul>\n                        <li>Outgoing degree: ".concat(this.getAverageDegree('outgoing'), " </li>\n                        <li>Incoming degree: ").concat(this.getAverageDegree('incoming'), " </li>\n                    </ul>\n                    ") : this.getAverageDegree('degree'),
-      'helpLink': 'http://networksciencebook.com/chapter/2#degree'
-    }];
+  getAnalytics: function getAnalytics() {
+    var analytics = [];
+
+    if (this._getFormattedNodeList().length !== 0) {
+      var averageDegree = {
+        'title': 'Average degree',
+        'value': this._directed ? "\n                    <ul>\n                        <li>Outgoing degree: ".concat(this.getAverageDegree('outgoing'), " </li>\n                        <li>Incoming degree: ").concat(this.getAverageDegree('incoming'), " </li>\n                    </ul>\n                    ") : this.getAverageDegree('degree'),
+        'helpLink': 'http://networksciencebook.com/chapter/2#degree'
+      };
+      analytics.push(averageDegree);
+    }
+
+    return analytics;
   },
   getAverageDegree: function getAverageDegree(type) {
     var nodes = this._getFormattedNodeList();
@@ -111733,13 +111794,14 @@ var Generator = {
   generateRandomGraph: function generateRandomGraph(numberOfNodes, numberOfEdges) {
     var simpleGraph = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
     var directed = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+    this._directed = directed;
 
     var nodes = this._generateNodes(numberOfNodes);
 
     var edges;
 
     if (simpleGraph) {
-      edges = this._generateEdgesForFullGraph(numberOfNodes, directed);
+      edges = this._generateEdgesForFullGraph(numberOfNodes, this._directed);
       edges = this._removeEdgesUntilCount(edges, numberOfEdges);
     } else {
       edges = this._range(1, numberOfEdges).map(function (value) {
@@ -111752,7 +111814,7 @@ var Generator = {
       });
     }
 
-    if (directed) {
+    if (this._directed) {
       edges.map(function (edge) {
         edge.arrows = 'to';
         return edge;
@@ -111860,10 +111922,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Graph =
 /*#__PURE__*/
 function () {
-  /**
-   * @param container HTML element
-   * @param options Object
-   */
+  _createClass(Graph, [{
+    key: "directed",
+    get: function get() {
+      return this._directed;
+    }
+    /**
+     * @param container HTML element
+     * @param options Object
+     */
+
+  }]);
+
   function Graph(container) {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -111875,7 +111945,8 @@ function () {
     this._network = new vis__WEBPACK_IMPORTED_MODULE_0___default.a.Network(container, {
       nodes: this._nodes,
       edges: this._edges
-    }, this._options); // Parser part
+    }, this._options);
+    this._directed = false; // Parser part
 
     this._exportNodeListFormat = ['id', 'label'];
     this._exportEdgeListFormat = ['id', 'from', 'to', 'arrows'];

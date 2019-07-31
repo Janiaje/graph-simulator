@@ -1,5 +1,5 @@
 <template>
-    <modal :id="'showAnalytics'" :showFooter="false">
+    <modal :id="'showAnalytics'" :showFooter="false" :mountedCallback="mountedCallback">
         <template v-slot:header>
             Analytics
         </template>
@@ -26,14 +26,12 @@
         name: "ShowAnalyticsModal",
         data() {
             return {
-                analytics: []
+                analytics: [],
+                mountedCallback: function () {
+                    // this is the modal component
+                    this.$parent.analytics = graph.getAnalytics();
+                }
             }
-        },
-
-        mounted() {
-            eventHub.$on('showAnalytics', () => {
-                this.analytics = graph.getAnalytics(this.directedGraph);
-            });
         }
     }
 </script>

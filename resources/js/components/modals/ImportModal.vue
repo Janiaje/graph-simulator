@@ -18,8 +18,8 @@
 
         <template v-slot:footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="importGraph" autofocus>
-                Generate
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="importGraph">
+                Import
             </button>
         </template>
     </modal>

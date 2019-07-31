@@ -16,8 +16,8 @@
 
         <template v-slot:footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="exportGraph" autofocus>
-                Generate
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="exportGraph">
+                Download
             </button>
         </template>
     </modal>

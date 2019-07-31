@@ -56,7 +56,8 @@
 
         <template v-slot:footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="generateRandomGraph" autofocus>
+            <button type="button" class="btn btn-primary" ref="generate" data-dismiss="modal"
+                    @click="generateRandomGraph">
                 Generate
             </button>
         </template>

@@ -8,12 +8,14 @@ let Generator = {
      * @param directed Boolean
      */
     generateRandomGraph(numberOfNodes, numberOfEdges, simpleGraph = true, directed = false) {
+        this._directed = directed;
+
         let nodes = this._generateNodes(numberOfNodes);
 
         let edges;
 
         if (simpleGraph) {
-            edges = this._generateEdgesForFullGraph(numberOfNodes, directed);
+            edges = this._generateEdgesForFullGraph(numberOfNodes, this._directed);
             edges = this._removeEdgesUntilCount(edges, numberOfEdges);
         } else {
             edges = this._range(1, numberOfEdges).map((value) => {
@@ -24,7 +26,7 @@ let Generator = {
             });
         }
 
-        if (directed) {
+        if (this._directed) {
             edges.map((edge) => {
                 edge.arrows = 'to';
                 return edge;

@@ -1,10 +1,12 @@
 let Analyzer = {
 
-    getAnalytics(directed) {
-        return [
-            {
+    getAnalytics() {
+        let analytics = [];
+
+        if (this._getFormattedNodeList().length !== 0) {
+            let averageDegree = {
                 'title': 'Average degree',
-                'value': directed ?
+                'value': this._directed ?
                     `
                     <ul>
                         <li>Outgoing degree: ${this.getAverageDegree('outgoing')} </li>
@@ -13,8 +15,12 @@ let Analyzer = {
                     ` :
                     this.getAverageDegree('degree'),
                 'helpLink': 'http://networksciencebook.com/chapter/2#degree',
-            }
-        ];
+            };
+
+            analytics.push(averageDegree)
+        }
+
+        return analytics;
     },
 
     getAverageDegree(type) {

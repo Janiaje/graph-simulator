@@ -5,6 +5,9 @@ import Parser from "./Parser";
 import Tools from "./Tools";
 
 class Graph {
+    get directed() {
+        return this._directed;
+    }
 
     /**
      * @param container HTML element
@@ -20,6 +23,8 @@ class Graph {
             nodes: this._nodes,
             edges: this._edges
         }, this._options);
+
+        this._directed = false;
 
         // Parser part
 
