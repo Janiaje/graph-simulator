@@ -33,7 +33,46 @@
             showFooter: {
                 type: Boolean,
                 default: true
+            },
+            mountedCallback: {}
+        },
+
+        methods: {
+            onClassChange(classAttrValue) {
+                const classList = classAttrValue.split(' ');
+                if (classList.includes('show')) {
+                    this.mountedCallback();
+                }
             }
+        },
+
+        mounted() {
+            if (this.mountedCallback === undefined) {
+                return;
+            }
+
+            this.observer = new MutationObserver(mutations => {
+                for (const m of mutations) {
+                    const newValue = m.target.getAttribute(m.attributeName);
+                    this.$nextTick(() => {
+                        this.onClassChange(newValue, m.oldValue);
+                    });
+                }
+            });
+
+            this.observer.observe(this.$refs.modal, {
+                attributes: true,
+                attributeOldValue: true,
+                attributeFilter: ['class'],
+            });
+        },
+
+        beforeDestroy() {
+            if (this.mountedCallback === undefined) {
+                return;
+            }
+
+            this.observer.disconnect();
         }
     }
 </script>
