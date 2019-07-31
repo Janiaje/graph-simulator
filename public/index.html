@@ -66,7 +66,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="analyticsDropdown">
                             <a class="dropdown-item" href="#" data-toggle="modal"
-                               data-target="#showAnalytics" @click="showAnalytics">Show</a>
+                               data-target="#showAnalytics">Show</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

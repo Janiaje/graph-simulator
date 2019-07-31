@@ -42,10 +42,6 @@ const app = new Vue({
 
         clearGraph() {
             graph.clearGraph();
-        },
-
-        showAnalytics() {
-            eventHub.$emit('showAnalytics');
         }
     },
 
