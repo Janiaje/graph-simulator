@@ -6,6 +6,8 @@
 
 import Tools from "./graph/Tools";
 import Generator from "./graph/Generator";
+import Graph from "./graph/Graph";
+import SimulationStep from "./graph/SimulationStep";
 
 require('./bootstrap');
 
@@ -31,6 +33,8 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 // TODO: remove window assignments
 window.Tools = Tools;
 window.Generator = Generator;
+window.Graph = Graph;
+window.SimulationStep = SimulationStep;
 
 const app = new Vue({
     el: '#app',
