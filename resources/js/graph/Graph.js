@@ -3,11 +3,9 @@ import Analyzer from "./Analyzer";
 import Generator from "./Generator";
 import Parser from "./Parser";
 import Tools from "./Tools";
+import Simulator from "./Simulator";
 
 class Graph {
-    get directed() {
-        return this._directed;
-    }
 
     /**
      * @param container HTML element
@@ -42,6 +40,39 @@ class Graph {
             'to',
             'arrows',
         ];
+
+        // Simulation part
+
+        var nodes = new vis.DataSet([
+            {id: 1, label: 'html color', color: 'lime'},
+            {id: 2, label: 'rgb color', color: 'rgb(255,168,7)'},
+            {id: 3, label: 'hex color', color: '#7BE141'},
+            {id: 4, label: 'rgba color', color: 'rgba(97,195,238,0.5)'},
+            {id: 5, label: 'colorObject', color: {background: 'pink', border: 'purple'}},
+            {
+                id: 6,
+                label: 'colorObject + highlight',
+                color: {background: '#F03967', border: '#713E7F', highlight: {background: 'red', border: 'black'}}
+            },
+            {
+                id: 7,
+                label: 'colorObject + highlight + hover',
+                color: {
+                    background: 'cyan',
+                    border: 'blue',
+                    highlight: {background: 'red', border: 'blue'},
+                    hover: {background: 'white', border: 'red'}
+                }
+            }
+        ])
+
+        this._nodeColor = false;
+        this._nodeHoverColor = false;
+        this._nodeHighlightColor = false;
+        this._nodeSimulationStepColor = false;
+        this._nodeSimulationStepHoverColor = false;
+        this._nodeSimulationStepHighlightColor = false;
+
     }
 
     /**
@@ -141,7 +172,7 @@ class Graph {
         key = keyParts.pop();
 
         let parentString = keyParts.join('.');
-        let parent = this.accessObjectByString(parentString, this._options);
+        let parent = Tools.accessObjectPropertyByString(this._options, parentString);
 
         parent[key] = value;
 
@@ -150,10 +181,12 @@ class Graph {
 
 }
 
+// TODO: Graph should only contain methods to handle UI calls?
+
 // Trait method assigns
-Object.assign(Graph.prototype, Tools);
 Object.assign(Graph.prototype, Parser);
 Object.assign(Graph.prototype, Generator);
 Object.assign(Graph.prototype, Analyzer);
+Object.assign(Graph.prototype, Simulator);
 
 export default Graph;

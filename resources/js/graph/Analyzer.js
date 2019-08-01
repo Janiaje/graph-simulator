@@ -1,3 +1,5 @@
+import Tools from "./Tools";
+
 let Analyzer = {
 
     getAnalytics() {
@@ -42,11 +44,11 @@ let Analyzer = {
 
     _fillDegrees(nodes, edgesParameter) {
         nodes.map((node) => {
-            node.outgoing = this._cloneArray(edgesParameter).filter((edge) => {
+            node.outgoing = Tools.cloneArray(edgesParameter).filter((edge) => {
                 return edge.from === node.id;
             }).length;
 
-            node.incoming = this._cloneArray(edgesParameter).filter((edge) => {
+            node.incoming = Tools.cloneArray(edgesParameter).filter((edge) => {
                 return edge.to === node.id;
             }).length;
 

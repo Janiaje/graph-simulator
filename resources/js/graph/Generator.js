@@ -1,3 +1,5 @@
+import Tools from "./Tools";
+
 let Generator = {
     /**
      * Generate random graph
@@ -18,7 +20,7 @@ let Generator = {
             edges = this._generateEdgesForFullGraph(numberOfNodes, this._directed);
             edges = this._removeEdgesUntilCount(edges, numberOfEdges);
         } else {
-            edges = this._range(1, numberOfEdges).map((value) => {
+            edges = Tools.range(1, numberOfEdges).map((value) => {
                 let from = Math.floor(Math.random() * numberOfNodes) + 1;
                 let to = Math.floor(Math.random() * numberOfNodes) + 1;
 
@@ -42,7 +44,7 @@ let Generator = {
      * @param numberOfNodes Integer
      */
     _generateNodes(numberOfNodes) {
-        return this._range(1, numberOfNodes).map((value) => {
+        return Tools.range(1, numberOfNodes).map((value) => {
             return {id: value, label: 'Node ' + value}
         });
     },
@@ -56,9 +58,9 @@ let Generator = {
     _generateEdgesForFullGraph(numberOfNodes, directed) {
         let edges = [];
 
-        this._range(1, numberOfNodes)
+        Tools.range(1, numberOfNodes)
             .forEach((from) => {
-                let range = this._range(1, numberOfNodes);
+                let range = Tools.range(1, numberOfNodes);
 
                 if (directed) {
                     // Don't allow loop edges

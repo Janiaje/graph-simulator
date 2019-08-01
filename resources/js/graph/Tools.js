@@ -1,4 +1,4 @@
-let Tools = {
+class Tools {
     /**
      * Create range (array containing all the numbers from-to the given parameters).
      *
@@ -7,23 +7,44 @@ let Tools = {
      *
      * @returns {Array.<int>}
      */
-    _range(from, to) {
+    static range(from, to) {
         return [...Array(to - from + 1).keys()]
             .map(value => value + from)
-    },
+    }
 
     /**
-     * Create range (array containing all the numbers from-to the given parameters).
+     * Clone an array (copy the array in the memory)
      *
      *  @param array Array
      *
      * @returns {Array}
      */
-    _cloneArray(array) {
+    static cloneArray(array) {
         return [...array];
-    },
+    }
 
-    accessObjectByString(string, object) {
+    /**
+     * Clone an object (copy the object in the memory)
+     *
+     *  @param object Object
+     *
+     * @returns {Object}
+     */
+    static cloneObject(object) {
+        return Object.assign({}, object);
+    }
+
+
+    /**
+     * Access Object's property by the given access string.
+     * eg.: 'a1.a2.a3' will result in the same as
+     *      object['a1']['a2']['a3']
+     *
+     *  @param array Array
+     *
+     * @returns {Array}
+     */
+    static accessObjectPropertyByString(object, string) {
         if (string === '') {
             return object;
         }
@@ -40,7 +61,14 @@ let Tools = {
                 return;
             }
         }
+
         return object;
+    }
+
+    static colorNode(node, color) {
+        node['color'] = color;
+
+        return node;
     }
 
 };
