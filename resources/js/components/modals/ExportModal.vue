@@ -24,6 +24,8 @@
 </template>
 
 <script>
+    import Tools from "../../graph/Tools";
+
     export default {
         name: "ExportModal",
         data() {
@@ -38,34 +40,16 @@
 
                 switch (this.type) {
                     case 'nodeListCSV':
-                        data = graph.exportNodeCSV();
+                        data = mainDisplayedGraph.exportNodeCSV();
                         break;
                     case 'edgeListCSV':
-                        data = graph.exportEdgeCSV();
+                        data = mainDisplayedGraph.exportEdgeCSV();
                         break;
                     default:
                         return;
                 }
 
-                this.download(`${this.type}_${this.getFormattedDate()}.csv`, data);
-            },
-
-            download(filename, text) {
-                let element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-                element.setAttribute('download', filename);
-
-                element.style.display = 'none';
-                document.body.appendChild(element);
-
-                element.click();
-
-                document.body.removeChild(element);
-            },
-
-            getFormattedDate() {
-                const date = new Date();
-                return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "_" + date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds();
+                Tools.downloadText(`${this.type}_${Tools.getFormattedDate()}.csv`, data);
             }
         }
     }

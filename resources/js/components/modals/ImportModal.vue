@@ -79,11 +79,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="lowGravity" v-model="lowGravity"
-                                   :disabled="!physicsAllowed">
-                            <label class="form-check-label" :class="{ 'line-through': !physicsAllowed }"
-                                   for="lowGravity">Low
-                                gravity</label>
+                            <input type="checkbox" class="form-check-input" id="directed" v-model="directed">
+                            <label class="form-check-label" for="directed">Directed graph</label>
                         </div>
                     </div>
                 </div>
@@ -93,6 +90,12 @@
                             <input type="checkbox" class="form-check-input" id="physicsAllowed"
                                    v-model="physicsAllowed">
                             <label class="form-check-label" for="physicsAllowed">Physics allowed</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="lowGravity" v-model="lowGravity"
+                                   :disabled="!physicsAllowed">
+                            <label class="form-check-label" :class="{ 'line-through': !physicsAllowed }"
+                                   for="lowGravity">Low gravity</label>
                         </div>
                     </div>
                 </div>
@@ -118,6 +121,7 @@
         data() {
             return {
                 type: 'CSV',
+                directed: false,
                 physicsAllowed: true,
                 lowGravity: false,
 
@@ -176,23 +180,23 @@
                     return;
                 }
 
-                graph.importCSV(this.nodeListFileContent, this.edgeListFileContent);
+                mainDisplayedGraph.importCSV(this.nodeListFileContent, this.edgeListFileContent, this.directed);
             },
 
             gephiJSONUploadFinished(json) {
                 // TODO: decrease / turn off physics if  the graph is too big
 
                 json = JSON.parse(json);
-                graph.importGephiJSON(json, this.gephiFixed, this.gephiParseColor);
+                mainDisplayedGraph.importGephiJSON(json, this.directed, this.gephiFixed, this.gephiParseColor);
             }
         },
 
         watch: {
             physicsAllowed: function (value) {
-                graph.physicsAllowed(value);
+                mainDisplayedGraph.physicsAllowed(value);
             },
             lowGravity: function (value) {
-                graph.lowGravity(value);
+                mainDisplayedGraph.lowGravity(value);
             }
         }
     }

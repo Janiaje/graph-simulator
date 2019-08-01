@@ -29,7 +29,7 @@
                 analytics: [],
                 mountedCallback: function () {
                     // this is the modal component
-                    this.$parent.analytics = graph.getAnalytics();
+                    this.$parent.analytics = mainDisplayedGraph.getAnalytics();
                 }
             }
         }

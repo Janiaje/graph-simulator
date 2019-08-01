@@ -1,26 +1,20 @@
 import vis from "vis";
+import Tools from "./Tools";
+import Graph from "./Graph";
 
 let Parser = {
 
-    /**
-     * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
-     *
-     * @param propertyNamesArray Array.String
-     * @param arrayOfObjects Array.<Object>
-     *
-     * @returns {Array.<Object>}
-     */
-    _formatObjectList(propertyNamesArray, arrayOfObjects) {
-        return arrayOfObjects.map((object) => {
-            let newObject = {};
+    _exportNodeListFormat: [
+        'id',
+        'label',
+    ],
 
-            propertyNamesArray.forEach((key) => {
-                newObject[key] = object[key];
-            });
-
-            return newObject;
-        });
-    },
+    _exportEdgeListFormat: [
+        'id',
+        'from',
+        'to',
+        'arrows',
+    ],
 
     /**
      * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
@@ -28,7 +22,7 @@ let Parser = {
      * @returns {Array.<Object>}
      */
     _getFormattedNodeList() {
-        return this._formatObjectList(this._exportNodeListFormat, this._nodes.get());
+        return Tools.formatObjectList(this._exportNodeListFormat, this._nodesDataSet.get());
     },
 
     /**
@@ -37,7 +31,7 @@ let Parser = {
      * @returns {Array.<Object>}
      */
     _getFormattedEdgeList() {
-        return this._formatObjectList(this._exportEdgeListFormat, this._edges.get());
+        return Tools.formatObjectList(this._exportEdgeListFormat, this._edgesDataSet.get());
     },
 
     // List
@@ -65,42 +59,13 @@ let Parser = {
      *
      * @param nodeList Array.<Object>
      * @param edgeList Array.<Object>
+     * @param directed Boolean
      */
-    importList(nodeList, edgeList) {
-        this._updateGraph(nodeList, edgeList);
+    importList(nodeList, edgeList, directed) {
+        this._updateGraph(new Graph(nodeList, edgeList, directed));
     },
 
     // CSV
-
-    /**
-     * Returns data string with the given separator line by line for the header.
-     *
-     * @param separator string
-     * @param header Array.<string>
-     * @param rows Array.<Object>
-     *
-     * @returns {string}
-     */
-    _createDataFile(separator, header, rows) {
-        rows = rows.map((node) => {
-            let row = [];
-
-            header.forEach((key) => {
-                row.push(node[key]);
-            });
-
-            row = row.join(separator);
-
-            return row;
-        });
-
-        header = header.join(separator);
-
-        let csv = [header].concat(rows);
-        csv = csv.join("\n");
-
-        return csv;
-    },
 
     /**
      * Returns CSV representing the nodes of the graph.
@@ -108,7 +73,7 @@ let Parser = {
      * @returns {string}
      */
     exportNodeCSV() {
-        return this._createDataFile(",", this._exportNodeListFormat, this._getFormattedNodeList());
+        return Tools.createDataFile(",", this._exportNodeListFormat, this._getFormattedNodeList());
     },
 
     /**
@@ -117,32 +82,7 @@ let Parser = {
      * @returns {string}
      */
     exportEdgeCSV() {
-        return this._createDataFile(",", this._exportEdgeListFormat, this._getFormattedEdgeList());
-    },
-
-    /**
-     * Returns parsed data string.
-     *
-     * @param separator string
-     * @param dataString string
-     *
-     * @returns {{nodes: *, header: *}}
-     */
-    _parseDataFile(separator, dataString) {
-        dataString = dataString.split("\n");
-
-        let header = dataString.shift().split(separator);
-
-        return dataString.map((row) => {
-            row = row.split(separator);
-            let rowObject = {};
-
-            for (let i = 0; i < header.length; i++) {
-                rowObject[header[i]] = row[i];
-            }
-
-            return rowObject;
-        });
+        return Tools.createDataFile(",", this._exportEdgeListFormat, this._getFormattedEdgeList());
     },
 
     /**
@@ -150,14 +90,15 @@ let Parser = {
      *
      * @param nodeCSV string
      * @param edgeCSV string
+     * @param directed Boolean
      */
-    importCSV(nodeCSV, edgeCSV) {
+    importCSV(nodeCSV, edgeCSV, directed) {
         let separator = ",";
 
-        let nodes = this._parseDataFile(separator, nodeCSV);
-        let edges = this._parseDataFile(separator, edgeCSV);
+        let nodes = Tools.parseDataFile(separator, nodeCSV);
+        let edges = Tools.parseDataFile(separator, edgeCSV);
 
-        this._updateGraph(nodes, edges);
+        this._updateGraph(new Graph(nodes, edges, directed));
     },
 
     // Gephi JSON
@@ -166,10 +107,11 @@ let Parser = {
      * Imports graph from the given CSVs.
      *
      * @param json String
+     * @param directed Boolean
      * @param fixed Boolean
      * @param parseColor Boolean
      */
-    importGephiJSON(json, fixed = true, parseColor = true) {
+    importGephiJSON(json, directed, fixed = true, parseColor = true) {
         let options = {
             fixed: fixed,
             parseColor: parseColor
@@ -177,7 +119,7 @@ let Parser = {
 
         let parsed = vis.network.gephiParser.parseGephi(json, options);
 
-        this._updateGraph(parsed.nodes, parsed.edges)
+        this._updateGraph(new Graph(parsed.nodes, parsed.edges, directed))
     }
 
 };

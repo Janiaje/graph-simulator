@@ -40,15 +40,19 @@
                 </div>
 
                 <div class="col-6">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="lowGravity" v-model="lowGravity"
-                               :disabled="!physicsAllowed">
-                        <label class="form-check-label" :class="{ 'line-through': !physicsAllowed }" for="lowGravity">Low
-                            gravity</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="physicsAllowed" v-model="physicsAllowed">
-                        <label class="form-check-label" for="physicsAllowed">Physics allowed</label>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="physicsAllowed"
+                                   v-model="physicsAllowed">
+                            <label class="form-check-label" for="physicsAllowed">Physics allowed</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="lowGravity" v-model="lowGravity"
+                                   :disabled="!physicsAllowed">
+                            <label class="form-check-label" :class="{ 'line-through': !physicsAllowed }"
+                                   for="lowGravity">Low
+                                gravity</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,16 +84,16 @@
 
         methods: {
             generateRandomGraph() {
-                graph.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+                mainDisplayedGraph.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
             }
         },
 
         watch: {
             physicsAllowed: function (value) {
-                graph.physicsAllowed(value);
+                mainDisplayedGraph.physicsAllowed(value);
             },
             lowGravity: function (value) {
-                graph.lowGravity(value);
+                mainDisplayedGraph.lowGravity(value);
             }
         }
     }

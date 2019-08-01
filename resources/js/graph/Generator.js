@@ -1,4 +1,5 @@
 import Tools from "./Tools";
+import Graph from "./Graph";
 
 let Generator = {
     /**
@@ -10,14 +11,12 @@ let Generator = {
      * @param directed Boolean
      */
     generateRandomGraph(numberOfNodes, numberOfEdges, simpleGraph = true, directed = false) {
-        this._directed = directed;
-
         let nodes = this._generateNodes(numberOfNodes);
 
         let edges;
 
         if (simpleGraph) {
-            edges = this._generateEdgesForFullGraph(numberOfNodes, this._directed);
+            edges = this._generateEdgesForFullGraph(numberOfNodes, directed);
             edges = this._removeEdgesUntilCount(edges, numberOfEdges);
         } else {
             edges = Tools.range(1, numberOfEdges).map((value) => {
@@ -28,14 +27,14 @@ let Generator = {
             });
         }
 
-        if (this._directed) {
+        if (directed) {
             edges.map((edge) => {
                 edge.arrows = 'to';
                 return edge;
             });
         }
 
-        this._updateGraph(nodes, edges);
+        this._updateGraph(new Graph(nodes, edges, directed));
     },
 
     /**

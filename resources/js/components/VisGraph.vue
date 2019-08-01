@@ -3,13 +3,13 @@
 </template>
 
 <script>
-    import Graph from "../graph/Graph";
+    import DisplayedGraph from "../graph/DisplayedGraph";
 
     export default {
         name: "VisGraph",
         mounted() {
             let container = document.getElementById('vis-graph');
-            window.graph = new Graph(container);
+            window.mainDisplayedGraph = new DisplayedGraph(container);
         }
     }
 </script>
