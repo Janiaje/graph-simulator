@@ -1,7 +1,7 @@
 import Tools from "./Tools";
 import Graph from "./Graph";
 
-let Generator = {
+class Generator {
     /**
      * Generate random graph
      * .
@@ -10,16 +10,16 @@ let Generator = {
      * @param simpleGraph Boolean
      * @param directed Boolean
      */
-    generateRandomGraph(numberOfNodes, numberOfEdges, simpleGraph = true, directed = false) {
-        let nodes = this._generateNodes(numberOfNodes);
+    static generateRandomGraph(numberOfNodes, numberOfEdges, simpleGraph = true, directed = false) {
+        let nodes = Generator._generateNodes(numberOfNodes);
 
         let edges;
 
         if (simpleGraph) {
-            edges = this._generateEdgesForFullGraph(numberOfNodes, directed);
-            edges = this._removeEdgesUntilCount(edges, numberOfEdges);
+            edges = this._generateEdgesForFullGraph(nodes, directed);
+            edges = Generator._removeEdgesUntilCount(edges, numberOfEdges);
         } else {
-            edges = Tools.range(1, numberOfEdges).map((value) => {
+            edges = Tools.range(1, numberOfEdges).map(() => {
                 let from = Math.floor(Math.random() * numberOfNodes) + 1;
                 let to = Math.floor(Math.random() * numberOfNodes) + 1;
 
@@ -34,51 +34,50 @@ let Generator = {
             });
         }
 
-        this._updateGraph(new Graph(nodes, edges, directed));
-    },
+        return new Graph(nodes, edges, directed);
+    }
 
     /**
      * Generate nodes.
      *
      * @param numberOfNodes Integer
      */
-    _generateNodes(numberOfNodes) {
+    static _generateNodes(numberOfNodes) {
         return Tools.range(1, numberOfNodes).map((value) => {
             return {id: value, label: 'Node ' + value}
         });
-    },
+    }
 
     /**
      * Generate edges for full graph.
      *
-     * @param numberOfNodes Integer
+     * @param nodes Array
      * @param directed Boolean
      */
-    _generateEdgesForFullGraph(numberOfNodes, directed) {
+    static _generateEdgesForFullGraph(nodes, directed) {
         let edges = [];
 
-        Tools.range(1, numberOfNodes)
-            .forEach((from) => {
-                let range = Tools.range(1, numberOfNodes);
+        nodes.forEach((fromNode, index) => {
+            let toNodes = Tools.cloneArray(nodes);
 
-                if (directed) {
-                    // Don't allow loop edges
-                    range.splice(from - 1, 1);
-                } else {
-                    // Don't allow loop edges AND parallel edges
-                    range.splice(0, from);
-                }
+            if (directed) {
+                // Don't allow loop edges
+                toNodes.splice(index - 1, 1);
+            } else {
+                // Don't allow loop edges AND parallel edges
+                toNodes.splice(0, index + 1);
+            }
 
-                range.forEach((to) => {
-                    edges.push({
-                        from: from,
-                        to: to
-                    })
+            toNodes.forEach((toNode) => {
+                edges.push({
+                    from: fromNode.id,
+                    to: toNode.id
                 })
-            });
+            })
+        });
 
         return edges;
-    },
+    }
 
     /**
      * Deletes random elements of an array until the give count is reached.
@@ -88,13 +87,40 @@ let Generator = {
      *
      * @returns {Array.<Object>}
      */
-    _removeEdgesUntilCount(edges, numberOfEdges) {
+    static _removeEdgesUntilCount(edges, numberOfEdges) {
         while (edges.length > numberOfEdges) {
             let index = Math.floor(Math.random() * (edges.length - 1));
             edges.splice(index, 1);
         }
 
         return edges;
+    }
+
+    /**
+     * Generates a random edge to the given graph.
+     *
+     * @param graph Graph
+     *
+     * @returns {{from: *, to: *}}
+     */
+    static randomEdge(graph) {
+        if (!graph.simple) {
+            let from = graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id;
+            let to = graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id;
+
+            return {
+                from: from,
+                to: to
+            };
+        }
+
+        let fullGraphEdges = this._generateEdgesForFullGraph(graph.nodes, graph.directed);
+        let existingEdges = graph.edges;
+        let remainingEdges = fullGraphEdges.filter((edge) => {
+            return !Tools.edgeInArray(existingEdges, edge);
+        });
+
+        return remainingEdges[Math.floor(Math.random() * remainingEdges.length)];
     }
 };
 

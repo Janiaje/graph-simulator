@@ -4,6 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import Tools from "./graph/Tools";
+import Generator from "./graph/Generator";
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -25,7 +28,9 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-window.eventHub = new Vue();
+// TODO: remove window assignments
+window.Tools = Tools;
+window.Generator = Generator;
 
 const app = new Vue({
     el: '#app',
@@ -41,7 +46,7 @@ const app = new Vue({
         },
 
         clearGraph() {
-            graph.clearGraph();
+            mainDisplayedGraph.clear();
         }
     },
 

@@ -7,11 +7,13 @@ class Graph {
      * @param nodes Array
      * @param edges Array
      * @param directed Boolean
+     * @param simple Boolean
      */
-    constructor(nodes = [], edges = [], directed = false) {
+    constructor(nodes = [], edges = [], directed = false, simple = true) {
         this._nodes = nodes;
         this._edges = edges;
         this._directed = directed;
+        this._simple = simple;
     }
 
     get nodes() {
@@ -36,6 +38,14 @@ class Graph {
 
     set directed(value) {
         this._directed = value;
+    }
+
+    get simple() {
+        return this._simple;
+    }
+
+    set simple(value) {
+        this._simple = value;
     }
 }
 

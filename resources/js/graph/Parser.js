@@ -62,7 +62,7 @@ let Parser = {
      * @param directed Boolean
      */
     importList(nodeList, edgeList, directed) {
-        this._updateGraph(new Graph(nodeList, edgeList, directed));
+        this.display(new Graph(nodeList, edgeList, directed));
     },
 
     // CSV
@@ -98,7 +98,7 @@ let Parser = {
         let nodes = Tools.parseDataFile(separator, nodeCSV);
         let edges = Tools.parseDataFile(separator, edgeCSV);
 
-        this._updateGraph(new Graph(nodes, edges, directed));
+        this.display(new Graph(nodes, edges, directed));
     },
 
     // Gephi JSON
@@ -119,7 +119,7 @@ let Parser = {
 
         let parsed = vis.network.gephiParser.parseGephi(json, options);
 
-        this._updateGraph(new Graph(parsed.nodes, parsed.edges, directed))
+        this.display(new Graph(parsed.nodes, parsed.edges, directed))
     }
 
 };

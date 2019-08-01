@@ -69,6 +69,8 @@
 </template>
 
 <script>
+    import Generator from "../../graph/Generator";
+
     export default {
         name: "GenerateGraphModal",
         data() {
@@ -84,7 +86,8 @@
 
         methods: {
             generateRandomGraph() {
-                mainDisplayedGraph.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+                let graph = Generator.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+                mainDisplayedGraph.display(graph);
             }
         },
 

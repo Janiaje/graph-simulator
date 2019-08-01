@@ -9,7 +9,53 @@ class Tools {
      */
     static range(from, to) {
         return [...Array(to - from + 1).keys()]
-            .map(value => value + from)
+            .map(value => value + from);
+    }
+
+    /**
+     * Checks if array includes object.
+     *
+     * @param array Array
+     * @param object Object
+     * @param comparison Lambda
+     *
+     * @returns {Boolean}
+     */
+    static objectInArray(array, object, comparison) {
+        for (let i = 0; i < array.length; i++) {
+            if (comparison(object, array[i])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if array includes edge.
+     *
+     * @param array Array
+     * @param object Object
+     * @param directed Boolean
+     *
+     * @returns {Boolean}
+     */
+    static edgeInArray(array, object, directed) {
+        let comparison;
+
+        if (directed) {
+            comparison = (a, b) => {
+                return (a.from === b.from && a.to === b.to)
+                    || (a.from === b.to && a.to === b.from);
+            };
+        } else {
+            comparison = (a, b) => {
+                return a.from === b.from
+                    && a.to === b.to;
+            };
+        }
+
+        return this.objectInArray(array, object, comparison);
     }
 
     /**
@@ -34,6 +80,16 @@ class Tools {
         return Object.assign({}, object);
     }
 
+    /**
+     * Clone an class (copy the class in the memory)
+     *
+     *  @param classObject Class
+     *
+     * @returns {Class}
+     */
+    static cloneClass(classObject) {
+        return Object.assign(Object.create(Object.getPrototypeOf(classObject)), classObject);
+    }
 
     /**
      * Access Object's property by the given access string.
@@ -65,7 +121,6 @@ class Tools {
 
         return object;
     }
-
 
     /**
      * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.

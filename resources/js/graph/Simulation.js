@@ -1,3 +1,5 @@
+import Tools from "./Tools";
+
 class Simulation {
 
     constructor(startingSimulationStep, nextStepCalculationLambda) {
@@ -6,40 +8,46 @@ class Simulation {
         this._nextStepCalculationLambda = nextStepCalculationLambda;
     }
 
-    getCurrentStep() {
+    get currentStep() {
         return this._steps[this._currentStepIndex];
     }
 
     firstStep() {
         this._currentStepIndex = 0;
-        return this.getCurrentStep();
+        return this.currentStep;
     }
 
     previousStep() {
-        // if (this.getCurrentStep().hasPreviousStep === false) {
-        //     return null;
-        // }
+        if (!this.currentStep.hasPreviousStep) {
+            return this.currentStep;
+        }
 
         return this._steps[--this._currentStepIndex];
     }
 
     nextStep() {
-        // if (this.getCurrentStep().hasNextStep === false) {
-        //     return null;
-        // }
+        if (!this.currentStep.hasNextStep) {
+            return this.currentStep;
+        }
 
-        if (this.getCurrentStep().hasNextStep === null) {
-            this._steps.push(this._nextStepCalculationLambda(this.getCurrentStep()));
-            this.getCurrentStep().itHasNextStep();
+        if (this.currentStep.hasNextStep) {
+            let nextStep = this._nextStepCalculationLambda(Tools.cloneClass(this.currentStep));
+
+            if (nextStep === null) {
+                this.currentStep.doesntHaveNextStep();
+                return this.currentStep;
+            }
+
+            this._steps.push(nextStep);
         }
 
         this._currentStepIndex++;
-        return this.getCurrentStep()
+        return this.currentStep
     }
 
     lastStep() {
         this._currentStepIndex = this._steps.length - 1;
-        return this.getCurrentStep();
+        return this.currentStep;
     }
 
 };

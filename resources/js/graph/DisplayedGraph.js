@@ -1,7 +1,7 @@
 import vis from "vis";
 import Parser from "./Parser";
-import Generator from "./Generator";
 import Graph from "./Graph";
+import Tools from "./Tools";
 
 class DisplayedGraph {
 
@@ -64,7 +64,7 @@ class DisplayedGraph {
     /**
      * Delete all nodes and edges.
      */
-    clearGraph() {
+    clear() {
         this._graph = new Graph();
 
         this._nodesDataSet.clear();
@@ -76,8 +76,8 @@ class DisplayedGraph {
      *
      * @param graph Graph
      */
-    _updateGraph(graph) {
-        this.clearGraph();
+    display(graph) {
+        this.clear();
 
         this._graph = graph;
 
@@ -194,6 +194,5 @@ class DisplayedGraph {
 
 // Trait method assigns
 Object.assign(DisplayedGraph.prototype, Parser);
-Object.assign(DisplayedGraph.prototype, Generator);
 
 export default DisplayedGraph;
