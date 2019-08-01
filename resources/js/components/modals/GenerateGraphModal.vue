@@ -18,7 +18,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="numberOfEdges">Edges</label>
-                        <input id="numberOfEdges" type="number" min="1" max="1000" class="form-control"
+                        <input id="numberOfEdges" type="number" min="0" max="1000" class="form-control"
                                placeholder="Number of edges to generate"
                                v-model.number="numberOfEdges">
                     </div>
