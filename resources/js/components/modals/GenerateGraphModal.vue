@@ -95,6 +95,7 @@
             physicsAllowed: function (value) {
                 mainDisplayedGraph.physicsAllowed(value);
             },
+
             lowGravity: function (value) {
                 mainDisplayedGraph.lowGravity(value);
             }

@@ -4,10 +4,12 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import Tools from "./graph/Tools";
-import Generator from "./graph/Generator";
-import Graph from "./graph/Graph";
-import SimulationStep from "./graph/SimulationStep";
+/**
+ * Import font-awesome
+ */
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {fas} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
 require('./bootstrap');
 
@@ -24,17 +26,15 @@ window.Vue = require('vue');
 const files = require.context('./', true, /\.vue$/i);
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+library.add(fas);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-// TODO: remove window assignments
-window.Tools = Tools;
-window.Generator = Generator;
-window.Graph = Graph;
-window.SimulationStep = SimulationStep;
 
 const app = new Vue({
     el: '#app',

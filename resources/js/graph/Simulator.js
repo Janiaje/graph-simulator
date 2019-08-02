@@ -8,7 +8,7 @@ let Simulator = {
     /**
      * Giant component simulation.
      */
-    runGiantComponentSimulation() {
+    getGiantComponentSimulation() {
         let firstStep = new SimulationStep(this, new Graph(), false);
 
         let nextStepCalculationLambda = (currentStep) => {

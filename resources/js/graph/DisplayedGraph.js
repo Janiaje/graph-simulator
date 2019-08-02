@@ -5,7 +5,6 @@ import Tools from "./Tools";
 
 class DisplayedGraph {
 
-
     /**
      * @param container HTML element
      * @param options Object
