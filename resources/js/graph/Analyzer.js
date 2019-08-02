@@ -20,11 +20,11 @@ let Analyzer = {
 
     _fillDegrees() {
         this._nodes.map((node) => {
-            node.outgoing = Tools.cloneArray(this._edges).filter((edge) => {
+            node.outgoing = Tools.clone(this._edges).filter((edge) => {
                 return edge.from === node.id;
             }).length;
 
-            node.incoming = Tools.cloneArray(this._edges).filter((edge) => {
+            node.incoming = Tools.clone(this._edges).filter((edge) => {
                 return edge.to === node.id;
             }).length;
 

@@ -30,8 +30,11 @@ class Simulation {
             return this.currentStep;
         }
 
-        if (this.currentStep.hasNextStep) {
-            let nextStep = this._nextStepCalculationLambda(Tools.cloneClass(this.currentStep));
+        if (
+            this._currentStepIndex + 1 === this._steps.length
+            && this.currentStep.hasNextStep
+        ) {
+            let nextStep = this._nextStepCalculationLambda(Tools.clone(this.currentStep));
 
             if (nextStep === null) {
                 this.currentStep.doesntHaveNextStep();

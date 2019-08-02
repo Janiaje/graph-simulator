@@ -26,6 +26,7 @@
     "dependencies": {
         "bootstrap-vue": "^2.0.0-rc.27",
         "vis": "^4.21.0",
-        "vue2-dropzone": "latest"
+        "vue2-dropzone": "latest",
+        "lodash.clonedeep": "latest"
     }
 }

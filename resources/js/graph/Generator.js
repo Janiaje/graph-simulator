@@ -58,7 +58,7 @@ class Generator {
         let edges = [];
 
         nodes.forEach((fromNode, index) => {
-            let toNodes = Tools.cloneArray(nodes);
+            let toNodes = Tools.clone(nodes);
 
             if (directed) {
                 // Don't allow loop edges

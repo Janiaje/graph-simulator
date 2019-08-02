@@ -1,3 +1,5 @@
+const cloneDeep = require('lodash.clonedeep');
+
 class Tools {
     /**
      * Create range (array containing all the numbers from-to the given parameters).
@@ -59,36 +61,14 @@ class Tools {
     }
 
     /**
-     * Clone an array (copy the array in the memory)
+     * Clone the given parameter(copy the array in the memory)
      *
-     *  @param array Array
+     * @param variable
      *
-     * @returns {Array}
+     * @returns *
      */
-    static cloneArray(array) {
-        return [...array];
-    }
-
-    /**
-     * Clone an object (copy the object in the memory)
-     *
-     *  @param object Object
-     *
-     * @returns {Object}
-     */
-    static cloneObject(object) {
-        return Object.assign({}, object);
-    }
-
-    /**
-     * Clone an class (copy the class in the memory)
-     *
-     *  @param classObject Class
-     *
-     * @returns {Class}
-     */
-    static cloneClass(classObject) {
-        return Object.assign(Object.create(Object.getPrototypeOf(classObject)), classObject);
+    static clone(variable) {
+        return cloneDeep(variable);
     }
 
     /**

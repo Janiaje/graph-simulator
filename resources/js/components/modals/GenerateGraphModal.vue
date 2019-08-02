@@ -10,7 +10,7 @@
                     <div class="form-group">
                         <label for="numberOfNodes">Nodes</label>
                         <input id="numberOfNodes" type="number" min="1" max="100" class="form-control"
-                               placeholder="Number of nodes to generate"
+                               placeholder="Number of nodes"
                                v-model.number="numberOfNodes">
                     </div>
                 </div>
@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <label for="numberOfEdges">Edges</label>
                         <input id="numberOfEdges" type="number" min="0" max="1000" class="form-control"
-                               placeholder="Number of edges to generate"
+                               placeholder="Number of edges"
                                v-model.number="numberOfEdges">
                     </div>
                 </div>
