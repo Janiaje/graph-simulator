@@ -1,39 +1,24 @@
-import Tools from "./Tools";
+class Analyzer {
 
-let Analyzer = {
-
-    getAverageDegree(type) {
-        if (this._nodes.length === 0) {
+    getAverageDegree(graph, type) {
+        if (graph.nodes.length === 0) {
             return [];
         }
 
-        this._fillDegrees();
+        graph.fillDegrees();
 
-        let summedDegree = this._nodes
+        let summedDegree = graph.nodes
             .map(node => node[type])
             .reduce((a, b) => {
                 return a + b;
             });
 
-        return summedDegree / this._nodes.length;
-    },
-
-    _fillDegrees() {
-        this._nodes.map((node) => {
-            node.outgoing = Tools.clone(this._edges).filter((edge) => {
-                return edge.from === node.id;
-            }).length;
-
-            node.incoming = Tools.clone(this._edges).filter((edge) => {
-                return edge.to === node.id;
-            }).length;
-
-            node.degree = node.outgoing + node.incoming;
-
-            return node;
-        });
+        return summedDegree / graph.nodes.length;
     }
 
-};
+    getLargestSubgraph(graph) {
+
+    }
+}
 
 export default Analyzer;

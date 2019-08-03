@@ -61,6 +61,22 @@ class Tools {
     }
 
     /**
+     * Checks if array includes node.
+     *
+     * @param array Array
+     * @param object Object
+     *
+     * @returns {Boolean}
+     */
+    static nodeInArray(array, object) {
+        let comparison = (a, b) => {
+            return a.id === b.id;
+        };
+
+        return this.objectInArray(array, object, comparison);
+    }
+
+    /**
      * Clone the given parameter(copy the array in the memory)
      *
      * @param variable
@@ -178,6 +194,15 @@ class Tools {
     }
 
     /**
+     * Returns the current epoch time.
+     *
+     * @returns Integer
+     */
+    static getEpochTime() {
+        return (new Date).getTime();
+    }
+
+    /**
      * Returns formatted date-time string.
      *
      * @returns String
@@ -205,29 +230,6 @@ class Tools {
         element.click();
 
         document.body.removeChild(element);
-    }
-
-    /**
-     * Saves the nodes' positions into the graph's nodes.
-     *
-     * @param network vis.Network
-     * @param graph Graph
-     */
-    static savePositions(network, graph) {
-        let positions = network.getPositions();
-
-        graph.nodes.forEach((node) => {
-            let position = positions[node.id];
-
-            node.x = position.x;
-            node.y = position.y;
-        });
-    }
-
-    static colorNode(node, color) {
-        node['color'] = color;
-
-        return node;
     }
 }
 

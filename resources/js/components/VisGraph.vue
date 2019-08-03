@@ -1,5 +1,5 @@
 <template>
-    <div id="vis-graph" style="height: 100%"/>
+    <div id="vis-graph"/>
 </template>
 
 <script>
@@ -14,6 +14,13 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+    #vis-graph {
+        height: 100%;
+        outline: none;
+    }
 
+    .vis-network {
+        outline: none;
+    }
 </style>

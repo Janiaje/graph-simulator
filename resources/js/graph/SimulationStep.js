@@ -9,8 +9,6 @@ class SimulationStep {
     }
 
     get graph() {
-        this._changesGraph;
-        // TODO: color them according to the changes
         return this._graph;
     }
 

@@ -3,7 +3,7 @@ import Tools from "./Tools";
 class Simulation {
 
     constructor(startingSimulationStep, nextStepCalculationLambda) {
-        Tools.savePositions(mainDisplayedGraph.network, startingSimulationStep.graph);
+        startingSimulationStep.graph.savePositions();
 
         this._steps = [startingSimulationStep];
         this.currentStepIndex = 0;
@@ -67,7 +67,7 @@ class Simulation {
         if (
             this.currentStepIndex + 1 === this._steps.length
         ) {
-            Tools.savePositions(mainDisplayedGraph.network, this.currentStep.graph);
+            this.currentStep.graph.savePositions();
 
             let nextStep = this._nextStepCalculationLambda(Tools.clone(this.currentStep));
 

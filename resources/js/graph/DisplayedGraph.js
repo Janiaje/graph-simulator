@@ -10,15 +10,20 @@ class DisplayedGraph {
      * @param container HTML element
      */
     constructor(container) {
+        // Graph
         this._graph = new Graph();
 
+        // Simulation
+        this._simulation = null;
+
+        // Display
         this._nodesDataSet = new vis.DataSet();
         this._edgesDataSet = new vis.DataSet();
         this._options = {
             physics: {
                 barnesHut: {
                     centralGravity: 0.35,
-                    springLength: 335,
+                    springLength: 200,
                     springConstant: 1.2,
                     damping: 0.58
                 },
@@ -34,40 +39,6 @@ class DisplayedGraph {
         }, this._options);
 
         Object.assign(this._options, this._network.defaultOptions);
-
-        // Simulation part
-        this._simulation = null;
-
-        // var nodes = new vis.DataSet([
-        //     {id: 1, label: 'html color', color: 'lime'},
-        //     {id: 2, label: 'rgb color', color: 'rgb(255,168,7)'},
-        //     {id: 3, label: 'hex color', color: '#7BE141'},
-        //     {id: 4, label: 'rgba color', color: 'rgba(97,195,238,0.5)'},
-        //     {id: 5, label: 'colorObject', color: {background: 'pink', border: 'purple'}},
-        //     {
-        //         id: 6,
-        //         label: 'colorObject + highlight',
-        //         color: {background: '#F03967', border: '#713E7F', highlight: {background: 'red', border: 'black'}}
-        //     },
-        //     {
-        //         id: 7,
-        //         label: 'colorObject + highlight + hover',
-        //         color: {
-        //             background: 'cyan',
-        //             border: 'blue',
-        //             highlight: {background: 'red', border: 'blue'},
-        //             hover: {background: 'white', border: 'red'}
-        //         }
-        //     }
-        // ]);
-
-        // this._nodeColor = false;
-        // this._nodeHoverColor = false;
-        // this._nodeHighlightColor = false;
-        // this._nodeSimulationStepColor = false;
-        // this._nodeSimulationStepHoverColor = false;
-        // this._nodeSimulationStepHighlightColor = false;
-
     }
 
     get network() {
@@ -194,8 +165,8 @@ class DisplayedGraph {
                 'value': this._graph.directed ?
                     `
                     <ul>
-                        <li>Outgoing degree: ${this._graph.getAverageDegree('outgoing')} </li>
-                        <li>Incoming degree: ${this._graph.getAverageDegree('incoming')} </li>
+                        <li>Outgoing degree: ${this._graph.getAverageDegree('outgoingDegree')} </li>
+                        <li>Incoming degree: ${this._graph.getAverageDegree('incomingDegree')} </li>
                     </ul>
                     ` :
                     this._graph.getAverageDegree('degree'),

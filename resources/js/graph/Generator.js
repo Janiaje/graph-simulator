@@ -109,8 +109,9 @@ class Generator {
             let to = graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id;
 
             return {
+                id: `from${from}-to${to}-${Tools.getEpochTime()}`,
                 from: from,
-                to: to
+                to: to,
             };
         }
 

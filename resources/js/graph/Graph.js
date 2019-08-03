@@ -1,4 +1,6 @@
 import Analyzer from "./Analyzer";
+import Highlighter from "./Highlighter";
+import Tools from "./Tools";
 
 class Graph {
 
@@ -46,9 +48,40 @@ class Graph {
     set simple(value) {
         this._simple = value;
     }
+
+    /**
+     * Saves the positions of the nodes.
+     */
+    savePositions() {
+        let positions = mainDisplayedGraph.network.getPositions();
+
+        this.nodes.forEach((node) => {
+            let position = positions[node.id];
+
+            node.x = position.x;
+            node.y = position.y;
+        });
+    }
+
+    fillDegrees() {
+        this._nodes.map((node) => {
+            node.outgoingDegree = Tools.clone(this._edges).filter((edge) => {
+                return edge.from === node.id;
+            }).length;
+
+            node.incomingDegree = Tools.clone(this._edges).filter((edge) => {
+                return edge.to === node.id;
+            }).length;
+
+            node.degree = node.outgoingDegree + node.incomingDegree;
+
+            return node;
+        });
+    }
 }
 
 // Trait method assigns
 Object.assign(Graph.prototype, Analyzer);
+Object.assign(Graph.prototype, Highlighter);
 
 export default Graph;
