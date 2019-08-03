@@ -2,6 +2,7 @@ import Simulation from "./Simulation";
 import SimulationStep from "./SimulationStep";
 import Graph from "./Graph";
 import Generator from "./Generator";
+import Tools from "./Tools";
 
 let Simulator = {
 
@@ -9,7 +10,13 @@ let Simulator = {
      * Giant component simulation.
      */
     runGiantComponentSimulation() {
-        let firstStep = new SimulationStep(this._graph, new Graph(), false);
+        // TODO: make question about only nodes
+
+        // Only use the generated graph's nodes
+        let graph = Tools.clone(this._graph);
+        graph.edges = [];
+
+        let firstStep = new SimulationStep(graph, new Graph(), false);
 
         let nextStepCalculationLambda = (currentStep) => {
             let graph = currentStep.graph;

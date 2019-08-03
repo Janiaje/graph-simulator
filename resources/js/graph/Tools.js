@@ -211,6 +211,6 @@ class Tools {
 
         return node;
     }
-};
+}
 
 export default Tools;

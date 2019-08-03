@@ -4,7 +4,7 @@ class Simulation {
 
     constructor(startingSimulationStep, nextStepCalculationLambda) {
         this._steps = [startingSimulationStep];
-        this._currentStepIndex = 0;
+        this.currentStepIndex = 0;
         this._nextStepCalculationLambda = nextStepCalculationLambda;
 
         this._speed = 5;
@@ -26,6 +26,7 @@ class Simulation {
     }
 
     set currentStepIndex(value) {
+        // this.currentStep.graph
         this._currentStepIndex = value;
         mainDisplayedGraph.display(this.currentStep.graph);
     }

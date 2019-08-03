@@ -122,6 +122,6 @@ class Generator {
 
         return remainingEdges[Math.floor(Math.random() * remainingEdges.length)];
     }
-};
+}
 
 export default Generator;
