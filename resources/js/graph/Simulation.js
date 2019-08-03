@@ -84,7 +84,7 @@ class Simulation {
     }
 
     play() {
-        this._interval = setInterval(this._intervalHandler, (this._maxSpeed - this.speed) * 300);
+        this._interval = setInterval(this._intervalHandler, (this._maxSpeed + this._minSpeed - this.speed) * 300);
     }
 
     pause() {
@@ -92,8 +92,8 @@ class Simulation {
     }
 
     _restartInterval() {
-        this.play();
         this.pause();
+        this.play();
     }
 
     faster() {
