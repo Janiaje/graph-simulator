@@ -2,7 +2,7 @@
     <div style="height: 100%">
         <vis-graph/>
 
-        <simulation-actions/>
+        <simulation-actions v-if="$parent.simulation"/>
 
         <import-modal/>
         <export-modal/>

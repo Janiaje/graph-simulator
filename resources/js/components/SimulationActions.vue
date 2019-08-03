@@ -1,5 +1,5 @@
 <template>
-    <div id="simulation-actions" class="col-xl-2 col-md-3 col-sm-3 col-xs-12">
+    <div id="simulation-actions" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12">
         <div class="row">
             <div class="col-3">
                 <button type="button" class="btn btn-default" @click="slower">
@@ -19,28 +19,28 @@
         </div>
         <div class="row">
             <div class="col-2 col-md-offset-1">
-                <button type="button" class="btn btn-default" @click="$emit('firstStep')">
+                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.firstStep()">
                     <font-awesome-icon icon="fast-backward"/>
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-default" @click="$emit('previousStep')">
+                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.previousStep()">
                     <font-awesome-icon icon="step-backward"/>
                 </button>
             </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-default" @click="play = !play">
+            <div class="col-4">
+                <button type="button" class="btn btn-default" @click="playPause">
                     <font-awesome-icon icon="play" v-if="!play"/>
                     <font-awesome-icon icon="pause" v-if="play"/>
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-default" @click="$emit('nextStep')">
+                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.nextStep()">
                     <font-awesome-icon icon="step-forward"/>
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-default" @click="$emit('lastStep')">
+                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.lastStep()">
                     <font-awesome-icon icon="fast-forward"/>
                 </button>
             </div>
@@ -53,42 +53,32 @@
         name: "SimulationActions",
         data() {
             return {
-                speed: 5,
+                speed: mainDisplayedGraph.simulation.speed,
                 play: false,
             }
         },
 
         methods: {
-            faster() {
-                if (this.speed >= 10) {
-                    return;
-                }
-
-                this.speed++;
-            },
-
             slower() {
-                if (this.speed <= 1) {
+                mainDisplayedGraph.simulation.slower();
+                this.speed = mainDisplayedGraph.simulation.speed;
+            },
+
+            faster() {
+                mainDisplayedGraph.simulation.faster();
+                this.speed = mainDisplayedGraph.simulation.speed;
+            },
+
+            playPause() {
+                this.play = !this.play;
+
+                if (this.play) {
+                    mainDisplayedGraph.simulation.play();
                     return;
                 }
 
-                this.speed--;
-            },
-        },
-
-        watch: {
-            speed: function (value) {
-                this.$emit('speedChanged', value);
-            },
-
-            play: function (value) {
-                if (value) {
-                    this.$emit('start');
-                    return;
-                }
-
-                this.$emit('stop');
-            },
+                mainDisplayedGraph.simulation.pause();
+            }
         }
     }
 </script>
@@ -100,14 +90,14 @@
         left: 10px;
         z-index: 955;
 
-        padding: 0;
+        padding: 0 15px;
 
         overflow: hidden;
 
         outline: 0;
 
         /*border: 1px rgba(0, 0, 0, 0.25) solid;*/
-        border-radius: 20px;
+        border-radius: 15px;
 
         box-shadow: inset 0 0 0.4rem rgba(0, 0, 0, 0.25);
         background: white;
@@ -129,8 +119,9 @@
     }
 
     .text-display-button {
-        cursor: initial !important;
+        /* TODO: make it work */
+        cursor: unset !important;
     }
 
-
+    /* TODO: button on hover + click => change backgrounds */
 </style>

@@ -6,53 +6,112 @@ class Simulation {
         this._steps = [startingSimulationStep];
         this._currentStepIndex = 0;
         this._nextStepCalculationLambda = nextStepCalculationLambda;
+
+        this._speed = 5;
+        this._maxSpeed = 10;
+        this._minSpeed = 1;
+
+        this._interval = undefined;
+        this._intervalHandler = () => {
+            this.nextStep();
+        };
     }
 
     get currentStep() {
         return this._steps[this._currentStepIndex];
     }
 
+    get currentStepIndex() {
+        return this._currentStepIndex;
+    }
+
+    set currentStepIndex(value) {
+        this._currentStepIndex = value;
+        mainDisplayedGraph.display(this.currentStep.graph);
+    }
+
+    set speed(value) {
+        this._speed = value;
+
+        if (this._interval === undefined) {
+            return;
+        }
+
+        this._restartInterval();
+    }
+
+    get speed() {
+        return this._speed;
+    }
+
     firstStep() {
-        this._currentStepIndex = 0;
-        return this.currentStep;
+        this.currentStepIndex = 0;
     }
 
     previousStep() {
         if (!this.currentStep.hasPreviousStep) {
-            return this.currentStep;
+            return;
         }
 
-        return this._steps[--this._currentStepIndex];
+        this.currentStepIndex--;
     }
 
     nextStep() {
         if (!this.currentStep.hasNextStep) {
-            return this.currentStep;
+            this.pause();
+            return;
         }
 
         if (
-            this._currentStepIndex + 1 === this._steps.length
+            this.currentStepIndex + 1 === this._steps.length
             && this.currentStep.hasNextStep
         ) {
             let nextStep = this._nextStepCalculationLambda(Tools.clone(this.currentStep));
 
             if (nextStep === null) {
                 this.currentStep.doesntHaveNextStep();
-                return this.currentStep;
+                return;
             }
 
             this._steps.push(nextStep);
         }
 
-        this._currentStepIndex++;
-        return this.currentStep
+        this.currentStepIndex++;
     }
 
     lastStep() {
-        this._currentStepIndex = this._steps.length - 1;
-        return this.currentStep;
+        this.currentStepIndex = this._steps.length - 1;
     }
 
-};
+    play() {
+        this._interval = setInterval(this._intervalHandler, (this._maxSpeed - this.speed) * 300);
+    }
+
+    pause() {
+        this._interval = clearInterval(this._interval);
+    }
+
+    _restartInterval() {
+        this.play();
+        this.pause();
+    }
+
+    faster() {
+        if (this.speed >= this._maxSpeed) {
+            return;
+        }
+
+        this.speed++;
+    }
+
+    slower() {
+        if (this.speed <= this._minSpeed) {
+            return;
+        }
+
+        this.speed--;
+    }
+
+}
 
 export default Simulation;

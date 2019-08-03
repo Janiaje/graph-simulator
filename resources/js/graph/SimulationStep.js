@@ -14,10 +14,6 @@ class SimulationStep {
         return this._graph;
     }
 
-    get nodes() {
-        return this._nodes;
-    }
-
     get hasPreviousStep() {
         return this._hasPreviousStep;
     }

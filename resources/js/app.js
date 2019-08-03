@@ -41,6 +41,7 @@ const app = new Vue({
     data() {
         return {
             graphHeight: 0,
+            simulation: false,
         }
     },
 
@@ -51,6 +52,11 @@ const app = new Vue({
 
         clearGraph() {
             mainDisplayedGraph.clear();
+        },
+
+        runGiantComponentSimulation() {
+            mainDisplayedGraph.runGiantComponentSimulation();
+            this.simulation = true;
         }
     },
 

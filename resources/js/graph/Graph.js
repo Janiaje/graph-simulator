@@ -1,5 +1,4 @@
 import Analyzer from "./Analyzer";
-import Simulator from "./Simulator";
 
 class Graph {
 
@@ -51,6 +50,5 @@ class Graph {
 
 // Trait method assigns
 Object.assign(Graph.prototype, Analyzer);
-Object.assign(Graph.prototype, Simulator);
 
 export default Graph;

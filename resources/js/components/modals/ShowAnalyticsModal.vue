@@ -27,9 +27,8 @@
         data() {
             return {
                 analytics: [],
-                mountedCallback: function () {
-                    // this is the modal component
-                    this.$parent.analytics = mainDisplayedGraph.getAnalytics();
+                mountedCallback: () => {
+                    this.analytics = mainDisplayedGraph.getAnalytics();
                 }
             }
         }

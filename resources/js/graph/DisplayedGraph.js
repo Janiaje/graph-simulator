@@ -2,6 +2,7 @@ import vis from "vis";
 import Parser from "./Parser";
 import Graph from "./Graph";
 import Tools from "./Tools";
+import Simulator from "./Simulator";
 
 class DisplayedGraph {
 
@@ -27,6 +28,7 @@ class DisplayedGraph {
         }
 
         // Simulation part
+        this._simulation = null;
 
         // var nodes = new vis.DataSet([
         //     {id: 1, label: 'html color', color: 'lime'},
@@ -58,6 +60,10 @@ class DisplayedGraph {
         // this._nodeSimulationStepHoverColor = false;
         // this._nodeSimulationStepHighlightColor = false;
 
+    }
+
+    get simulation() {
+        return this._simulation;
     }
 
     /**
@@ -193,5 +199,6 @@ class DisplayedGraph {
 
 // Trait method assigns
 Object.assign(DisplayedGraph.prototype, Parser);
+Object.assign(DisplayedGraph.prototype, Simulator);
 
 export default DisplayedGraph;

@@ -75,7 +75,7 @@
                             Simulations
                         </a>
                         <div class="dropdown-menu" aria-labelledby="simulationDropdown">
-                            <a class="dropdown-item disabled" href="#">Coming later</a>
+                            <a class="dropdown-item" href="#" @click="runGiantComponentSimulation">Giant Component</a>
                         </div>
                     </li>
                 </ul>
