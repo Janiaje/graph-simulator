@@ -15,7 +15,6 @@ let Simulator = {
         // Only use the generated graph's nodes
         let graph = Tools.clone(this._graph);
         graph.edges = [];
-
         let firstStep = new SimulationStep(graph, new Graph(), false);
 
         let nextStepCalculationLambda = (currentStep) => {
@@ -33,6 +32,10 @@ let Simulator = {
             return new SimulationStep(graph, changesGraph);
         };
 
+        this._simulate(firstStep, nextStepCalculationLambda);
+    },
+
+    _simulate(firstStep, nextStepCalculationLambda) {
         this._simulation = new Simulation(firstStep, nextStepCalculationLambda);
     }
 

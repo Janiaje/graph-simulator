@@ -8,24 +8,32 @@ class DisplayedGraph {
 
     /**
      * @param container HTML element
-     * @param options Object
      */
-    constructor(container, options = {}) {
-        this._options = options;
-
+    constructor(container) {
         this._graph = new Graph();
 
         this._nodesDataSet = new vis.DataSet();
         this._edgesDataSet = new vis.DataSet();
+        this._options = {
+            physics: {
+                barnesHut: {
+                    centralGravity: 0.35,
+                    springLength: 335,
+                    springConstant: 1.2,
+                    damping: 0.58
+                },
+                maxVelocity: 20,
+                minVelocity: 0.75,
+                timestep: 0.18
+            }
+        };
 
         this._network = new vis.Network(container, {
             nodes: this._nodesDataSet,
             edges: this._edgesDataSet
         }, this._options);
 
-        if (Object.entries(this._options).length === 0) {
-            this._options = this._network.defaultOptions;
-        }
+        Object.assign(this._options, this._network.defaultOptions);
 
         // Simulation part
         this._simulation = null;
@@ -60,6 +68,10 @@ class DisplayedGraph {
         // this._nodeSimulationStepHoverColor = false;
         // this._nodeSimulationStepHighlightColor = false;
 
+    }
+
+    get network() {
+        return this._network;
     }
 
     get simulation() {

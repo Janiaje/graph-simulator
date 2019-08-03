@@ -3,6 +3,8 @@ import Tools from "./Tools";
 class Simulation {
 
     constructor(startingSimulationStep, nextStepCalculationLambda) {
+        Tools.savePositions(mainDisplayedGraph.network, startingSimulationStep.graph);
+
         this._steps = [startingSimulationStep];
         this.currentStepIndex = 0;
         this._nextStepCalculationLambda = nextStepCalculationLambda;
@@ -64,8 +66,9 @@ class Simulation {
 
         if (
             this.currentStepIndex + 1 === this._steps.length
-            && this.currentStep.hasNextStep
         ) {
+            Tools.savePositions(mainDisplayedGraph.network, this.currentStep.graph);
+
             let nextStep = this._nextStepCalculationLambda(Tools.clone(this.currentStep));
 
             if (nextStep === null) {
@@ -84,17 +87,25 @@ class Simulation {
     }
 
     play() {
+        this._setInterval();
+    }
+
+    _setInterval() {
         this._interval = setInterval(this._intervalHandler, (this._maxSpeed + this._minSpeed - this.speed) * 300);
     }
 
     pause() {
-        this._interval = clearInterval(this._interval);
+        this._clearInterval();
         eventHub.$emit('paused');
     }
 
+    _clearInterval() {
+        this._interval = clearInterval(this._interval);
+    }
+
     _restartInterval() {
-        this.pause();
-        this.play();
+        this._clearInterval();
+        this._setInterval();
     }
 
     faster() {
