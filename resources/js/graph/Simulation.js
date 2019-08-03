@@ -26,7 +26,6 @@ class Simulation {
     }
 
     set currentStepIndex(value) {
-        // this.currentStep.graph
         this._currentStepIndex = value;
         mainDisplayedGraph.display(this.currentStep.graph);
     }
@@ -90,6 +89,7 @@ class Simulation {
 
     pause() {
         this._interval = clearInterval(this._interval);
+        eventHub.$emit('paused');
     }
 
     _restartInterval() {
@@ -112,7 +112,6 @@ class Simulation {
 
         this.speed--;
     }
-
 }
 
 export default Simulation;

@@ -194,6 +194,7 @@ class Tools {
      * @param text String
      */
     static downloadText(filename, text) {
+        // TODO: refactor (cant handle long texts)
         let element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         element.setAttribute('download', filename);
@@ -204,6 +205,23 @@ class Tools {
         element.click();
 
         document.body.removeChild(element);
+    }
+
+    /**
+     * Saves the nodes' positions into the graph's nodes.
+     *
+     * @param network vis.Network
+     * @param graph Graph
+     */
+    static savePositions(network, graph) {
+        let positions = network.getPositions();
+
+        graph.nodes.forEach((node) => {
+            let position = positions[node.id];
+
+            node.x = position.x;
+            node.y = position.y;
+        });
     }
 
     static colorNode(node, color) {

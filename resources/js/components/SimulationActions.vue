@@ -56,6 +56,9 @@
             return {
                 speed: mainDisplayedGraph.simulation.speed,
                 play: false,
+                pausedListener: () => {
+                    this.play = false;
+                }
             }
         },
 
@@ -80,6 +83,14 @@
 
                 mainDisplayedGraph.simulation.pause();
             }
+        },
+
+        mounted() {
+            eventHub.$on('paused', this.pausedListener);
+        },
+
+        destroyed() {
+            eventHub.$off('paused', this.pausedListener);
         }
     }
 </script>
