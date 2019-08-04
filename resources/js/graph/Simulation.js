@@ -9,8 +9,8 @@ class Simulation {
         this.currentStepIndex = 0;
         this._nextStepCalculationLambda = nextStepCalculationLambda;
 
-        this._speed = 5;
-        this._maxSpeed = 10;
+        this._speed = 10;
+        this._maxSpeed = 20;
         this._minSpeed = 1;
 
         this._interval = undefined;
@@ -87,11 +87,12 @@ class Simulation {
     }
 
     play() {
+        // TODO: Adjust the physics to be able to handle larger graphs
         this._setInterval();
     }
 
     _setInterval() {
-        this._interval = setInterval(this._intervalHandler, (this._maxSpeed + this._minSpeed - this.speed) * 300);
+        this._interval = setInterval(this._intervalHandler, (this._maxSpeed + this._minSpeed - this.speed) * 150);
     }
 
     pause() {
