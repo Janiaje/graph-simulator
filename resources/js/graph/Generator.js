@@ -11,6 +11,7 @@ class Generator {
      * @param directed Boolean
      */
     static generateRandomGraph(numberOfNodes, numberOfEdges, simpleGraph = true, directed = false) {
+        // TODO: fixme: doesn't work correctly for simple, directed graphs ...
         let nodes = Generator._generateNodes(numberOfNodes);
 
         let edges;
@@ -28,7 +29,7 @@ class Generator {
         }
 
         if (directed) {
-            edges.map((edge) => {
+            edges.map(edge => {
                 edge.arrows = 'to';
                 return edge;
             });
@@ -43,8 +44,11 @@ class Generator {
      * @param numberOfNodes Integer
      */
     static _generateNodes(numberOfNodes) {
-        return Tools.range(1, numberOfNodes).map((value) => {
-            return {id: value, label: 'Node ' + value}
+        return Tools.range(1, numberOfNodes).map(value => {
+            return {
+                id: value,
+                label: 'Node ' + value
+            };
         });
     }
 
@@ -68,7 +72,7 @@ class Generator {
                 toNodes.splice(0, index + 1);
             }
 
-            toNodes.forEach((toNode) => {
+            toNodes.forEach(toNode => {
                 edges.push({
                     from: fromNode.id,
                     to: toNode.id
@@ -116,10 +120,7 @@ class Generator {
         }
 
         let fullGraphEdges = this._generateEdgesForFullGraph(graph.nodes, graph.directed);
-        let existingEdges = graph.edges;
-        let remainingEdges = fullGraphEdges.filter((edge) => {
-            return !Tools.edgeInArray(existingEdges, edge);
-        });
+        let remainingEdges = fullGraphEdges.filter(edge => !graph.containsEdge(edge));
 
         return remainingEdges[Math.floor(Math.random() * remainingEdges.length)];
     }

@@ -1,5 +1,3 @@
-import Tools from "./Tools";
-
 let Highlighter = {
 
     _colorNodeDefault: {
@@ -42,9 +40,9 @@ let Highlighter = {
 
     colorSubgraph(subgraph) {
         // TODO: code smell :\
-        this.nodes.forEach((node) => {
+        this.nodes.forEach(node => {
 
-            if (Tools.nodeInArray(subgraph.nodes, node)) {
+            if (subgraph.containsNode(node)) {
                 node.color = this._colorNodeChanged;
             } else {
                 node.color = this._colorNodeDefault;
@@ -52,9 +50,9 @@ let Highlighter = {
 
         });
 
-        this.edges.forEach((edge) => {
+        this.edges.forEach(edge => {
 
-            if (Tools.edgeInArray(subgraph.edges, edge, this.directed)) {
+            if (subgraph.containsEdge(edge)) {
                 edge.color = this._colorEdgeChanged;
             } else {
                 edge.color = this._colorEdgeDefault;

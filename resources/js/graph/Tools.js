@@ -34,49 +34,6 @@ class Tools {
     }
 
     /**
-     * Checks if array includes edge.
-     *
-     * @param array Array
-     * @param object Object
-     * @param directed Boolean
-     *
-     * @returns {Boolean}
-     */
-    static edgeInArray(array, object, directed) {
-        let comparison;
-
-        if (directed) {
-            comparison = (a, b) => {
-                return (a.from === b.from && a.to === b.to)
-                    || (a.from === b.to && a.to === b.from);
-            };
-        } else {
-            comparison = (a, b) => {
-                return a.from === b.from
-                    && a.to === b.to;
-            };
-        }
-
-        return this.objectInArray(array, object, comparison);
-    }
-
-    /**
-     * Checks if array includes node.
-     *
-     * @param array Array
-     * @param object Object
-     *
-     * @returns {Boolean}
-     */
-    static nodeInArray(array, object) {
-        let comparison = (a, b) => {
-            return a.id === b.id;
-        };
-
-        return this.objectInArray(array, object, comparison);
-    }
-
-    /**
      * Clone the given parameter(copy the array in the memory)
      *
      * @param variable
@@ -127,12 +84,10 @@ class Tools {
      * @returns {Array.<Object>}
      */
     static formatObjectList(propertyNamesArray, arrayOfObjects) {
-        return arrayOfObjects.map((object) => {
+        return arrayOfObjects.map(object => {
             let newObject = {};
 
-            propertyNamesArray.forEach((key) => {
-                newObject[key] = object[key];
-            });
+            propertyNamesArray.forEach(key => newObject[key] = object[key]);
 
             return newObject;
         });
@@ -148,12 +103,10 @@ class Tools {
      * @returns {string}
      */
     static createDataFile(separator, header, rows) {
-        rows = rows.map((node) => {
+        rows = rows.map(node => {
             let row = [];
 
-            header.forEach((key) => {
-                row.push(node[key]);
-            });
+            header.forEach(key => row.push(node[key]));
 
             row = row.join(separator);
 
@@ -181,7 +134,7 @@ class Tools {
 
         let header = dataString.shift().split(separator);
 
-        return dataString.map((row) => {
+        return dataString.map(row => {
             row = row.split(separator);
             let rowObject = {};
 
@@ -230,6 +183,31 @@ class Tools {
         element.click();
 
         document.body.removeChild(element);
+    }
+
+    static sortArrayIntoObject(array, objectKey = 'id') {
+        let object = {};
+
+        array.forEach(item => object[item[objectKey]] = item);
+
+        return object;
+    }
+
+    static groupBy(array, objectKey = 'id') {
+        let object = {};
+
+        array.forEach(item => {
+            let itemArray = object[item[objectKey]] !== undefined ? object[item[objectKey]] : [];
+            itemArray.push(item);
+
+            object[item[objectKey]] = itemArray;
+        });
+
+        return object;
+    }
+
+    static distinct(array) {
+        return [...new Set(array)];
     }
 }
 

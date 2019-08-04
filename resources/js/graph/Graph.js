@@ -15,6 +15,11 @@ class Graph {
         this._edges = edges;
         this._directed = directed;
         this._simple = simple;
+
+        this._nodesKeyedById = undefined;
+        this._edgesKeyedById = undefined;
+        this._edgesKeyedByFrom = undefined;
+        this._edgesKeyedByTo = undefined;
     }
 
     get nodes() {
@@ -22,6 +27,8 @@ class Graph {
     }
 
     set nodes(value) {
+        this._nodesKeyedById = undefined;
+
         this._nodes = value;
     }
 
@@ -30,6 +37,10 @@ class Graph {
     }
 
     set edges(value) {
+        this._edgesKeyedById = undefined;
+        this._edgesKeyedByFrom = undefined;
+        this._edgesKeyedByTo = undefined;
+
         this._edges = value;
     }
 
@@ -49,33 +60,49 @@ class Graph {
         this._simple = value;
     }
 
+    get nodesKeyedById() {
+        if (this._nodesKeyedById === undefined) {
+            this._nodesKeyedById = Tools.sortArrayIntoObject(this._nodes);
+        }
+
+        return this._nodesKeyedById;
+    }
+
+    get edgesKeyedById() {
+        if (this._edgesKeyedById === undefined) {
+            this._edgesKeyedById = Tools.sortArrayIntoObject(this._edges);
+        }
+
+        return this._edgesKeyedById;
+    }
+
+    get edgesKeyedByFrom() {
+        if (this._edgesKeyedByFrom === undefined) {
+            this._edgesKeyedByFrom = Tools.groupBy(this._edges, 'from');
+        }
+
+        return this._edgesKeyedByFrom;
+    }
+
+    get edgesKeyedByTo() {
+        if (this._edgesKeyedByTo === undefined) {
+            this._edgesKeyedByTo = Tools.groupBy(this._edges, 'to');
+        }
+
+        return this._edgesKeyedByTo;
+    }
+
     /**
      * Saves the positions of the nodes.
      */
     savePositions() {
         let positions = mainDisplayedGraph.network.getPositions();
 
-        this.nodes.forEach((node) => {
+        this.nodes.forEach(node => {
             let position = positions[node.id];
 
             node.x = position.x;
             node.y = position.y;
-        });
-    }
-
-    fillDegrees() {
-        this._nodes.map((node) => {
-            node.outgoingDegree = Tools.clone(this._edges).filter((edge) => {
-                return edge.from === node.id;
-            }).length;
-
-            node.incomingDegree = Tools.clone(this._edges).filter((edge) => {
-                return edge.to === node.id;
-            }).length;
-
-            node.degree = node.outgoingDegree + node.incomingDegree;
-
-            return node;
         });
     }
 }
