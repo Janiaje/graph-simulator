@@ -1,11 +1,15 @@
 class SimulationStep {
 
-    constructor(graph, changesGraph, hasPreviousStep = true, hasNextStep = true) {
+    constructor(graph, changes, toHighlight) {
         this._graph = graph;
-        this._changesGraph = changesGraph;
+        this._graph.highlightSubgraph(toHighlight);
 
-        this._hasPreviousStep = hasPreviousStep;
-        this._hasNextStep = hasNextStep;
+        // TODO: do we need it?
+        this._changes = changes;
+
+        this._hasPreviousStep = true;
+        this._hasNextStep = true;
+
     }
 
     get graph() {
@@ -16,6 +20,10 @@ class SimulationStep {
         return this._hasPreviousStep;
     }
 
+    doesntHavePreviousStep() {
+        this._hasPreviousStep = false;
+    }
+
     get hasNextStep() {
         return this._hasNextStep;
     }
@@ -23,6 +31,6 @@ class SimulationStep {
     doesntHaveNextStep() {
         this._hasNextStep = false;
     }
-};
+}
 
 export default SimulationStep;

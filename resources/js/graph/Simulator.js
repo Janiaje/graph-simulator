@@ -15,7 +15,8 @@ let Simulator = {
         // Only use the generated graph's nodes
         let graph = Tools.clone(this._graph);
         graph.edges = [];
-        let firstStep = new SimulationStep(graph, new Graph(), false);
+        let firstStep = new SimulationStep(graph, new Graph(), graph.getLargestComponent());
+        firstStep.doesntHavePreviousStep();
 
         let nextStepCalculationLambda = (currentStep) => {
             let graph = currentStep.graph;
@@ -27,9 +28,10 @@ let Simulator = {
                 return null;
             }
 
-            graph.edges.push(randomEdge);
+            // Must call the setter!!!
+            graph.edges = graph.edges.concat(randomEdge);
 
-            return new SimulationStep(graph, changesGraph);
+            return new SimulationStep(graph, changesGraph, graph.getLargestComponent());
         };
 
         this._simulate(firstStep, nextStepCalculationLambda);

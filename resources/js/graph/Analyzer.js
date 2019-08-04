@@ -1,4 +1,5 @@
 import Tools from "./Tools";
+import Graph from "./Graph";
 
 let Analyzer = {
 
@@ -39,8 +40,15 @@ let Analyzer = {
             return this.edgesKeyedById[edge.id] !== undefined;
         }
 
-        return this.edgesKeyedByFrom[edge.from] !== undefined
-            || this.edgesKeyedByTo[edge.to] !== undefined;
+        // TODO: codesmell
+        return (
+                this.edgesKeyedByFrom[edge.from] !== undefined
+                && this.edgesKeyedByFrom[edge.from].filter(item => item.to === edge.to).length !== 0
+            )
+            || (
+                this.edgesKeyedByTo[edge.to] !== undefined
+                && this.edgesKeyedByTo[edge.to].filter(item => item.from === edge.from).length !== 0
+            );
     },
 
     getAdjacentNodes(node) {
@@ -93,6 +101,7 @@ let Analyzer = {
 
         components = components.map(component => {
             let nodes = [];
+            let edges = [];
 
             for (let propertyName in component) {
                 if (!component.hasOwnProperty(propertyName)) {
@@ -102,7 +111,14 @@ let Analyzer = {
                 nodes.push(this.nodesKeyedById[propertyName]);
             }
 
-            return nodes;
+            nodes.forEach(node => {
+                let edgesKeyedByFrom = this.edgesKeyedByFrom[node.id];
+                if (edgesKeyedByFrom !== undefined) {
+                    edges = edges.concat(edgesKeyedByFrom);
+                }
+            });
+
+            return new Graph(nodes, edges, this.directed, this.simple);
         });
 
         return components;
@@ -111,9 +127,12 @@ let Analyzer = {
     getLargestComponent() {
         let components = this.getComponents();
 
-        let max = Math.max(...components.map(component => component.length));
+        let max = Math.max(...components.map(component => component.nodes.length));
 
-        return components.filter(component => component.length === max);
+        let filtered = components.filter(component => component.nodes.length === max);
+
+        // Can be more than one
+        return filtered[0];
     }
 };
 

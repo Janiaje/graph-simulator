@@ -38,7 +38,7 @@ let Highlighter = {
         hover: '#86f044',
     },
 
-    colorSubgraph(subgraph) {
+    highlightSubgraph(subgraph) {
         // TODO: code smell :\
         this.nodes.forEach(node => {
 
