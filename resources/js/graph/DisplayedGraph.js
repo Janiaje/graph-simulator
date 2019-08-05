@@ -14,7 +14,7 @@ class DisplayedGraph {
         this._graph = new Graph();
 
         // Simulation
-        this._simulation = null;
+        this._simulation = undefined;
 
         // Display
         this._nodesDataSet = new vis.DataSet();
@@ -47,6 +47,10 @@ class DisplayedGraph {
 
     get simulation() {
         return this._simulation;
+    }
+
+    set simulation(value) {
+        this._simulation = value;
     }
 
     /**

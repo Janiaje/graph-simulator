@@ -3,7 +3,7 @@
     <div id="simulation-actions" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12">
         <div class="row">
             <div class="col-2">
-                <button type="button" class="btn btn-default">
+                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.stop()">
                     <font-awesome-icon icon="times"/>
                 </button>
             </div>
@@ -91,11 +91,11 @@
         },
 
         mounted() {
-            eventHub.$on('paused', this.pausedListener);
+            eventHub.$on('simulation-paused', this.pausedListener);
         },
 
         destroyed() {
-            eventHub.$off('paused', this.pausedListener);
+            eventHub.$off('simulation-paused', this.pausedListener);
         }
     }
 </script>

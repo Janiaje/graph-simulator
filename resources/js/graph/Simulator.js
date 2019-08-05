@@ -38,9 +38,8 @@ let Simulator = {
     },
 
     _simulate(firstStep, nextStepCalculationLambda) {
-        this._simulation = new Simulation(firstStep, nextStepCalculationLambda);
+        this.simulation = new Simulation(firstStep, nextStepCalculationLambda);
     }
-
 };
 
 export default Simulator;

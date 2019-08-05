@@ -86,18 +86,8 @@ class Simulation {
         this.currentStepIndex = this._steps.length - 1;
     }
 
-    play() {
-        // TODO: Adjust the physics to be able to handle larger graphs
-        this._setInterval();
-    }
-
     _setInterval() {
         this._interval = setInterval(this._intervalHandler, (this._maxSpeed + this._minSpeed - this.speed) * 150);
-    }
-
-    pause() {
-        this._clearInterval();
-        eventHub.$emit('paused');
     }
 
     _clearInterval() {
@@ -107,6 +97,21 @@ class Simulation {
     _restartInterval() {
         this._clearInterval();
         this._setInterval();
+    }
+
+    play() {
+        // TODO: Adjust the physics to be able to handle larger graphs
+        this._setInterval();
+    }
+
+    pause() {
+        this._clearInterval();
+        eventHub.$emit('simulation-paused');
+    }
+
+    stop() {
+        mainDisplayedGraph.simulation = undefined;
+        eventHub.$emit('simulation-stopped');
     }
 
     faster() {

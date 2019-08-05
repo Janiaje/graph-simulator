@@ -77,7 +77,7 @@ let Analyzer = {
         let components = [];
         let visited = {};
 
-        // TODO: move into simulation?
+        // TODO: move into a separate simulation?
         let DFSSearch = (component, node) => {
             component[node.id] = true;
             visited[node.id] = true;

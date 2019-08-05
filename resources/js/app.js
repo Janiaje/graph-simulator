@@ -44,6 +44,7 @@ const app = new Vue({
         return {
             graphHeight: 0,
             simulation: false,
+            simulationStopped: () => this.simulation = false,
         }
     },
 
@@ -68,10 +69,12 @@ const app = new Vue({
     },
 
     mounted() {
-        $('#generateGraph').modal('show')
+        $('#generateGraph').modal('show');
+        eventHub.$on('simulation-stopped', this.simulationStopped);
     },
 
     destroyed() {
         window.removeEventListener('resize', this.handleResize);
+        eventHub.$on('simulation-stopped', this.simulationStopped);
     }
 });
