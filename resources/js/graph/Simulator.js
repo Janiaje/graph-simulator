@@ -21,6 +21,11 @@ let Simulator = {
         let nextStepCalculationLambda = (currentStep) => {
             let graph = currentStep.graph;
 
+            // If the giant component reached the graph's size
+            if (graph.getLargestComponent().nodes.length === graph.nodes.length) {
+                return null;
+            }
+
             let randomEdge = Generator.randomEdge(graph);
             let changesGraph = new Graph([], randomEdge);
 

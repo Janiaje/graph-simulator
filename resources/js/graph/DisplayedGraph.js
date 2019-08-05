@@ -15,6 +15,10 @@ class DisplayedGraph {
 
         // Simulation
         this._simulation = undefined;
+        eventHub.$on('simulation-stopped', () => {
+            this._graph.setToDefaultColor();
+            this.display(this._graph);
+        });
 
         // Display
         this._nodesDataSet = new vis.DataSet();

@@ -59,6 +59,16 @@ let Highlighter = {
             }
 
         });
+    },
+
+    setToDefaultColor() {
+        this.nodes.forEach(node => {
+            node.color = this._colorNodeDefault;
+        });
+
+        this.edges.forEach(edge => {
+            edge.color = this._colorEdgeDefault;
+        });
     }
 };
 
