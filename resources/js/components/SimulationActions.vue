@@ -2,13 +2,18 @@
     <!-- TODO: out from the window on xs-12 -->
     <div id="simulation-actions" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12">
         <div class="row">
+            <div class="col-2">
+                <button type="button" class="btn btn-default">
+                    <font-awesome-icon icon="times"/>
+                </button>
+            </div>
             <div class="col-3">
                 <button type="button" class="btn btn-default" @click="slower">
                     <font-awesome-icon icon="minus"/>
                 </button>
             </div>
-            <div class="col-6">
-                <button type="button" class="btn btn-default .text-display-button">
+            <div class="col-4">
+                <button type="button" class="btn text-display-button">
                     Speed: {{ speed }}
                 </button>
             </div>
@@ -114,7 +119,7 @@
         box-shadow: inset 0 0 0.4rem rgba(0, 0, 0, 0.25);
         background: white;
 
-        .col-2, .col-3, .col-4, .col-6 {
+        .col-2, .col-3, .col-4, .col-5, .col-6 {
             padding: 0;
         }
     }
@@ -130,10 +135,15 @@
         outline: none;
     }
 
-    .text-display-button {
-        /* TODO: make it work */
-        cursor: unset !important;
+    button.btn-default:hover {
+        background: rgba(0, 0, 0, 0.05);
     }
 
-    /* TODO: button on hover + click => change backgrounds */
+    button.btn-default:active {
+        background: rgba(0, 0, 0, 0.15);
+    }
+
+    .text-display-button {
+        cursor: unset !important;
+    }
 </style>
