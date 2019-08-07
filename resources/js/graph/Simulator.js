@@ -39,11 +39,32 @@ let Simulator = {
             return new SimulationStep(graph, changesGraph, graph.getLargestComponent());
         };
 
-        this._simulate(firstStep, nextStepCalculationLambda);
+        let lineChartCalculationLambda = (currentStep, steps) => {
+            let numberOfNodes = currentStep.graph.nodes.length;
+
+            let data = steps.map((step) => {
+                let graph = step.graph;
+                let largestComponent = graph.getLargestComponent();
+                let largestComponentPercentage = largestComponent.nodes.length / numberOfNodes;
+                let connectionsPerNode = (graph.edges.length * 2) / graph.nodes.length;
+
+                return {
+                    x: connectionsPerNode.toFixed(2),
+                    y: largestComponentPercentage.toFixed(2)
+                };
+            });
+            return [{
+                name: 'Value',
+                // name: 'Giant component fraction by connections',
+                data: data,
+            }];
+        };
+
+        this._simulate(firstStep, nextStepCalculationLambda, lineChartCalculationLambda);
     },
 
-    _simulate(firstStep, nextStepCalculationLambda) {
-        this.simulation = new Simulation(firstStep, nextStepCalculationLambda);
+    _simulate(firstStep, nextStepCalculationLambda, lineChartCalculationLambda) {
+        this.simulation = new Simulation(firstStep, nextStepCalculationLambda, lineChartCalculationLambda);
     }
 };
 

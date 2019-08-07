@@ -4,12 +4,12 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-/**
- * Import font-awesome
- */
+// Import font-awesome
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {fas} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+// Import ApexCharts
+import VueApexCharts from 'vue-apexcharts'
 
 require('./bootstrap');
 
@@ -26,9 +26,10 @@ window.Vue = require('vue');
 const files = require.context('./', true, /\.vue$/i);
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+// Register external components
 library.add(fas);
-
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('apexchart', VueApexCharts);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

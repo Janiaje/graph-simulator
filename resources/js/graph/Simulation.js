@@ -2,8 +2,10 @@ import Tools from "./Tools";
 
 class Simulation {
 
-    constructor(startingSimulationStep, nextStepCalculationLambda) {
+    constructor(startingSimulationStep, nextStepCalculationLambda, lineChartCalculationLambda = undefined) {
         startingSimulationStep.graph.savePositions();
+
+        this.lineChartCalculationLambda = lineChartCalculationLambda;
 
         this._steps = [startingSimulationStep];
         this.currentStepIndex = 0;
@@ -30,6 +32,11 @@ class Simulation {
     set currentStepIndex(value) {
         this._currentStepIndex = value;
         mainDisplayedGraph.display(this.currentStep.graph);
+
+        if (this.lineChartCalculationLambda !== undefined) {
+            let data = this.lineChartCalculationLambda(Tools.clone(this.currentStep), Tools.clone(this._steps));
+            eventHub.$emit('simulation-step-changed', data);
+        }
     }
 
     set speed(value) {

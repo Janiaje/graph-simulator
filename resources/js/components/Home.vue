@@ -3,6 +3,8 @@
         <vis-graph/>
 
         <simulation-actions v-if="$parent.simulation"/>
+        <!-- TODO: display only if needed -->
+        <simulation-chart v-if="$parent.simulation"/>
 
         <import-modal/>
         <export-modal/>

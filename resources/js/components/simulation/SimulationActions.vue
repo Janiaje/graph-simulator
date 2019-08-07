@@ -2,22 +2,22 @@
     <!-- TODO: out from the window on xs-12 -->
     <div id="simulation-actions" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12">
         <div class="row">
-            <div class="col-2">
+            <div class="col-3">
                 <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.stop()">
                     <font-awesome-icon icon="times"/>
                 </button>
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <button type="button" class="btn btn-default" @click="slower">
                     <font-awesome-icon icon="minus"/>
                 </button>
             </div>
-            <div class="col-4">
+            <div class="col-5">
                 <button type="button" class="btn text-display-button">
                     Speed: {{ speed }}
                 </button>
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <button type="button" class="btn btn-default" @click="faster">
                     <font-awesome-icon icon="plus"/>
                 </button>
