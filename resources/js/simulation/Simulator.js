@@ -1,8 +1,8 @@
 import Simulation from "./Simulation";
 import SimulationStep from "./SimulationStep";
-import Graph from "./Graph";
-import Generator from "./Generator";
-import Tools from "./Tools";
+import Graph from "../graph/Graph";
+import Generator from "../graph/Generator";
+import Tools from "../graph/Tools";
 
 let Simulator = {
 

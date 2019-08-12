@@ -1,4 +1,4 @@
-import Tools from "./Tools";
+import Tools from "../graph/Tools";
 
 class Simulation {
 
