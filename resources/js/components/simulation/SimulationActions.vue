@@ -3,7 +3,7 @@
     <div id="simulation-actions" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12">
         <div class="row">
             <div class="col-3">
-                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.stop()">
+                <button type="button" class="btn btn-default" @click="stop">
                     <font-awesome-icon icon="times"/>
                 </button>
             </div>
@@ -36,8 +36,8 @@
             </div>
             <div class="col-4">
                 <button type="button" class="btn btn-default" @click="playPause">
-                    <font-awesome-icon icon="play" v-if="!play"/>
-                    <font-awesome-icon icon="pause" v-if="play"/>
+                    <font-awesome-icon icon="play" v-if="!playing"/>
+                    <font-awesome-icon icon="pause" v-if="playing"/>
                 </button>
             </div>
             <div class="col-2">
@@ -59,43 +59,93 @@
         name: "SimulationActions",
         data() {
             return {
-                speed: mainDisplayedGraph.simulation.speed,
-                play: false,
-                pausedListener: () => {
-                    this.play = false;
-                }
+                speed: 5,
+                maxSpeed: 10,
+                minSpeed: 1,
+                speedStepMS: 100,
+
+                interval: undefined,
+                intervalHandler: () => mainDisplayedGraph.simulation.nextStep(),
+
+                playing: false,
+                pauseListener: () => this.pause()
             }
         },
 
         methods: {
+            _setInterval() {
+                this.interval = setInterval(this.intervalHandler, 15 + ((this.maxSpeed - this.speed) * this.speedStepMS));
+            },
+
+            _clearInterval() {
+                this.interval = clearInterval(this.interval);
+            },
+
+            _restartInterval() {
+                this._clearInterval();
+                this._setInterval();
+            },
+
             slower() {
-                mainDisplayedGraph.simulation.slower();
-                this.speed = mainDisplayedGraph.simulation.speed;
-            },
-
-            faster() {
-                mainDisplayedGraph.simulation.faster();
-                this.speed = mainDisplayedGraph.simulation.speed;
-            },
-
-            playPause() {
-                this.play = !this.play;
-
-                if (this.play) {
-                    mainDisplayedGraph.simulation.play();
+                if (this.speed <= this.minSpeed) {
                     return;
                 }
 
-                mainDisplayedGraph.simulation.pause();
+                this.speed--;
+            },
+
+            faster() {
+                if (this.speed >= this.maxSpeed) {
+                    return;
+                }
+
+                this.speed++;
+            },
+
+            playPause() {
+                if (this.playing) {
+                    this.pause();
+                    return;
+                }
+
+                this.play();
+            },
+
+            play() {
+                this.playing = true;
+                // TODO: Adjust the physics to be able to handle larger graphs
+                this._setInterval();
+            },
+
+            pause() {
+                this.playing = false;
+                this._clearInterval();
+            },
+
+            stop() {
+                mainDisplayedGraph.simulation = undefined;
+                eventHub.$emit('simulation-stopped');
+            }
+        },
+
+        watch: {
+            speed: function (value) {
+                this.speed = value;
+
+                if (this.interval === undefined) {
+                    return;
+                }
+
+                this._restartInterval();
             }
         },
 
         mounted() {
-            eventHub.$on('simulation-paused', this.pausedListener);
+            eventHub.$on('simulation-pause', this.pauseListener);
         },
 
         destroyed() {
-            eventHub.$off('simulation-paused', this.pausedListener);
+            eventHub.$off('simulation-pause', this.pauseListener);
         }
     }
 </script>

@@ -10,15 +10,6 @@ class Simulation {
         this._steps = [startingSimulationStep];
         this.currentStepIndex = 0;
         this._nextStepCalculationLambda = nextStepCalculationLambda;
-
-        this._speed = 10;
-        this._maxSpeed = 20;
-        this._minSpeed = 1;
-
-        this._interval = undefined;
-        this._intervalHandler = () => {
-            this.nextStep();
-        };
     }
 
     get currentStep() {
@@ -39,20 +30,6 @@ class Simulation {
         }
     }
 
-    set speed(value) {
-        this._speed = value;
-
-        if (this._interval === undefined) {
-            return;
-        }
-
-        this._restartInterval();
-    }
-
-    get speed() {
-        return this._speed;
-    }
-
     firstStep() {
         this.currentStepIndex = 0;
     }
@@ -67,7 +44,7 @@ class Simulation {
 
     nextStep() {
         if (!this.currentStep.hasNextStep) {
-            this.pause();
+            eventHub.$emit('simulation-pause');
             return;
         }
 
@@ -91,50 +68,6 @@ class Simulation {
 
     lastStep() {
         this.currentStepIndex = this._steps.length - 1;
-    }
-
-    _setInterval() {
-        this._interval = setInterval(this._intervalHandler, (this._maxSpeed + this._minSpeed - this.speed) * 15);
-    }
-
-    _clearInterval() {
-        this._interval = clearInterval(this._interval);
-    }
-
-    _restartInterval() {
-        this._clearInterval();
-        this._setInterval();
-    }
-
-    play() {
-        // TODO: Adjust the physics to be able to handle larger graphs
-        this._setInterval();
-    }
-
-    pause() {
-        this._clearInterval();
-        eventHub.$emit('simulation-paused');
-    }
-
-    stop() {
-        mainDisplayedGraph.simulation = undefined;
-        eventHub.$emit('simulation-stopped');
-    }
-
-    faster() {
-        if (this.speed >= this._maxSpeed) {
-            return;
-        }
-
-        this.speed++;
-    }
-
-    slower() {
-        if (this.speed <= this._minSpeed) {
-            return;
-        }
-
-        this.speed--;
     }
 }
 
