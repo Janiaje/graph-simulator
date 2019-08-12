@@ -15,6 +15,7 @@ class Graph {
         this._edges = edges;
         this._directed = directed;
         this._simple = simple;
+        this._remainingEdges = undefined;
 
         this._nodesKeyedById = undefined;
         this._edgesKeyedById = undefined;
@@ -30,6 +31,8 @@ class Graph {
         this._nodesKeyedById = undefined;
 
         this._nodes = value;
+
+        this._changed();
     }
 
     get edges() {
@@ -42,6 +45,8 @@ class Graph {
         this._edgesKeyedByTo = undefined;
 
         this._edges = value;
+
+        this._changed();
     }
 
     get directed() {
@@ -50,6 +55,8 @@ class Graph {
 
     set directed(value) {
         this._directed = value;
+
+        this._changed();
     }
 
     get simple() {
@@ -58,6 +65,17 @@ class Graph {
 
     set simple(value) {
         this._simple = value;
+
+        this._changed();
+    }
+
+    get remainingEdges() {
+        if (this._remainingEdges === undefined) {
+            let fullGraphEdges = Generator.generateEdgesForFullGraph(this.nodes, this.directed);
+            this._remainingEdges = fullGraphEdges.filter(edge => !this.containsEdge(edge));
+        }
+
+        return this._remainingEdges;
     }
 
     get nodesKeyedById() {
@@ -104,6 +122,11 @@ class Graph {
             node.x = position.x;
             node.y = position.y;
         });
+    }
+
+    _changed() {
+        this._remainingEdges = undefined;
+
     }
 }
 

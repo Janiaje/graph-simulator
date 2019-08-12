@@ -11,10 +11,12 @@ let Simulator = {
      */
     runGiantComponentSimulation() {
         // TODO: make question about only nodes
+        // TODO: not working correctly for simple directed graphs
 
         // Only use the generated graph's nodes
         let graph = Tools.clone(this._graph);
         graph.edges = [];
+
         let firstStep = new SimulationStep(graph, new Graph(), graph.getLargestComponent());
         firstStep.doesntHavePreviousStep();
 
@@ -26,7 +28,7 @@ let Simulator = {
                 return null;
             }
 
-            let randomEdge = Generator.randomEdge(graph);
+            let randomEdge = Generator.randomRemainingEdge(graph);
             let changesGraph = new Graph([], randomEdge);
 
             if (randomEdge === undefined) {

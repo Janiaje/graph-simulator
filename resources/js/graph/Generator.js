@@ -11,13 +11,12 @@ class Generator {
      * @param directed Boolean
      */
     static generateRandomGraph(numberOfNodes, numberOfEdges, simpleGraph = true, directed = false) {
-        // TODO: fixme: doesn't work correctly for simple, directed graphs ...
         let nodes = Generator._generateNodes(numberOfNodes);
 
         let edges;
 
         if (simpleGraph) {
-            edges = this._generateEdgesForFullGraph(nodes, directed);
+            edges = Generator.generateEdgesForFullGraph(nodes, directed);
             edges = Generator._removeEdgesUntilCount(edges, numberOfEdges);
         } else {
             edges = Tools.range(1, numberOfEdges).map(() => {
@@ -58,7 +57,7 @@ class Generator {
      * @param nodes Array
      * @param directed Boolean
      */
-    static _generateEdgesForFullGraph(nodes, directed) {
+    static generateEdgesForFullGraph(nodes, directed) {
         let edges = [];
 
         nodes.forEach((fromNode, index) => {
@@ -66,17 +65,14 @@ class Generator {
 
             if (directed) {
                 // Don't allow loop edges
-                toNodes.splice(index - 1, 1);
+                toNodes.splice(index, 1);
             } else {
                 // Don't allow loop edges AND parallel edges
                 toNodes.splice(0, index + 1);
             }
 
             toNodes.forEach(toNode => {
-                edges.push({
-                    from: fromNode.id,
-                    to: toNode.id
-                })
+                edges.push(Generator.generateEdge(fromNode.id, toNode.id))
             })
         });
 
@@ -107,22 +103,23 @@ class Generator {
      *
      * @returns {{from: *, to: *}}
      */
-    static randomEdge(graph) {
+    static randomRemainingEdge(graph) {
         if (!graph.simple) {
             let from = graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id;
             let to = graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id;
 
-            return {
-                id: `from${from}-to${to}-${Tools.getEpochTime()}`,
-                from: from,
-                to: to,
-            };
+            return Generator.generateEdge(from, to);
         }
 
-        let fullGraphEdges = this._generateEdgesForFullGraph(graph.nodes, graph.directed);
-        let remainingEdges = fullGraphEdges.filter(edge => !graph.containsEdge(edge));
+        return graph.remainingEdges[Math.floor(Math.random() * graph.remainingEdges.length)];
+    }
 
-        return remainingEdges[Math.floor(Math.random() * remainingEdges.length)];
+    static generateEdge(from, to) {
+        return {
+            id: `from${from}-to${to}-${Tools.getEpochTime()}`,
+            from: from,
+            to: to,
+        };
     }
 }
 
