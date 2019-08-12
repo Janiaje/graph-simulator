@@ -89,6 +89,8 @@
         methods: {
             generateRandomGraph() {
                 let graph = Generator.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+                mainDisplayedGraph.simulation = undefined;
+                this.$parent.simulation = false;
                 mainDisplayedGraph.display(graph);
             }
         },

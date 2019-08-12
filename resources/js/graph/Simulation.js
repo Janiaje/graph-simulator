@@ -94,7 +94,7 @@ class Simulation {
     }
 
     _setInterval() {
-        this._interval = setInterval(this._intervalHandler, (this._maxSpeed + this._minSpeed - this.speed) * 150);
+        this._interval = setInterval(this._intervalHandler, (this._maxSpeed + this._minSpeed - this.speed) * 15);
     }
 
     _clearInterval() {
