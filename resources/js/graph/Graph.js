@@ -1,6 +1,7 @@
 import Analyzer from "./Analyzer";
 import Highlighter from "./Highlighter";
 import Tools from "./Tools";
+import Generator from "./Generator";
 
 class Graph {
 

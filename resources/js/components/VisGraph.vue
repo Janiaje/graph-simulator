@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import DisplayedGraph from "../graph/DisplayedGraph";
+    import DisplayedGraph from "../displayedGraph/DisplayedGraph";
 
     export default {
         name: "VisGraph",

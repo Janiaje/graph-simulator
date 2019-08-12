@@ -1,7 +1,7 @@
 import vis from "vis";
 import Parser from "./Parser";
-import Graph from "./Graph";
-import Tools from "./Tools";
+import Graph from "../graph/Graph";
+import Tools from "../graph/Tools";
 import Simulator from "../simulation/Simulator";
 
 class DisplayedGraph {

@@ -1,6 +1,6 @@
 import vis from "vis";
-import Tools from "./Tools";
-import Graph from "./Graph";
+import Tools from "../graph/Tools";
+import Graph from "../graph/Graph";
 
 let Parser = {
 
