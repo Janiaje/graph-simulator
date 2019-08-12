@@ -1,6 +1,5 @@
 import Simulation from "./Simulation";
 import SimulationStep from "./SimulationStep";
-import Graph from "../graph/Graph";
 import Generator from "../graph/Generator";
 import Tools from "../graph/Tools";
 
@@ -17,7 +16,7 @@ let Simulator = {
         let graph = Tools.clone(this._graph);
         graph.edges = [];
 
-        let firstStep = new SimulationStep(graph, new Graph(), graph.getLargestComponent());
+        let firstStep = new SimulationStep(graph, graph.getLargestComponent());
         firstStep.doesntHavePreviousStep();
 
         let nextStepCalculationLambda = (currentStep) => {
@@ -29,7 +28,6 @@ let Simulator = {
             }
 
             let randomEdge = Generator.randomRemainingEdge(graph);
-            let changesGraph = new Graph([], randomEdge);
 
             if (randomEdge === undefined) {
                 return null;
@@ -38,7 +36,7 @@ let Simulator = {
             // Must call the setter!!!
             graph.edges = graph.edges.concat(randomEdge);
 
-            return new SimulationStep(graph, changesGraph, graph.getLargestComponent());
+            return new SimulationStep(graph, graph.getLargestComponent());
         };
 
         let lineChartCalculationLambda = (currentStep, steps) => {

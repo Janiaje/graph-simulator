@@ -1,11 +1,8 @@
 class SimulationStep {
 
-    constructor(graph, changes, toHighlight) {
+    constructor(graph, toHighlight) {
         this._graph = graph;
         this._graph.highlightSubgraph(toHighlight);
-
-        // TODO: do we need it?
-        this._changes = changes;
 
         this._hasPreviousStep = true;
         this._hasNextStep = true;
