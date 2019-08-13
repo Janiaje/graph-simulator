@@ -60,16 +60,28 @@ class Stopwatch {
             results.push({
                 name: key,
                 sum: sum,
-                percentage: ((sum / maxElapsedTime) * 100).toFixed(2).padStart(5, ' ')
+                percentage: ((sum / maxElapsedTime) * 100).toFixed(2).padStart(5)
             });
         });
 
-        console.log('---------- Summarized Stopwatch results -----------');
-        console.log(`Elapsed time: ${maxElapsedTime}ms`);
-        results.forEach(result => {
-            console.log(`Name: ${result.name}\t-\tTime: ${result.sum}ms\t-\tPercentage: ${result.percentage} %`);
+        // TODO: codesmell
+        let maxNameLength = Math.max(...results.map(result => result.name.length));
+        let maxSumLength = Math.max(...results.map(result => result.sum.toString().length));
+
+        results = results.map(result => {
+            return `Name: ${result.name.padEnd(maxNameLength)} - Time: ${result.sum.toString().padStart(maxSumLength)} ms - Percentage: ${result.percentage} %`;
         });
-        console.log('---------------------------------------------------');
+
+        let lineLength = results[0].length;
+        let summarizedString = ' Summarized Stopwatch results ';
+        let paddingLength = lineLength - summarizedString.length;
+
+        console.log(summarizedString.padStart(summarizedString.length + (paddingLength / 2), '-').padEnd(lineLength, '-'));
+        console.log(`Total elapsed time: ${maxElapsedTime} ms`);
+        results.forEach(result => {
+            console.log(result);
+        });
+        console.log(''.padEnd(lineLength, '-'));
     }
 
 }
