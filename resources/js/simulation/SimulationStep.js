@@ -1,12 +1,13 @@
 class SimulationStep {
 
-    constructor(graph, toHighlight) {
+    constructor(graph, toHighlight, hasPreviousStep = true) {
         this._graph = graph;
         this._graph.highlightSubgraph(toHighlight);
 
-        this._hasPreviousStep = true;
+        this._hasPreviousStep = hasPreviousStep;
         this._hasNextStep = true;
 
+        this._lineChartData = undefined;
     }
 
     get graph() {
@@ -17,16 +18,20 @@ class SimulationStep {
         return this._hasPreviousStep;
     }
 
-    doesntHavePreviousStep() {
-        this._hasPreviousStep = false;
-    }
-
     get hasNextStep() {
         return this._hasNextStep;
     }
 
     doesntHaveNextStep() {
         this._hasNextStep = false;
+    }
+
+    get lineChartData() {
+        return this._lineChartData;
+    }
+
+    set lineChartData(value) {
+        this._lineChartData = value;
     }
 }
 
