@@ -127,7 +127,6 @@ class Graph {
 
     _changed() {
         this._remainingEdges = undefined;
-
     }
 }
 

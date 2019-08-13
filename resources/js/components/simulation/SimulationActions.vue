@@ -1,5 +1,5 @@
 <template>
-    <!-- TODO: out from the window on xs-12 -->
+    <!-- TODO: out from the window on xs-12 => media => right 20px -->
     <div id="simulation-actions" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12">
         <div class="row">
             <div class="col-3">

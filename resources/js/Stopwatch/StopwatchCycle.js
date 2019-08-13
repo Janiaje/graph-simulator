@@ -8,7 +8,11 @@ class StopwatchCycle {
         this.checkpoint();
     }
 
-    checkpoint() {
+    checkpoint(id) {
+        if (id === undefined) {
+            id = this._checkpoints.length;
+        }
+
         let time = Tools.getEpochTime();
         let elapsedTime = 0;
 
@@ -18,7 +22,7 @@ class StopwatchCycle {
         }
 
         this._checkpoints.push({
-            id: `T${this._checkpoints.length}`,
+            id: `T${id}`,
             time: time,
             elapsedTime: elapsedTime
         })

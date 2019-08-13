@@ -15,8 +15,8 @@ class Stopwatch {
         this.cycles.push(new StopwatchCycle)
     }
 
-    static checkpoint() {
-        this.cycle.checkpoint();
+    static checkpoint(id) {
+        this.cycle.checkpoint(id);
     }
 
     static get cycle() {
@@ -64,13 +64,12 @@ class Stopwatch {
             });
         });
 
-
-        console.log('---------- Summarized Stopwatch results ----------');
+        console.log('---------- Summarized Stopwatch results -----------');
         console.log(`Elapsed time: ${maxElapsedTime}ms`);
         results.forEach(result => {
             console.log(`Name: ${result.name}\t-\tTime: ${result.sum}ms\t-\tPercentage: ${result.percentage} %`);
         });
-        console.log('--------------------------------------------------');
+        console.log('---------------------------------------------------');
     }
 
 }
