@@ -48,8 +48,6 @@ class Stopwatch {
 
         let groups = Tools.groupBy(cycles.flat());
 
-        console.log(maxElapsedTime);
-
         let results = [];
         Object.keys(groups).forEach(function (key) {
             let group = groups[key];
