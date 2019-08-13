@@ -2,10 +2,10 @@ import Tools from "../graph/Tools";
 
 class StopwatchCycle {
 
-    constructor() {
+    constructor(startingCheckpointId = 'Start') {
         this._checkpoints = [];
 
-        this.checkpoint();
+        this.checkpoint(startingCheckpointId);
     }
 
     checkpoint(id) {
@@ -22,6 +22,7 @@ class StopwatchCycle {
         }
 
         this._checkpoints.push({
+            // TODO: remove T and still keep order
             id: `T${id}`,
             time: time,
             elapsedTime: elapsedTime
@@ -29,7 +30,7 @@ class StopwatchCycle {
     }
 
     finished() {
-        this.checkpoint();
+        this.checkpoint('Finish');
     }
 
     get checkpoints() {

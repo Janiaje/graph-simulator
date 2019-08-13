@@ -1,7 +1,7 @@
 import SimulationStep from "../SimulationStep";
 import Graph from "../../graph/Graph";
-import Generator from "../../graph/Generator";
 import DisplayedSimulation from "../DisplayedSimulation";
+import Stopwatch from "../../Stopwatch/Stopwatch";
 
 class GiantComponentSimulation extends DisplayedSimulation {
 
@@ -15,6 +15,8 @@ class GiantComponentSimulation extends DisplayedSimulation {
     _calculateNextStep(currentStep) {
         // TODO: not working correctly for simple directed graphs
 
+        Stopwatch.newCycle();
+
         let graph = currentStep.graph;
 
         // If the giant component reached the graph's size
@@ -22,16 +24,21 @@ class GiantComponentSimulation extends DisplayedSimulation {
             return null;
         }
 
-        let randomEdge = Generator.randomRemainingEdge(graph);
+        Stopwatch.checkpoint(111);
+
+        let randomEdge = graph.addRandomEdge();
 
         if (randomEdge === undefined) {
             return null;
         }
 
-        // Must call the setter to clear cache !!!
-        graph.edges = graph.edges.concat(randomEdge);
+        Stopwatch.checkpoint(222);
 
-        return new SimulationStep(graph, graph.getLargestComponent());
+        let simulationStep = new SimulationStep(graph, graph.getLargestComponent());
+
+        Stopwatch.checkpoint(333);
+
+        return simulationStep;
     }
 
     _isLineChartDisplayed() {

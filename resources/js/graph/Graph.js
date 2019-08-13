@@ -30,10 +30,9 @@ class Graph {
 
     set nodes(value) {
         this._nodesKeyedById = undefined;
+        this._remainingEdges = undefined;
 
         this._nodes = value;
-
-        this._changed();
     }
 
     get edges() {
@@ -44,10 +43,9 @@ class Graph {
         this._edgesKeyedById = undefined;
         this._edgesKeyedByFrom = undefined;
         this._edgesKeyedByTo = undefined;
+        this._remainingEdges = undefined;
 
         this._edges = value;
-
-        this._changed();
     }
 
     get directed() {
@@ -55,9 +53,9 @@ class Graph {
     }
 
     set directed(value) {
-        this._directed = value;
+        this._remainingEdges = undefined;
 
-        this._changed();
+        this._directed = value;
     }
 
     get simple() {
@@ -65,9 +63,9 @@ class Graph {
     }
 
     set simple(value) {
-        this._simple = value;
+        this._remainingEdges = undefined;
 
-        this._changed();
+        this._simple = value;
     }
 
     get remainingEdges() {
@@ -125,9 +123,36 @@ class Graph {
         });
     }
 
-    _changed() {
-        this._remainingEdges = undefined;
+    addRandomEdge() {
+        let edge;
+
+        if (this.simple) {
+            if (this.remainingEdges.length === 0) {
+                return undefined;
+            }
+
+            edge = this.remainingEdges[Math.floor(Math.random() * this.remainingEdges.length)];
+
+            Tools.splice(this._remainingEdges, edge, (a, b) => a.id === b.id);
+        } else {
+            let from = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
+            let to = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
+
+            edge = Generator.generateEdge(from, to);
+        }
+
+        this._edges.push(edge);
+
+        // TODO: move to _changed function
+        this._edgesKeyedById = undefined;
+        this._edgesKeyedByFrom = undefined;
+        this._edgesKeyedByTo = undefined;
+        this._components = undefined;
+        this._largestComponent = undefined;
+
+        return edge;
     }
+
 }
 
 // Trait method assigns

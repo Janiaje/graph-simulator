@@ -209,6 +209,25 @@ class Tools {
     static distinct(array) {
         return [...new Set(array)];
     }
+
+    static splice(array, value, compareLambda) {
+        let indexes = [];
+
+        array.forEach((item, index) => {
+            if (compareLambda(item, value)) {
+                indexes.push(index);
+            }
+        });
+
+        for (
+            let i = indexes.pop();
+            indexes.length > 0;
+            i = indexes.pop()
+        ) {
+            array.splice(i, 1);
+        }
+    }
+
 }
 
 export default Tools;

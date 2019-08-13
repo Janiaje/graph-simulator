@@ -76,12 +76,17 @@ class Stopwatch {
         let summarizedString = ' Summarized Stopwatch results ';
         let paddingLength = lineLength - summarizedString.length;
 
+        let separator = ''.padEnd(lineLength, '-');
+        // TODO: separate styling function
         console.log(summarizedString.padStart(summarizedString.length + (paddingLength / 2), '-').padEnd(lineLength, '-'));
+        console.log(`Number of cycles: ${cycles.length}`);
         console.log(`Total elapsed time: ${maxElapsedTime} ms`);
+        console.log(`Average length: ${(maxElapsedTime / cycles.length).toFixed(2)} ms`);
+        console.log(separator);
         results.forEach(result => {
             console.log(result);
         });
-        console.log(''.padEnd(lineLength, '-'));
+        console.log(separator);
     }
 
 }

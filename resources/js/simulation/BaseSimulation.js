@@ -1,6 +1,7 @@
 import SimulationStep from "./SimulationStep";
 import Graph from "../graph/Graph";
 import Tools from "../graph/Tools";
+import Stopwatch from "../Stopwatch/Stopwatch";
 
 class BaseSimulation {
 
@@ -16,6 +17,8 @@ class BaseSimulation {
 
             steps.push(step);
         }
+
+        Stopwatch.results();
 
         this._lastStepHasNoNextStep(steps);
 

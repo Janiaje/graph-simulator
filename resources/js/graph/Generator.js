@@ -96,24 +96,6 @@ class Generator {
         return edges;
     }
 
-    /**
-     * Generates a random edge to the given graph.
-     *
-     * @param graph Graph
-     *
-     * @returns {{from: *, to: *}}
-     */
-    static randomRemainingEdge(graph) {
-        if (!graph.simple) {
-            let from = graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id;
-            let to = graph.nodes[Math.floor(Math.random() * graph.nodes.length)].id;
-
-            return Generator.generateEdge(from, to);
-        }
-
-        return graph.remainingEdges[Math.floor(Math.random() * graph.remainingEdges.length)];
-    }
-
     static generateEdge(from, to) {
         return {
             id: `from${from}-to${to}-${Tools.getEpochTime()}`,
