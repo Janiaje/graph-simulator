@@ -128,12 +128,17 @@
 
             play() {
                 this.playing = true;
-                // TODO: Adjust the physics to be able to handle larger graphs
+
+                mainDisplayedGraph.physicsAllowed(false);
+
                 this._setInterval();
             },
 
             pause() {
                 this.playing = false;
+
+                mainDisplayedGraph.physicsAllowed(true);
+
                 this._clearInterval();
             },
 
