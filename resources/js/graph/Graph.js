@@ -178,6 +178,20 @@ class Graph {
             this._edgesKeyedByTo[edge.to] = toEdges;
         }
 
+        let edgeKey;
+        if (
+            this._remainingEdges !== undefined
+            && (
+                this._edgesKeyedById === undefined
+                || this.edgesKeyedById[edge.id] !== undefined
+            )
+            && (
+                false !== (edgeKey = this.edgeInList(edge, this._remainingEdges, this.directed))
+            )
+        ) {
+            this._remainingEdges.splice(edgeKey, 1);
+        }
+
         this._components = undefined;
         this._largestComponent = undefined;
     }

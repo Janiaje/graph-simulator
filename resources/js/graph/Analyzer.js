@@ -51,6 +51,26 @@ let Analyzer = {
             );
     },
 
+    edgeInList(edge, list, directed = false) {
+        for (let i = 0; i < list.length; i++) {
+            if (
+                (
+                    list[i].from === edge.from
+                    && list[i].to === edge.to
+                )
+                || (
+                    !directed
+                    && list[i].from === edge.to
+                    && list[i].to === edge.from
+                )
+            ) {
+                return i;
+            }
+        }
+
+        return false;
+    },
+
     getAdjacentNodes(node) {
         let adjacentNodes = [];
 
