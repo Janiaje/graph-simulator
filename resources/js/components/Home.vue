@@ -6,6 +6,7 @@
         <!-- TODO: display only if needed -->
         <simulation-chart v-if="$parent.simulation"/>
 
+        <loading-modal/>
         <import-modal/>
         <export-modal/>
         <generate-graph-modal/>

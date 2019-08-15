@@ -1,5 +1,5 @@
 <template>
-    <modal :id="'showAnalytics'" :showFooter="false" :mountedCallback="mountedCallback">
+    <modal :id="'showAnalytics'" :mountedCallback="mountedCallback">
         <template v-slot:header>
             Analytics
         </template>
