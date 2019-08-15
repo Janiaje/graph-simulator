@@ -4,8 +4,17 @@ class StopwatchCycle {
 
     constructor(startingCheckpointId = 'Start') {
         this._checkpoints = [];
+        this._memoryStart = window.performance.memory.usedJSHeapSize;
 
         this.checkpoint(startingCheckpointId);
+    }
+
+    get memoryStart() {
+        return this._memoryStart;
+    }
+
+    get memoryFinish() {
+        return this._memoryFinish;
     }
 
     checkpoint(id) {
@@ -31,6 +40,7 @@ class StopwatchCycle {
 
     finished() {
         this.checkpoint('Finish');
+        this._memoryFinish = window.performance.memory.usedJSHeapSize;
     }
 
     get checkpoints() {

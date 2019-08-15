@@ -12,12 +12,10 @@ class GiantComponentSimulation extends DisplayedSimulation {
         return new SimulationStep(graph, new Graph, false);
     }
 
-    _calculateNextStep(currentStep) {
+    _calculateNextStep(graph) {
         // TODO: not working correctly for simple directed graphs
 
         Stopwatch.newCycle();
-
-        let graph = currentStep.graph;
 
         // If the giant component reached the graph's size
         if (graph.getLargestComponent().nodes.length === graph.nodes.length) {

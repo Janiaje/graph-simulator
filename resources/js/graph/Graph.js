@@ -16,6 +16,7 @@ class Graph {
         this._edges = edges;
         this._directed = directed;
         this._simple = simple;
+
         this._remainingEdges = undefined;
 
         this._nodesKeyedById = undefined;
@@ -141,16 +142,44 @@ class Graph {
             edge = Generator.generateEdge(from, to);
         }
 
-        this._edges.push(edge);
-
-        // TODO: move to _changed function
-        this._edgesKeyedById = undefined;
-        this._edgesKeyedByFrom = undefined;
-        this._edgesKeyedByTo = undefined;
-        this._components = undefined;
-        this._largestComponent = undefined;
+        this.addEdge(edge);
 
         return edge;
+    }
+
+    addEdge(edge) {
+        this._edges.push(edge);
+
+        if (this._edgesKeyedById !== undefined) {
+            this._edgesKeyedById[edge.id] = edge
+        }
+
+        if (this._edgesKeyedByFrom !== undefined) {
+            let fromEdges = this._edgesKeyedByFrom[edge.from];
+
+            if (fromEdges === undefined) {
+                fromEdges = [];
+            }
+
+            fromEdges.push(edge);
+
+            this._edgesKeyedByFrom[edge.from] = fromEdges;
+        }
+
+        if (this._edgesKeyedByTo !== undefined) {
+            let toEdges = this._edgesKeyedByTo[edge.to];
+
+            if (toEdges === undefined) {
+                toEdges = [];
+            }
+
+            toEdges.push(edge);
+
+            this._edgesKeyedByTo[edge.to] = toEdges;
+        }
+
+        this._components = undefined;
+        this._largestComponent = undefined;
     }
 
 }

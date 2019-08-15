@@ -8,13 +8,14 @@ class BaseSimulation {
     simulate(startGraph) {
         let steps = [];
 
+        Stopwatch.start();
+
         for (
             let step = this._createFirstStep(Tools.clone(startGraph));
             step !== null;
-            step = this._calculateNextStep(Tools.clone(step))
+            step = this._calculateNextStep(Tools.clone(step.graph))
         ) {
             // TODO: rearrange the graph?
-
             steps.push(step);
         }
 
@@ -33,7 +34,7 @@ class BaseSimulation {
         return new SimulationStep(graph, new Graph, false);
     }
 
-    _calculateNextStep(currentStep) {
+    _calculateNextStep(graph) {
         BaseSimulation._throwMethodNotImplemented('_calculateNextStep');
     }
 

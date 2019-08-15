@@ -4,6 +4,7 @@ import Tools from "../graph/Tools";
 class Stopwatch {
 
     static start() {
+        this._cycles = [];
         this.newCycle();
     }
 
@@ -36,6 +37,8 @@ class Stopwatch {
     }
 
     static results() {
+        this.cycle.finished();
+
         let cycles = this.cycles.map(cycle => cycle.checkpoints);
 
         let firstCycle = cycles[0][0];
@@ -45,6 +48,10 @@ class Stopwatch {
         let maxTime = lastCycle[lastCycle.length - 1].time;
 
         let maxElapsedTime = maxTime - minTime;
+
+        let startMemory = this.cycles[0].memoryStart;
+        let maxMemory = Math.max(...this.cycles.map(cycle => cycle.memoryFinish));
+        let totalMemoryUsage = ((maxMemory - startMemory) / 1024 / 1024).toFixed(2);
 
         let groups = Tools.groupBy(cycles.flat());
 
@@ -82,6 +89,7 @@ class Stopwatch {
         console.log(`Number of cycles: ${cycles.length}`);
         console.log(`Total elapsed time: ${maxElapsedTime} ms`);
         console.log(`Average length: ${(maxElapsedTime / cycles.length).toFixed(2)} ms`);
+        console.log(`Memory usage: ${totalMemoryUsage} MB`);
         console.log(separator);
         results.forEach(result => {
             console.log(result);
