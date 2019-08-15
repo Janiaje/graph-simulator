@@ -26,9 +26,13 @@ class DisplayedSimulation extends BaseSimulation {
         this._currentStepIndex = value;
         mainDisplayedGraph.display(this.currentStep.graph);
 
-        if (this.currentStep.lineChartData !== undefined) {
-            eventHub.$emit('simulation-step-changed', this.currentStep.lineChartData);
-        }
+        let data = {
+            currentStep: this._currentStepIndex + 1,
+            maxStep: this._steps.length,
+            series: this.currentStep.lineChartData
+        };
+
+        eventHub.$emit('simulation-step-changed', data);
     }
 
     firstStep() {

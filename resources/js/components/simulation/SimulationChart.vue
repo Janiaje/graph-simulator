@@ -1,6 +1,6 @@
 <template>
-    <div id="simulation-diagram" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12">
-        <div id="simulation-diagram-inside">
+    <div id="simulation-chart" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12">
+        <div id="simulation-chart-inside">
             <apexchart width="500" type="line" :width="'100%'" :options="options" :series="series"/>
         </div>
     </div>
@@ -13,7 +13,7 @@
             return {
                 options: {
                     chart: {
-                        id: 'simulation-diagram-vuechart',
+                        id: 'simulation-chart-vuechart',
                         toolbar: {
                             show: false,
                             // TODO: zoom and other options
@@ -21,9 +21,9 @@
                     }
                 },
                 series: [],
-                stepChangedListener: (series) => {
+                stepChangedListener: (data) => {
                     // TODO: catch first call on simulation start
-                    this.series = series;
+                    this.series = data.series;
                 }
             }
         },
@@ -39,9 +39,9 @@
 </script>
 
 <style lang="scss" scoped>
-    #simulation-diagram {
+    #simulation-chart {
         position: fixed;
-        top: 149px;
+        top: 186px;
         left: 10px;
         z-index: 955;
 
@@ -58,7 +58,7 @@
         background: white;
     }
 
-    #simulation-diagram-inside {
+    #simulation-chart-inside {
         margin-left: -15px;
         margin-bottom: -15px;
     }

@@ -7,17 +7,24 @@
                     <font-awesome-icon icon="times"/>
                 </button>
             </div>
-            <div class="col-2">
+            <div class="col-9">
+                <button type="button" class="btn text-display-button">
+                    Step: {{ currentStep }} / {{ maxStep }}
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
                 <button type="button" class="btn btn-default" @click="slower">
                     <font-awesome-icon icon="minus"/>
                 </button>
             </div>
-            <div class="col-5">
+            <div class="col-4">
                 <button type="button" class="btn text-display-button">
                     Speed: {{ speed }}
                 </button>
             </div>
-            <div class="col-2">
+            <div class="col-4">
                 <button type="button" class="btn btn-default" @click="faster">
                     <font-awesome-icon icon="plus"/>
                 </button>
@@ -68,7 +75,15 @@
                 intervalHandler: () => mainDisplayedGraph.simulation.nextStep(this.speed),
 
                 playing: false,
-                pauseListener: () => this.pause()
+                pauseListener: () => this.pause(),
+
+                currentStep: 0,
+                maxStep: 0,
+                stepChangedListener: data => {
+                    // TODO: catch first call on simulation start
+                    this.currentStep = data.currentStep;
+                    this.maxStep = data.maxStep;
+                }
             }
         },
 
@@ -141,10 +156,12 @@
         },
 
         mounted() {
+            eventHub.$on('simulation-step-changed', this.stepChangedListener);
             eventHub.$on('simulation-pause', this.pauseListener);
         },
 
         destroyed() {
+            eventHub.$off('simulation-step-changed', this.stepChangedListener);
             eventHub.$off('simulation-pause', this.pauseListener);
         }
     }
@@ -169,7 +186,7 @@
         box-shadow: inset 0 0 0.4rem rgba(0, 0, 0, 0.25);
         background: white;
 
-        .col-2, .col-3, .col-4, .col-5, .col-6 {
+        .col-2, .col-3, .col-4, .col-5, .col-6, .col-9 {
             padding: 0;
         }
     }
