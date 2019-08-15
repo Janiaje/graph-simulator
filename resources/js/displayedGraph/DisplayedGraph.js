@@ -27,28 +27,14 @@ class DisplayedGraph {
             physics: {
                 barnesHut: {
                     centralGravity: 0.35,
-                    springLength: 95,
-                    springConstant: 0.04,
-                    damping: 0.50
+                    damping: 0.6,
+                    avoidOverlap: 1
                 },
-                maxVelocity: 10,
+                maxVelocity: 23,
                 minVelocity: 0.75,
-                timestep: 0.18
+                timestep: 0.05
             }
         };
-
-        // TODO: option for better physics
-        // this._options = {
-        //     physics: {
-        //         barnesHut: {
-        //             damping: 0.6,
-        //             avoidOverlap: 1
-        //         },
-        //         maxVelocity: 23,
-        //         minVelocity: 0.75,
-        //         timestep: 0.05
-        //     }
-        // };
 
         this._network = new vis.Network(container, {
             nodes: this._nodesDataSet,

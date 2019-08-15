@@ -91,12 +91,6 @@
                                    v-model="physicsAllowed">
                             <label class="form-check-label" for="physicsAllowed">Physics allowed</label>
                         </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="lowGravity" v-model="lowGravity"
-                                   :disabled="!physicsAllowed">
-                            <label class="form-check-label" :class="{ 'line-through': !physicsAllowed }"
-                                   for="lowGravity">Low gravity</label>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -123,7 +117,6 @@
                 type: 'CSV',
                 directed: false,
                 physicsAllowed: true,
-                lowGravity: false,
 
                 nodeListFile: null,
                 nodeListFileContent: null,
@@ -194,10 +187,6 @@
         watch: {
             physicsAllowed: function (value) {
                 mainDisplayedGraph.physicsAllowed(value);
-            },
-
-            lowGravity: function (value) {
-                mainDisplayedGraph.lowGravity(value);
             }
         }
     }
