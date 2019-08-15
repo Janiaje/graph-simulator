@@ -228,6 +228,18 @@ class Tools {
         }
     }
 
+    static throwMethodNotImplemented(className, methodName) {
+        throw `'${className}.${methodName}' static method is not implemented in the simulation`;
+    }
+
+    static getClassNameFromStaticScope(classObject) {
+        return classObject.toString().split('(' || /s+/)[0].split(' ' || /s+/)[1];
+    }
+
+    static getClassName(object) {
+        return object.constructor.name;
+    }
+
 }
 
 export default Tools;

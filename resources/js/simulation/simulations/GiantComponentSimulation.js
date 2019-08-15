@@ -5,6 +5,10 @@ import Stopwatch from "../../Stopwatch/Stopwatch";
 
 class GiantComponentSimulation extends DisplayedSimulation {
 
+    static getDisplayedName() {
+        return 'Giant Component';
+    }
+
     _createFirstStep(graph) {
         // TODO: make question about only nodes
         graph.edges = [];

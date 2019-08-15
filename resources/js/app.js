@@ -10,6 +10,8 @@ import {fas} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 // Import ApexCharts
 import VueApexCharts from 'vue-apexcharts'
+// Import Simulations
+import GiantComponentSimulation from "./simulation/simulations/GiantComponentSimulation";
 
 require('./bootstrap');
 
@@ -46,6 +48,10 @@ const app = new Vue({
             graphHeight: 0,
             simulation: false,
             simulationStopped: () => this.simulation = false,
+            simulationTypes: [
+                GiantComponentSimulation,
+            ],
+            simulations: [],
         }
     },
 
@@ -58,8 +64,8 @@ const app = new Vue({
             mainDisplayedGraph.clear();
         },
 
-        runGiantComponentSimulation() {
-            mainDisplayedGraph.runGiantComponentSimulation();
+        runSimulation(simulation) {
+            mainDisplayedGraph.runSimulation(simulation);
             this.simulation = true;
         }
     },
@@ -67,6 +73,13 @@ const app = new Vue({
     created() {
         this.handleResize();
         window.addEventListener('resize', this.handleResize);
+
+        this.simulationTypes.forEach(simulation => {
+            this.simulations.push({
+                name: simulation.getDisplayedName(),
+                simulation: simulation,
+            });
+        });
     },
 
     mounted() {

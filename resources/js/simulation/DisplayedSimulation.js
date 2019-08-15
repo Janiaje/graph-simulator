@@ -1,6 +1,11 @@
 import BaseSimulation from "./BaseSimulation";
+import Tools from "../graph/Tools";
 
 class DisplayedSimulation extends BaseSimulation {
+
+    static getDisplayedName() {
+        Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getSimulationName');
+    }
 
     constructor(startGraph) {
         super();
@@ -50,6 +55,7 @@ class DisplayedSimulation extends BaseSimulation {
     lastStep() {
         this.currentStepIndex = this._steps.length - 1;
     }
+
 }
 
 export default DisplayedSimulation;

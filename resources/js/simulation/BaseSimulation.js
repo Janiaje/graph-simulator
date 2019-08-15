@@ -35,7 +35,7 @@ class BaseSimulation {
     }
 
     _calculateNextStep(graph) {
-        BaseSimulation._throwMethodNotImplemented('_calculateNextStep');
+        Tools.throwMethodNotImplemented(Tools.getClassName(this), '_calculateNextStep');
     }
 
     _lastStepHasNoNextStep(steps) {
@@ -48,7 +48,7 @@ class BaseSimulation {
     };
 
     _getLineChartCoordinate(currentStep) {
-        BaseSimulation._throwMethodNotImplemented('_getLineChartCoordinate');
+        Tools.throwMethodNotImplemented(Tools.getClassName(this), '_getLineChartCoordinate');
     }
 
     _fillLineChartSeries(steps) {
@@ -63,10 +63,6 @@ class BaseSimulation {
                 data: Tools.clone(data),
             }];
         })
-    }
-
-    static _throwMethodNotImplemented(methodName) {
-        throw `'${methodName}' static method is not implemented in the simulation`;
     }
 
 }

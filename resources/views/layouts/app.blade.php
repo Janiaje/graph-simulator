@@ -75,7 +75,8 @@
                             Simulations
                         </a>
                         <div class="dropdown-menu" aria-labelledby="simulationDropdown">
-                            <a class="dropdown-item" href="#" @click="runGiantComponentSimulation">Giant Component</a>
+                            <a class="dropdown-item" href="#" @click="runSimulation(simulation.simulation)"
+                               v-for="simulation in simulations" v-html="simulation.name"></a>
                         </div>
                     </li>
                 </ul>
@@ -83,7 +84,7 @@
         </div>
     </nav>
 
-    <main v-bind:style="{ height: graphHeight + 'px' }">
+    <main :style="{ height: graphHeight + 'px' }">
         <home/>
     </main>
 
