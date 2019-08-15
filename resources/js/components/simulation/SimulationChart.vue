@@ -22,7 +22,6 @@
                 },
                 series: [],
                 stepChangedListener: (data) => {
-                    // TODO: catch first call on simulation start
                     this.series = data.series;
                 }
             }

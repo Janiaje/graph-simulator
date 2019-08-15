@@ -40,7 +40,7 @@ class GiantComponentSimulation extends DisplayedSimulation {
         return simulationStep;
     }
 
-    _isLineChartDisplayed() {
+    isLineChartDisplayed() {
         return true;
     };
 

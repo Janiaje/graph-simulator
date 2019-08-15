@@ -1,10 +1,10 @@
 <template>
-    <div style="height: 100%">
+    <div>
         <vis-graph/>
 
-        <simulation-actions v-if="$parent.simulation"/>
-        <!-- TODO: display only if needed -->
-        <simulation-chart v-if="$parent.simulation"/>
+        <simulation-actions v-show="$parent.simulation"/>
+        <simulation-chart
+            v-show="$parent.simulation !== false && mainDisplayedGraph.simulation.isLineChartDisplayed()"/>
 
         <loading-modal/>
         <import-modal/>
@@ -21,5 +21,7 @@
 </script>
 
 <style scoped>
-
+    div {
+        height: 100%;
+    }
 </style>

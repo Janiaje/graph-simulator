@@ -80,7 +80,6 @@
                 currentStep: 0,
                 maxStep: 0,
                 stepChangedListener: data => {
-                    // TODO: catch first call on simulation start
                     this.currentStep = data.currentStep;
                     this.maxStep = data.maxStep;
                 }

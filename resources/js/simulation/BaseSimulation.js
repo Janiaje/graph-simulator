@@ -23,7 +23,7 @@ class BaseSimulation {
 
         this._lastStepHasNoNextStep(steps);
 
-        if (this._isLineChartDisplayed()) {
+        if (this.isLineChartDisplayed()) {
             this._fillLineChartSeries(steps);
         }
 
@@ -49,7 +49,7 @@ class BaseSimulation {
         lastStep.doesntHaveNextStep();
     }
 
-    _isLineChartDisplayed() {
+    isLineChartDisplayed() {
         return false;
     };
 

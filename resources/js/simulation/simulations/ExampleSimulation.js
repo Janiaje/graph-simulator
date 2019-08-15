@@ -18,7 +18,7 @@ class ExampleSimulation extends BaseSimulation {
         return new SimulationStep(graph);
     }
 
-    _isLineChartDisplayed() {
+    isLineChartDisplayed() {
         return true;
     };
 
