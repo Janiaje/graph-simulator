@@ -43,13 +43,18 @@ class DisplayedSimulation extends BaseSimulation {
         this.currentStepIndex--;
     }
 
-    nextStep() {
+    nextStep(incrementWith = 1) {
         if (!this.currentStep.hasNextStep) {
             eventHub.$emit('simulation-pause');
             return;
         }
 
-        this.currentStepIndex++;
+        if (this.currentStepIndex + incrementWith > (this._steps.length - 1)) {
+            this.currentStepIndex = (this._steps.length - 1);
+            return;
+        }
+
+        this.currentStepIndex += incrementWith;
     }
 
     lastStep() {

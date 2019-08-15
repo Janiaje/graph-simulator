@@ -59,13 +59,13 @@
         name: "SimulationActions",
         data() {
             return {
-                speed: 5,
+                speed: 1,
                 maxSpeed: 10,
                 minSpeed: 1,
-                speedStepMS: 100,
+                speedStepMS: 1000,
 
                 interval: undefined,
-                intervalHandler: () => mainDisplayedGraph.simulation.nextStep(),
+                intervalHandler: () => mainDisplayedGraph.simulation.nextStep(this.speed),
 
                 playing: false,
                 pauseListener: () => this.pause()
@@ -74,7 +74,7 @@
 
         methods: {
             _setInterval() {
-                this.interval = setInterval(this.intervalHandler, 15 + ((this.maxSpeed - this.speed) * this.speedStepMS));
+                this.interval = setInterval(this.intervalHandler, 500);
             },
 
             _clearInterval() {
