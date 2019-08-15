@@ -1,5 +1,4 @@
 import SimulationStep from "../SimulationStep";
-import Graph from "../../graph/Graph";
 import DisplayedSimulation from "../DisplayedSimulation";
 import Stopwatch from "../../Stopwatch/Stopwatch";
 
@@ -9,11 +8,9 @@ class GiantComponentSimulation extends DisplayedSimulation {
         return 'Giant Component';
     }
 
-    _createFirstStep(graph) {
+    _makeFirstStepChanges(graph) {
         // TODO: make question about only nodes
         graph.edges = [];
-
-        return new SimulationStep(graph, new Graph, false);
     }
 
     _calculateNextStep(graph) {
@@ -47,9 +44,8 @@ class GiantComponentSimulation extends DisplayedSimulation {
         return true;
     };
 
-    _getLineChartCoordinate(currentStep) {
-        let numberOfNodes = currentStep.graph.nodes.length;
-        let graph = currentStep.graph;
+    _getLineChartCoordinate(graph) {
+        let numberOfNodes = graph.nodes.length;
         let largestComponent = graph.getLargestComponent();
         let largestComponentPercentage = largestComponent.nodes.length / numberOfNodes;
         let connectionsPerNode = (graph.edges.length * 2) / graph.nodes.length;

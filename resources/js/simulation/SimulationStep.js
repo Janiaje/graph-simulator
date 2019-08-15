@@ -1,6 +1,8 @@
+import Graph from "../graph/Graph";
+
 class SimulationStep {
 
-    constructor(graph, toHighlight, hasPreviousStep = true) {
+    constructor(graph, toHighlight = new Graph, hasPreviousStep = true) {
         this._graph = graph;
         this._graph.highlightSubgraph(toHighlight);
 

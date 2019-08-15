@@ -11,7 +11,7 @@ class BaseSimulation {
         Stopwatch.start();
 
         for (
-            let step = this._createFirstStep(Tools.clone(startGraph));
+            let step = this._createFirstStep(startGraph);
             step !== null;
             step = this._calculateNextStep(Tools.clone(step.graph))
         ) {
@@ -31,7 +31,13 @@ class BaseSimulation {
     }
 
     _createFirstStep(graph) {
+        this._makeFirstStepChanges(graph);
+
         return new SimulationStep(graph, new Graph, false);
+    }
+
+    _makeFirstStepChanges(graph) {
+
     }
 
     _calculateNextStep(graph) {
@@ -47,15 +53,15 @@ class BaseSimulation {
         return false;
     };
 
-    _getLineChartCoordinate(currentStep) {
+    _getLineChartCoordinate(graph, stepNumber) {
         Tools.throwMethodNotImplemented(Tools.getClassName(this), '_getLineChartCoordinate');
     }
 
     _fillLineChartSeries(steps) {
         let data = [];
 
-        steps.forEach((step) => {
-            data.push(this._getLineChartCoordinate(Tools.clone(step)));
+        steps.forEach((step, index) => {
+            data.push(this._getLineChartCoordinate(Tools.clone(step.graph), index + 1));
 
             step.lineChartData = [{
                 name: 'Value',
