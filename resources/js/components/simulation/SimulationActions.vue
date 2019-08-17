@@ -1,6 +1,6 @@
 <template>
     <!-- TODO: out from the window on xs-12 => media => right 20px -->
-    <div id="simulation-actions" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12">
+    <div id="simulation-actions" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12" v-show="show">
         <div class="row">
             <div class="col-3">
                 <button type="button" class="btn btn-default" @click="stop">
@@ -66,10 +66,20 @@
         name: "SimulationActions",
         data() {
             return {
+                show: false,
+                showCallback: () => {
+                    // TODO: make only one toggle lambda
+                    this.show = true;
+                },
+                hideCallback: () => {
+                    // TODO: make only one toggle lambda
+                    this.show = false;
+                },
+
                 speed: 1,
                 maxSpeed: 10,
                 minSpeed: 1,
-                speedStepMS: 1000,
+                speedStepMS: 500,
 
                 interval: undefined,
                 intervalHandler: () => mainDisplayedGraph.simulation.nextStep(this.speed),
@@ -88,7 +98,7 @@
 
         methods: {
             _setInterval() {
-                this.interval = setInterval(this.intervalHandler, 500);
+                this.interval = setInterval(this.intervalHandler, this.speedStepMS);
             },
 
             _clearInterval() {
@@ -143,7 +153,7 @@
 
             stop() {
                 mainDisplayedGraph.simulation = undefined;
-                eventHub.$emit('simulation-stopped');
+                eventHub.$emit('simulation-ended');
             }
         },
 
@@ -160,11 +170,15 @@
         },
 
         mounted() {
+            eventHub.$on('simulation-loaded', this.showCallback);
+            eventHub.$on('simulation-ended', this.hideCallback);
             eventHub.$on('simulation-step-changed', this.stepChangedListener);
             eventHub.$on('simulation-pause', this.pauseListener);
         },
 
         destroyed() {
+            eventHub.$off('simulation-loaded', this.showCallback);
+            eventHub.$off('simulation-ended', this.hideCallback);
             eventHub.$off('simulation-step-changed', this.stepChangedListener);
             eventHub.$off('simulation-pause', this.pauseListener);
         }

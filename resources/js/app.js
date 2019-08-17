@@ -39,6 +39,7 @@ Vue.component('apexchart', VueApexCharts);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+window.mainDisplayedGraph = null;
 window.eventHub = new Vue();
 
 const app = new Vue({
@@ -46,8 +47,7 @@ const app = new Vue({
     data() {
         return {
             graphHeight: 0,
-            simulation: false,
-            simulationStopped: () => this.simulation = false,
+            simulationEnded: () => mainDisplayedGraph.simulation = undefined,
             simulationTypes: [
                 GiantComponentSimulation,
             ],
@@ -66,7 +66,7 @@ const app = new Vue({
 
         runSimulation(simulation) {
             mainDisplayedGraph.runSimulation(simulation);
-            this.simulation = true;
+            eventHub.$emit('simulation-loaded');
         }
     },
 
@@ -74,6 +74,7 @@ const app = new Vue({
         this.handleResize();
         window.addEventListener('resize', this.handleResize);
 
+        // Create the list for the simulations menu
         this.simulationTypes.forEach(simulation => {
             this.simulations.push({
                 name: simulation.getDisplayedName(),
@@ -83,12 +84,14 @@ const app = new Vue({
     },
 
     mounted() {
+        eventHub.$on('simulation-ended', this.simulationEnded);
+
+        // Starting point for the application
         $('#generateGraph').modal('show');
-        eventHub.$on('simulation-stopped', this.simulationStopped);
     },
 
     destroyed() {
         window.removeEventListener('resize', this.handleResize);
-        eventHub.$on('simulation-stopped', this.simulationStopped);
+        eventHub.$off('simulation-ended', this.simulationEnded);
     }
 });
