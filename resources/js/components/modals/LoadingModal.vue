@@ -1,6 +1,7 @@
 <template>
-    <div id="modal-container" :style="{ display: show ? 'block' : 'none' }">
-        <font-awesome-icon id="spinner" icon="spinner" class="fa-spin fa-7x fa-inverse" style="text-align: center"/>
+    <div id="loading-container" v-show="show">
+        <font-awesome-icon id="loading-spinner" icon="spinner" class="fa-spin fa-7x fa-inverse"
+                           style="text-align: center"/>
     </div>
 </template>
 
@@ -11,9 +12,11 @@
             return {
                 show: false,
                 showCallback: () => {
-                    // TODO: fixme why its not shown
+                    // TODO: fixme: why its not shown
                     console.log('showCallback');
+                    console.log(this.show);
                     this.show = true;
+                    console.log(this.show);
                 },
                 hideCallback: () => {
                     console.log('hideCallback');
@@ -39,7 +42,7 @@
         margin: 5px 0 0;
     }
 
-    #modal-container {
+    #loading-container {
         position: fixed;
         top: 0;
         left: 0;
@@ -59,7 +62,7 @@
         text-align: center;
     }
 
-    #spinner {
+    #loading-spinner {
         position: relative;
         top: calc(50% - 36px);
     }
