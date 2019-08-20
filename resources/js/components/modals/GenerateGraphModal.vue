@@ -7,23 +7,27 @@
         <template v-slot:body>
             <div class="row">
                 <div class="col-6">
-                    <div class="form-group">
-                        <label for="numberOfNodes">Nodes</label>
-                        <!-- TODO: they allow to manually enter bigger/smaller numbers -->
-                        <input id="numberOfNodes" type="number" min="1" max="100" class="form-control"
-                               placeholder="Number of nodes"
-                               v-model.number="numberOfNodes">
-                    </div>
+                    <number-input-with-boundaries
+                        :id="'numberOfNodes'"
+                        :label="'Nodes'"
+                        :min="1"
+                        :max="150"
+                        :startingValue="numberOfNodes"
+                        :placeholder="'Number of nodes'"
+                        @change="(newValue) => numberOfNodes = newValue"
+                    />
                 </div>
 
                 <div class="col-6">
-                    <div class="form-group">
-                        <label for="numberOfEdges">Edges</label>
-                        <!-- TODO: they allow to manually enter bigger/smaller numbers -->
-                        <input id="numberOfEdges" type="number" min="0" max="1000" class="form-control"
-                               placeholder="Number of edges"
-                               v-model.number="numberOfEdges">
-                    </div>
+                    <number-input-with-boundaries
+                        :id="'numberOfEdges'"
+                        :label="'Edges'"
+                        :min="0"
+                        :max="1000"
+                        :startingValue="numberOfEdges"
+                        :placeholder="'Number of edges'"
+                        @change="(newValue) => numberOfEdges = newValue"
+                    />
                 </div>
             </div>
 
