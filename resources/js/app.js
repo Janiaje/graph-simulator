@@ -65,8 +65,19 @@ const app = new Vue({
         },
 
         runSimulation(simulation) {
-            mainDisplayedGraph.runSimulation(simulation);
-            eventHub.$emit('simulation-loaded');
+            eventHub.$emit('loading-show');
+
+            // TODO-low: find better solution: https://stackoverflow.com/questions/57536336
+            this.$nextTick();
+
+            requestAnimationFrame(() =>
+                requestAnimationFrame(() => {
+                    mainDisplayedGraph.simulation = new simulation(mainDisplayedGraph.graph);
+
+                    eventHub.$emit('loading-hide');
+                    eventHub.$emit('simulation-loaded');
+                }));
+
         }
     },
 

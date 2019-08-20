@@ -2,7 +2,6 @@ import vis from "vis";
 import Parser from "./Parser";
 import Graph from "../graph/Graph";
 import Tools from "../graph/Tools";
-import Simulator from "../simulation/Simulator";
 
 class DisplayedGraph {
 
@@ -38,6 +37,10 @@ class DisplayedGraph {
         }, this._options);
 
         Object.assign(this._options, this._network.defaultOptions);
+    }
+
+    get graph() {
+        return this._graph;
     }
 
     get network() {
@@ -186,10 +189,9 @@ class DisplayedGraph {
 
         return analytics;
     }
-};
+}
 
 // Trait method assigns
 Object.assign(DisplayedGraph.prototype, Parser);
-Object.assign(DisplayedGraph.prototype, Simulator);
 
 export default DisplayedGraph;

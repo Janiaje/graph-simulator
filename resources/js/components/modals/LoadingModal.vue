@@ -10,19 +10,18 @@
         name: "LoadingModal",
         data() {
             return {
-                show: false,
-                showCallback: () => {
-                    // TODO: fixme: why its not shown
-                    console.log('showCallback');
-                    console.log(this.show);
-                    this.show = true;
-                    console.log(this.show);
-                },
-                hideCallback: () => {
-                    console.log('hideCallback');
-                    this.show = false;
-                },
+                show: false
             };
+        },
+
+        methods: {
+            showCallback() {
+                this.show = true;
+            },
+
+            hideCallback() {
+                this.show = false;
+            }
         },
 
         mounted() {
