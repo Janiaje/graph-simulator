@@ -1,19 +1,26 @@
 <template>
-    <div id="vis-graph" style="height: 100%"/>
+    <div id="vis-graph"/>
 </template>
 
 <script>
-    import Graph from "../graph/Graph";
+    import DisplayedGraph from "../displayedGraph/DisplayedGraph";
 
     export default {
         name: "VisGraph",
         mounted() {
             let container = document.getElementById('vis-graph');
-            window.graph = new Graph(container);
+            window.mainDisplayedGraph = new DisplayedGraph(container);
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+    #vis-graph {
+        height: 100%;
+        outline: none;
+    }
 
+    .vis-network {
+        outline: none;
+    }
 </style>

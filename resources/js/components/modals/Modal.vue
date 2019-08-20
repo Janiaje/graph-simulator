@@ -1,9 +1,16 @@
 <template>
-    <div class="modal fade" :id="id" ref="modal" tabindex="-1" role="dialog" :aria-labelledby="id + 'ModalLabel'"
-         aria-hidden="true">
+    <div
+        :id="id"
+        ref="modal"
+        class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        :aria-labelledby="id + 'ModalLabel'"
+        aria-hidden="true"
+    >
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" v-show="$slots.header">
                     <h5 class="modal-title" :id="id + 'ModalLabel'">
                         <slot name="header"></slot>
                     </h5>
@@ -11,10 +18,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" v-show="$slots.body">
                     <slot name="body"></slot>
                 </div>
-                <div class="modal-footer" v-if="showFooter">
+                <div class="modal-footer" v-show="$slots.footer">
                     <slot name="footer"></slot>
                 </div>
             </div>
@@ -30,10 +37,7 @@
                 type: String,
                 required: true
             },
-            showFooter: {
-                type: Boolean,
-                default: true
-            },
+            show: false,
             mountedCallback: {}
         },
 
@@ -43,6 +47,22 @@
                 if (classList.includes('show')) {
                     this.mountedCallback();
                 }
+            },
+
+            updateShown() {
+                let modal = $('#' + this.id);
+
+                if (this.show) {
+                    modal.modal('show');
+                } else {
+                    modal.modal('hide');
+                }
+            }
+        },
+
+        watch: {
+            show() {
+                this.updateShown();
             }
         },
 

@@ -1,5 +1,5 @@
 <template>
-    <modal :id="'showAnalytics'" :showFooter="false" :mountedCallback="mountedCallback">
+    <modal :id="'showAnalytics'" :mountedCallback="mountedCallback">
         <template v-slot:header>
             Analytics
         </template>
@@ -27,9 +27,8 @@
         data() {
             return {
                 analytics: [],
-                mountedCallback: function () {
-                    // this is the modal component
-                    this.$parent.analytics = graph.getAnalytics();
+                mountedCallback: () => {
+                    this.analytics = mainDisplayedGraph.getAnalytics();
                 }
             }
         }

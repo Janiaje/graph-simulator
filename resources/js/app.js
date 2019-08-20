@@ -4,6 +4,15 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+// Import font-awesome
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {fas} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+// Import ApexCharts
+import VueApexCharts from 'vue-apexcharts'
+// Import Simulations
+import GiantComponentSimulation from "./simulation/simulations/GiantComponentSimulation";
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -19,12 +28,18 @@ window.Vue = require('vue');
 const files = require.context('./', true, /\.vue$/i);
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+// Register external components
+library.add(fas);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('apexchart', VueApexCharts);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+window.mainDisplayedGraph = null;
 window.eventHub = new Vue();
 
 const app = new Vue({
@@ -32,6 +47,11 @@ const app = new Vue({
     data() {
         return {
             graphHeight: 0,
+            simulationEnded: () => mainDisplayedGraph.simulation = undefined,
+            simulationTypes: [
+                GiantComponentSimulation,
+            ],
+            simulations: [],
         }
     },
 
@@ -41,20 +61,48 @@ const app = new Vue({
         },
 
         clearGraph() {
-            graph.clearGraph();
+            mainDisplayedGraph.clear();
+        },
+
+        runSimulation(simulation) {
+            eventHub.$emit('loading-show');
+
+            // TODO-low: find better solution: https://stackoverflow.com/questions/57536336
+            this.$nextTick();
+
+            requestAnimationFrame(() =>
+                requestAnimationFrame(() => {
+                    mainDisplayedGraph.simulation = new simulation(mainDisplayedGraph.graph);
+
+                    eventHub.$emit('loading-hide');
+                    eventHub.$emit('simulation-loaded');
+                }));
+
         }
     },
 
     created() {
         this.handleResize();
         window.addEventListener('resize', this.handleResize);
+
+        // Create the list for the simulations menu
+        this.simulationTypes.forEach(simulation => {
+            this.simulations.push({
+                name: simulation.getDisplayedName(),
+                simulation: simulation,
+            });
+        });
     },
 
     mounted() {
-        $('#generateGraph').modal('show')
+        eventHub.$on('simulation-ended', this.simulationEnded);
+
+        // Starting point for the application
+        $('#generateGraph').modal('show');
     },
 
     destroyed() {
         window.removeEventListener('resize', this.handleResize);
+        eventHub.$off('simulation-ended', this.simulationEnded);
     }
 });

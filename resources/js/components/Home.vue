@@ -1,7 +1,11 @@
 <template>
-    <div style="height: 100%">
+    <div id="home">
         <vis-graph/>
 
+        <simulation-actions/>
+        <simulation-chart/>
+
+        <loading-modal/>
         <import-modal/>
         <export-modal/>
         <generate-graph-modal/>
@@ -16,5 +20,7 @@
 </script>
 
 <style scoped>
-
+    #home {
+        height: 100%;
+    }
 </style>

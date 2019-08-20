@@ -1,159 +1,205 @@
-import vis from 'vis'
 import Analyzer from "./Analyzer";
-import Generator from "./Generator";
-import Parser from "./Parser";
+import Highlighter from "./Highlighter";
 import Tools from "./Tools";
+import Generator from "./Generator";
 
 class Graph {
+
+    /**
+     * @param nodes Array
+     * @param edges Array
+     * @param directed Boolean
+     * @param simple Boolean
+     */
+    constructor(nodes = [], edges = [], directed = false, simple = true) {
+        this._nodes = nodes;
+        this._edges = edges;
+        this._directed = directed;
+        this._simple = simple;
+
+        this._remainingEdges = undefined;
+
+        this._nodesKeyedById = undefined;
+        this._edgesKeyedById = undefined;
+        this._edgesKeyedByFrom = undefined;
+        this._edgesKeyedByTo = undefined;
+    }
+
+    get nodes() {
+        return this._nodes;
+    }
+
+    set nodes(value) {
+        this._nodesKeyedById = undefined;
+        this._remainingEdges = undefined;
+
+        this._nodes = value;
+    }
+
+    get edges() {
+        return this._edges;
+    }
+
+    set edges(value) {
+        this._edgesKeyedById = undefined;
+        this._edgesKeyedByFrom = undefined;
+        this._edgesKeyedByTo = undefined;
+        this._remainingEdges = undefined;
+
+        this._edges = value;
+    }
+
     get directed() {
         return this._directed;
     }
 
-    /**
-     * @param container HTML element
-     * @param options Object
-     */
-    constructor(container, options = {}) {
-        this._options = options;
+    set directed(value) {
+        this._remainingEdges = undefined;
 
-        this._nodes = new vis.DataSet();
-        this._edges = new vis.DataSet();
-        this._directed = false;
+        this._directed = value;
+    }
 
-        this._network = new vis.Network(container, {
-            nodes: this._nodes,
-            edges: this._edges
-        }, this._options);
+    get simple() {
+        return this._simple;
+    }
 
-        if (Object.entries(this._options).length === 0) {
-            this._options = this._network.defaultOptions;
+    set simple(value) {
+        this._remainingEdges = undefined;
+
+        this._simple = value;
+    }
+
+    get remainingEdges() {
+        if (this._remainingEdges === undefined) {
+            let fullGraphEdges = Generator.generateEdgesForFullGraph(this.nodes, this.directed);
+            this._remainingEdges = fullGraphEdges.filter(edge => !this.containsEdge(edge));
         }
 
-        // Parser part
-
-        this._exportNodeListFormat = [
-            'id',
-            'label',
-        ];
-
-        this._exportEdgeListFormat = [
-            'id',
-            'from',
-            'to',
-            'arrows',
-        ];
+        return this._remainingEdges;
     }
 
-    /**
-     * Delete all nodes and edges.
-     */
-    clearGraph() {
-        this._nodes.clear();
-        this._edges.clear();
-    }
-
-    /**
-     * Updates the graph to only show the given nodes and edges.
-     *
-     * @param nodes Array.<Object>
-     * @param edges Array.<Object>
-     */
-    _updateGraph(nodes, edges) {
-        this.clearGraph();
-
-        this._nodes.add(nodes);
-        this._edges.add(edges);
-    }
-
-    /**
-     * Updates the graph's options.
-     */
-    _updateOptions() {
-        this._network.setOptions(this._options);
-    }
-
-    /**
-     * Turns physics on/off.
-     *
-     * @param allowed Boolean
-     */
-    physicsAllowed(allowed) {
-        let physics = this._options.physics;
-
-        if (physics === undefined) {
-            physics = {};
+    get nodesKeyedById() {
+        if (this._nodesKeyedById === undefined) {
+            this._nodesKeyedById = Tools.sortArrayIntoObject(this._nodes);
         }
 
-        physics.enabled = allowed;
+        return this._nodesKeyedById;
+    }
 
-        this._options.physics = physics;
+    get edgesKeyedById() {
+        if (this._edgesKeyedById === undefined) {
+            this._edgesKeyedById = Tools.sortArrayIntoObject(this._edges);
+        }
 
-        this._updateOptions();
+        return this._edgesKeyedById;
+    }
+
+    get edgesKeyedByFrom() {
+        if (this._edgesKeyedByFrom === undefined) {
+            this._edgesKeyedByFrom = Tools.groupBy(this._edges, 'from');
+        }
+
+        return this._edgesKeyedByFrom;
+    }
+
+    get edgesKeyedByTo() {
+        if (this._edgesKeyedByTo === undefined) {
+            this._edgesKeyedByTo = Tools.groupBy(this._edges, 'to');
+        }
+
+        return this._edgesKeyedByTo;
     }
 
     /**
-     * Turns physics on/off.
-     *
-     * @param on Boolean
+     * Saves the positions of the nodes.
      */
-    lowGravity(on) {
-        let physics = {};
+    savePositions() {
+        let positions = mainDisplayedGraph.network.getPositions();
 
-        if (on === true) {
-            physics = {
-                stabilization: false,
-                barnesHut: {
-                    gravitationalConstant: -10000,
-                    springConstant: 0.002,
-                    springLength: 150
-                }
-            };
+        this.nodes.forEach(node => {
+            let position = positions[node.id];
+
+            node.x = position.x;
+            node.y = position.y;
+        });
+    }
+
+    addRandomEdge() {
+        let edge;
+
+        if (this.simple) {
+            if (this.remainingEdges.length === 0) {
+                return undefined;
+            }
+
+            edge = this.remainingEdges[Math.floor(Math.random() * this.remainingEdges.length)];
+
+            Tools.splice(this._remainingEdges, edge, (a, b) => a.id === b.id);
         } else {
-            physics = {
-                stabilization: {
-                    enabled: true,
-                    iterations: 1000,
-                    updateInterval: 50,
-                    onlyDynamicEdges: false,
-                    fit: true,
-                },
-                barnesHut: {
-                    gravitationalConstant: -2000,
-                    springConstant: 0.04,
-                    springLength: 95
-                }
-            };
+            let from = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
+            let to = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
+
+            edge = Generator.generateEdge(from, to);
         }
 
-        this._options.physics = physics;
+        this.addEdge(edge);
 
-        this._updateOptions();
+        return edge;
     }
 
-    /**
-     * Change network options.
-     *
-     * @param key String
-     * @param value
-     */
-    changeOptions(key, value) {
-        let keyParts = key.split('.');
-        key = keyParts.pop();
+    addEdge(edge) {
+        this._edges.push(edge);
 
-        let parentString = keyParts.join('.');
-        let parent = this.accessObjectByString(parentString, this._options);
+        if (this._edgesKeyedById !== undefined) {
+            this._edgesKeyedById[edge.id] = edge
+        }
 
-        parent[key] = value;
+        if (this._edgesKeyedByFrom !== undefined) {
+            let fromEdges = this._edgesKeyedByFrom[edge.from];
 
-        this._updateOptions();
+            if (fromEdges === undefined) {
+                fromEdges = [];
+            }
+
+            fromEdges.push(edge);
+
+            this._edgesKeyedByFrom[edge.from] = fromEdges;
+        }
+
+        if (this._edgesKeyedByTo !== undefined) {
+            let toEdges = this._edgesKeyedByTo[edge.to];
+
+            if (toEdges === undefined) {
+                toEdges = [];
+            }
+
+            toEdges.push(edge);
+
+            this._edgesKeyedByTo[edge.to] = toEdges;
+        }
+
+        let edgeKey;
+        if (
+            this._remainingEdges !== undefined
+            && (
+                this._edgesKeyedById === undefined
+                || this.edgesKeyedById[edge.id] !== undefined
+            )
+            && (
+                false !== (edgeKey = this.edgeInList(edge, this._remainingEdges, this.directed))
+            )
+        ) {
+            this._remainingEdges.splice(edgeKey, 1);
+        }
+
+        this._components = undefined;
+        this._largestComponent = undefined;
     }
 
 }
 
 // Trait method assigns
-Object.assign(Graph.prototype, Tools);
-Object.assign(Graph.prototype, Parser);
-Object.assign(Graph.prototype, Generator);
 Object.assign(Graph.prototype, Analyzer);
+Object.assign(Graph.prototype, Highlighter);
 
 export default Graph;

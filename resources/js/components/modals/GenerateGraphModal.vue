@@ -7,21 +7,27 @@
         <template v-slot:body>
             <div class="row">
                 <div class="col-6">
-                    <div class="form-group">
-                        <label for="numberOfNodes">Nodes</label>
-                        <input id="numberOfNodes" type="number" min="1" max="100" class="form-control"
-                               placeholder="Number of nodes to generate"
-                               v-model.number="numberOfNodes">
-                    </div>
+                    <number-input-with-boundaries
+                        :id="'numberOfNodes'"
+                        :label="'Nodes'"
+                        :min="1"
+                        :max="150"
+                        :startingValue="numberOfNodes"
+                        :placeholder="'Number of nodes'"
+                        @change="(newValue) => numberOfNodes = newValue"
+                    />
                 </div>
 
                 <div class="col-6">
-                    <div class="form-group">
-                        <label for="numberOfEdges">Edges</label>
-                        <input id="numberOfEdges" type="number" min="0" max="1000" class="form-control"
-                               placeholder="Number of edges to generate"
-                               v-model.number="numberOfEdges">
-                    </div>
+                    <number-input-with-boundaries
+                        :id="'numberOfEdges'"
+                        :label="'Edges'"
+                        :min="0"
+                        :max="1000"
+                        :startingValue="numberOfEdges"
+                        :placeholder="'Number of edges'"
+                        @change="(newValue) => numberOfEdges = newValue"
+                    />
                 </div>
             </div>
 
@@ -40,15 +46,12 @@
                 </div>
 
                 <div class="col-6">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="lowGravity" v-model="lowGravity"
-                               :disabled="!physicsAllowed">
-                        <label class="form-check-label" :class="{ 'line-through': !physicsAllowed }" for="lowGravity">Low
-                            gravity</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="physicsAllowed" v-model="physicsAllowed">
-                        <label class="form-check-label" for="physicsAllowed">Physics allowed</label>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="physicsAllowed"
+                                   v-model="physicsAllowed">
+                            <label class="form-check-label" for="physicsAllowed">Physics allowed</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,6 +68,8 @@
 </template>
 
 <script>
+    import Generator from "../../graph/Generator";
+
     export default {
         name: "GenerateGraphModal",
         data() {
@@ -73,23 +78,21 @@
                 numberOfEdges: 7,
                 simpleGraph: true,
                 directedGraph: false,
-                physicsAllowed: true,
-                lowGravity: false,
+                physicsAllowed: true
             }
         },
 
         methods: {
             generateRandomGraph() {
-                graph.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+                eventHub.$emit('simulation-ended');
+                let graph = Generator.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+                mainDisplayedGraph.display(graph);
             }
         },
 
         watch: {
             physicsAllowed: function (value) {
-                graph.physicsAllowed(value);
-            },
-            lowGravity: function (value) {
-                graph.lowGravity(value);
+                mainDisplayedGraph.physicsAllowed(value);
             }
         }
     }

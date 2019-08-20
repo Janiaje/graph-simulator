@@ -1,4 +1,7 @@
-let Generator = {
+import Tools from "./Tools";
+import Graph from "./Graph";
+
+class Generator {
     /**
      * Generate random graph
      * .
@@ -7,18 +10,16 @@ let Generator = {
      * @param simpleGraph Boolean
      * @param directed Boolean
      */
-    generateRandomGraph(numberOfNodes, numberOfEdges, simpleGraph = true, directed = false) {
-        this._directed = directed;
-
-        let nodes = this._generateNodes(numberOfNodes);
+    static generateRandomGraph(numberOfNodes, numberOfEdges, simpleGraph = true, directed = false) {
+        let nodes = Generator._generateNodes(numberOfNodes);
 
         let edges;
 
         if (simpleGraph) {
-            edges = this._generateEdgesForFullGraph(numberOfNodes, this._directed);
-            edges = this._removeEdgesUntilCount(edges, numberOfEdges);
+            edges = Generator.generateEdgesForFullGraph(nodes, directed);
+            edges = Generator._removeEdgesUntilCount(edges, numberOfEdges);
         } else {
-            edges = this._range(1, numberOfEdges).map((value) => {
+            edges = Tools.range(1, numberOfEdges).map(() => {
                 let from = Math.floor(Math.random() * numberOfNodes) + 1;
                 let to = Math.floor(Math.random() * numberOfNodes) + 1;
 
@@ -26,58 +27,57 @@ let Generator = {
             });
         }
 
-        if (this._directed) {
-            edges.map((edge) => {
+        if (directed) {
+            edges.map(edge => {
                 edge.arrows = 'to';
                 return edge;
             });
         }
 
-        this._updateGraph(nodes, edges);
-    },
+        return new Graph(nodes, edges, directed);
+    }
 
     /**
      * Generate nodes.
      *
      * @param numberOfNodes Integer
      */
-    _generateNodes(numberOfNodes) {
-        return this._range(1, numberOfNodes).map((value) => {
-            return {id: value, label: 'Node ' + value}
+    static _generateNodes(numberOfNodes) {
+        return Tools.range(1, numberOfNodes).map(value => {
+            return {
+                id: value,
+                label: 'Node ' + value
+            };
         });
-    },
+    }
 
     /**
      * Generate edges for full graph.
      *
-     * @param numberOfNodes Integer
+     * @param nodes Array
      * @param directed Boolean
      */
-    _generateEdgesForFullGraph(numberOfNodes, directed) {
+    static generateEdgesForFullGraph(nodes, directed) {
         let edges = [];
 
-        this._range(1, numberOfNodes)
-            .forEach((from) => {
-                let range = this._range(1, numberOfNodes);
+        nodes.forEach((fromNode, index) => {
+            let toNodes = Tools.clone(nodes);
 
-                if (directed) {
-                    // Don't allow loop edges
-                    range.splice(from - 1, 1);
-                } else {
-                    // Don't allow loop edges AND parallel edges
-                    range.splice(0, from);
-                }
+            if (directed) {
+                // Don't allow loop edges
+                toNodes.splice(index, 1);
+            } else {
+                // Don't allow loop edges AND parallel edges
+                toNodes.splice(0, index + 1);
+            }
 
-                range.forEach((to) => {
-                    edges.push({
-                        from: from,
-                        to: to
-                    })
-                })
-            });
+            toNodes.forEach(toNode => {
+                edges.push(Generator.generateEdge(fromNode.id, toNode.id))
+            })
+        });
 
         return edges;
-    },
+    }
 
     /**
      * Deletes random elements of an array until the give count is reached.
@@ -87,7 +87,7 @@ let Generator = {
      *
      * @returns {Array.<Object>}
      */
-    _removeEdgesUntilCount(edges, numberOfEdges) {
+    static _removeEdgesUntilCount(edges, numberOfEdges) {
         while (edges.length > numberOfEdges) {
             let index = Math.floor(Math.random() * (edges.length - 1));
             edges.splice(index, 1);
@@ -95,6 +95,14 @@ let Generator = {
 
         return edges;
     }
-};
+
+    static generateEdge(from, to) {
+        return {
+            id: `from${from}-to${to}-${Tools.getEpochTime()}`,
+            from: from,
+            to: to,
+        };
+    }
+}
 
 export default Generator;

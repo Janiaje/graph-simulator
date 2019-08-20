@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="nO9VAz6EGCDEEe5QjuevcbLq6P4nVKAvkCeTEVUH">
+    <meta name="csrf-token" content="DMlKNnYZg8s7nAsKi8XUKpmVtNWzgx40H2XhPYKJ">
 
     <title>Thesis</title>
 
@@ -75,7 +75,8 @@
                             Simulations
                         </a>
                         <div class="dropdown-menu" aria-labelledby="simulationDropdown">
-                            <a class="dropdown-item disabled" href="#">Coming later</a>
+                            <a class="dropdown-item" href="#" @click="runSimulation(simulation.simulation)"
+                               v-for="simulation in simulations" v-html="simulation.name"></a>
                         </div>
                     </li>
                 </ul>
@@ -83,7 +84,7 @@
         </div>
     </nav>
 
-    <main v-bind:style="{ height: graphHeight + 'px' }">
+    <main :style="{ height: graphHeight + 'px' }">
         <home/>
     </main>
 
