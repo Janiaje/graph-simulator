@@ -33,25 +33,24 @@
 
             <div class="row">
                 <div class="col-6">
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="simpleGraph" v-model="simpleGraph">
-                            <label class="form-check-label" for="simpleGraph">Simple graph</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="directedGraph" v-model="directedGraph">
-                            <label class="form-check-label" for="directedGraph">Directed graph</label>
-                        </div>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="simpleGraph" v-model="simpleGraph">
+                        <label class="custom-control-label" for="simpleGraph">Simple graph</label>
                     </div>
                 </div>
 
                 <div class="col-6">
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="physicsAllowed"
-                                   v-model="physicsAllowed">
-                            <label class="form-check-label" for="physicsAllowed">Physics allowed</label>
-                        </div>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="directedGraph" v-model="directedGraph">
+                        <label class="custom-control-label" for="directedGraph">Directed graph</label>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="physicsAllowedGenerate"
+                               v-model="physicsAllowed">
+                        <label class="custom-control-label" for="physicsAllowedGenerate">Physics allowed</label>
                     </div>
                 </div>
             </div>

@@ -52,6 +52,7 @@ const app = new Vue({
                 GiantComponentSimulation,
             ],
             simulations: [],
+            showDegrees: false
         }
     },
 
@@ -84,6 +85,16 @@ const app = new Vue({
                     eventHub.$emit('simulation-loaded');
                 }));
 
+        }
+    },
+
+    watch: {
+        showDegrees(value) {
+            if (value) {
+                mainDisplayedGraph.showDegrees();
+            } else {
+                mainDisplayedGraph.hideDegrees();
+            }
         }
     },
 
