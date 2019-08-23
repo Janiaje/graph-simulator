@@ -54,7 +54,25 @@ class DisplayedGraph {
                     });
                 },
                 editNode(data, callback) {
-                    console.log('editNode', data, callback);
+                    eventHub.$emit('question', {
+                        header: 'Edit node',
+                        fields: [
+                            {
+                                id: 'nodeLabel',
+                                type: 'text',
+                                label: 'Label',
+                                value: data.label
+                            }
+                        ],
+                        ok: {
+                            text: 'Edit',
+                            callback(answer) {
+                                data.label = answer.nodeLabel;
+                                callback(data);
+                                mainDisplayedGraph.graph.editNode(data);
+                            }
+                        }
+                    });
                 },
                 deleteNode(data, callback) {
                     callback(data);
@@ -71,7 +89,29 @@ class DisplayedGraph {
                 },
                 editEdge: {
                     editWithoutDrag(data, callback) {
+                        return;
+                        // Coming later for weights
                         console.log('editWithoutDrag', data, callback);
+
+                        eventHub.$emit('question', {
+                            header: 'Edit edge',
+                            fields: [
+                                {
+                                    id: 'edgeWeight',
+                                    type: 'number',
+                                    label: 'Weight',
+                                    value: data.label // ???
+                                }
+                            ],
+                            ok: {
+                                text: 'Edit',
+                                callback(answer) {
+                                    data.label = answer.edgeWeight;
+                                    callback(data);
+                                    mainDisplayedGraph.graph.editEdge(data);
+                                }
+                            }
+                        })
                     }
                 },
                 deleteEdge(data, callback) {

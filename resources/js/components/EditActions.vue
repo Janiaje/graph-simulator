@@ -22,9 +22,9 @@
             </div>
             <div class="row" v-show="selected">
                 <div class="col-12">
-                    <button @click="edit">
-                        <font-awesome-icon icon="times"/>
-                        Edit {{ nodeSelected ? 'node' : 'edge' }}
+                    <button @click="edit" :class="{ 'text-display-button': edgeSelected }" :disabled="edgeSelected">
+                        <font-awesome-icon icon="pencil-alt"/>
+                        Edit {{ nodeSelected ? 'node' : 'edge (Coming soon)' }}
                     </button>
                 </div>
             </div>

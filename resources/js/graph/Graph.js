@@ -237,6 +237,10 @@ class Graph {
         }
     }
 
+    editNode(node) {
+        this.nodesKeyedById[node.id] = node;
+    }
+
     removeNode(node) {
         Tools.spliceById(this._nodes, node);
 
