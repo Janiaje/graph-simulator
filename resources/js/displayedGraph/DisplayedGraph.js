@@ -171,12 +171,12 @@ class DisplayedGraph {
      * @param graph Graph
      */
     display(graph) {
-        this.clear();
+        // this.clear();
 
         this._graph = graph;
 
-        this._nodesDataSet.add(graph.nodes);
-        this._edgesDataSet.add(graph.edges);
+        this._nodesDataSet.update(graph.nodes);
+        this._edgesDataSet.update(graph.edges);
     }
 
     /**

@@ -137,7 +137,7 @@
             play() {
                 this.playing = true;
 
-                mainDisplayedGraph.physicsAllowed(false);
+                // mainDisplayedGraph.physicsAllowed(false);
 
                 this._setInterval();
             },
@@ -145,7 +145,7 @@
             pause() {
                 this.playing = false;
 
-                mainDisplayedGraph.physicsAllowed(true);
+                // mainDisplayedGraph.physicsAllowed(true);
 
                 this._clearInterval();
             },
