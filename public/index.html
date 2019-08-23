@@ -66,8 +66,12 @@
                             View
                         </a>
                         <div class="dropdown-menu" aria-labelledby="modificationDropdown">
-                            <a class="dropdown-item" href="#" data-toggle="modal"
-                               data-target="#importGraph">Import</a>
+                            <a class="dropdown-item" href="#">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="showDegrees" v-model="showDegrees">
+                                    <label class="custom-control-label" for="showDegrees">Degrees</label>
+                                </div>
+                            </a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

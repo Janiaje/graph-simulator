@@ -260,6 +260,30 @@ class Graph {
         this._largestComponent = undefined;
     }
 
+    showDegrees() {
+        this.fillDegrees();
+
+        this._nodes.map(node => {
+            node.originalLabel = node.label;
+
+            if (this.directed) {
+                node.label = `${node.label} (${node.outgoingDegree}|${node.incomingDegree})`
+            } else {
+                node.label = `${node.label} (${node.degree})`
+            }
+        });
+    }
+
+    hideDegrees() {
+        this._nodes.map(node => {
+            if (node.originalLabel === undefined) {
+                return;
+            }
+
+            node.label = node.originalLabel;
+        });
+    }
+
 }
 
 // Trait method assigns

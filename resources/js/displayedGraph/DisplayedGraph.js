@@ -284,6 +284,16 @@ class DisplayedGraph {
 
         return analytics;
     }
+
+    showDegrees() {
+        this.graph.showDegrees();
+        this.display(this.graph);
+    }
+
+    hideDegrees() {
+        this.graph.hideDegrees();
+        this.display(this.graph);
+    }
 }
 
 // Trait method assigns
