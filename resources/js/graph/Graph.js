@@ -196,6 +196,70 @@ class Graph {
         this._largestComponent = undefined;
     }
 
+    removeEdge(edge) {
+        Tools.spliceById(this._edges, edge);
+
+        if (this._edgesKeyedById !== undefined) {
+            this._edgesKeyedById[edge.id] = undefined
+        }
+
+        if (
+            this._edgesKeyedByFrom !== undefined
+            && this._edgesKeyedByFrom[edge.from] !== undefined
+        ) {
+            Tools.spliceById(this._edgesKeyedByFrom[edge.from], edge);
+        }
+
+        if (
+            this._edgesKeyedByTo !== undefined
+            && this._edgesKeyedByFrom[edge.to] !== undefined
+        ) {
+            Tools.spliceById(this._edgesKeyedByFrom[edge.to], edge);
+        }
+
+        if (this._remainingEdges !== undefined) {
+            this._remainingEdges.push(edge);
+        }
+
+        this._components = undefined;
+        this._largestComponent = undefined;
+    }
+
+    addNode(node) {
+        this._nodes.push(node);
+
+        if (this._nodesKeyedById !== undefined) {
+            this._nodesKeyedById[node.id] = node;
+        }
+
+        if (this._components !== undefined) {
+            this._components.push(new Graph([node, [], this.directed, this.simple]));
+        }
+    }
+
+    editNode(node) {
+        this.nodesKeyedById[node.id] = node;
+    }
+
+    removeNode(node) {
+        Tools.spliceById(this._nodes, node);
+
+        if (this._nodesKeyedById !== undefined) {
+            this._nodesKeyedById[node.id] = undefined;
+        }
+
+        if (this.edgesKeyedByFrom[node.id] !== undefined) {
+            this.edgesKeyedByFrom[node.id].forEach(edge => this.removeEdge(edge));
+        }
+
+        if (this.edgesKeyedByTo[node.id] !== undefined) {
+            this.edgesKeyedByTo[node.id].forEach(edge => this.removeEdge(edge));
+        }
+
+        this._components = undefined;
+        this._largestComponent = undefined;
+    }
+
 }
 
 // Trait method assigns

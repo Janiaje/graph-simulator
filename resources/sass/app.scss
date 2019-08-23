@@ -8,3 +8,57 @@
 .dropdown:hover > .dropdown-menu {
     display: block;
 }
+
+.inner-window {
+    @extend .col-xl-3;
+    @extend .col-md-4;
+    @extend .col-sm-6;
+    // TODO: out from the window on xs-12 => media => right 20px
+
+    position: fixed;
+    left: 10px;
+    z-index: 955;
+
+    padding: 0 15px;
+
+    overflow: hidden;
+
+    outline: 0;
+
+    /*border: 1px rgba(0, 0, 0, 0.25) solid;*/
+    border-radius: 15px;
+
+    box-shadow: inset 0 0 0.4rem rgba(0, 0, 0, 0.25);
+    background: white;
+
+    .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+        padding: 0;
+    }
+
+    button, button:focus {
+        @extend .btn;
+
+        width: 100%;
+        height: 100%;
+
+        box-shadow: inset 0 0 0.4rem rgba(0, 0, 0, 0.25);
+        /*border: 1px rgba(0, 0, 0, 0.25) solid;*/
+        border-radius: 0;
+
+        outline: none;
+
+
+        &:not(.text-display-button):hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        &:not(.text-display-button):active {
+            background: rgba(0, 0, 0, 0.15);
+        }
+    }
+
+
+    .text-display-button {
+        cursor: unset !important;
+    }
+}

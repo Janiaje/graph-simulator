@@ -36,63 +36,53 @@
             id: {
                 type: String,
                 required: true
-            },
-            show: false,
-            mountedCallback: {}
-        },
-
-        methods: {
-            onClassChange(classAttrValue) {
-                const classList = classAttrValue.split(' ');
-                if (classList.includes('show')) {
-                    this.mountedCallback();
-                }
-            },
-
-            updateShown() {
-                let modal = $('#' + this.id);
-
-                if (this.show) {
-                    modal.modal('show');
-                } else {
-                    modal.modal('hide');
-                }
             }
         },
 
-        watch: {
+        data() {
+            return {
+                modal: null,
+                events: [
+                    'show.bs.modal',
+                    'shown.bs.modal',
+                    'hide.bs.modal',
+                    'hidden.bs.modal'
+                ]
+            }
+        },
+
+        methods: {
             show() {
-                this.updateShown();
+                this.modal.modal('show');
+            },
+
+            hide() {
+                this.modal.modal('hide');
+            },
+
+            eventCallback(event) {
+                this.$emit('modal-' + event.type);
             }
         },
 
         mounted() {
-            if (this.mountedCallback === undefined) {
-                return;
-            }
+            this.modal = $(`#${this.id}`);
 
-            this.observer = new MutationObserver(mutations => {
-                for (const m of mutations) {
-                    const newValue = m.target.getAttribute(m.attributeName);
-                    this.$nextTick(() => {
-                        this.onClassChange(newValue, m.oldValue);
-                    });
-                }
+            this.events.forEach(event => {
+                this.modal.on(event, this.eventCallback);
             });
 
-            this.observer.observe(this.$refs.modal, {
-                attributes: true,
-                attributeOldValue: true,
-                attributeFilter: ['class'],
-            });
+            this.$parent.$on('show', this.show);
+            this.$parent.$on('hide', this.hide);
         },
 
-        beforeDestroy() {
-            if (this.mountedCallback === undefined) {
-                return;
-            }
+        destroyed() {
+            this.events.forEach(event => {
+                this.modal.off(event, this.eventCallback);
+            });
 
-            this.observer.disconnect();
+            this.$parent.$off('show', this.show);
+            this.$parent.$off('hide', this.hide);
         }
     }
 </script>

@@ -28,6 +28,99 @@ class DisplayedGraph {
                 maxVelocity: 23,
                 minVelocity: 0.75,
                 timestep: 0.05
+            },
+            // TODO: move to edit actions
+            // TODO: make own callbacks and edit the _graph too
+            manipulation: {
+                addNode(data, callback) {
+                    eventHub.$emit('question', {
+                        header: 'Add node',
+                        fields: [
+                            {
+                                id: 'nodeLabel',
+                                type: 'text',
+                                label: 'Label'
+                            }
+                        ],
+                        ok: {
+                            text: 'Add',
+                            callback(answer) {
+                                data.label = answer.nodeLabel;
+                                callback(data);
+                                mainDisplayedGraph.graph.addNode(data);
+                                eventHub.$emit('network-element-added');
+                            }
+                        }
+                    });
+                },
+                editNode(data, callback) {
+                    eventHub.$emit('question', {
+                        header: 'Edit node',
+                        fields: [
+                            {
+                                id: 'nodeLabel',
+                                type: 'text',
+                                label: 'Label',
+                                value: data.label
+                            }
+                        ],
+                        ok: {
+                            text: 'Edit',
+                            callback(answer) {
+                                data.label = answer.nodeLabel;
+                                callback(data);
+                                mainDisplayedGraph.graph.editNode(data);
+                            }
+                        }
+                    });
+                },
+                deleteNode(data, callback) {
+                    callback(data);
+                    data.nodes.forEach(node => {
+                        node = mainDisplayedGraph.graph.nodesKeyedById[node];
+                        mainDisplayedGraph.graph.removeNode(node)
+                    });
+                },
+                addEdge(data, callback) {
+                    // TODO: make warning if graph wont be simple anymore
+                    callback(data);
+                    mainDisplayedGraph.graph.addEdge(data);
+                    eventHub.$emit('network-element-added');
+                },
+                editEdge: {
+                    editWithoutDrag(data, callback) {
+                        return;
+                        // Coming later for weights
+                        console.log('editWithoutDrag', data, callback);
+
+                        eventHub.$emit('question', {
+                            header: 'Edit edge',
+                            fields: [
+                                {
+                                    id: 'edgeWeight',
+                                    type: 'number',
+                                    label: 'Weight',
+                                    value: data.label // ???
+                                }
+                            ],
+                            ok: {
+                                text: 'Edit',
+                                callback(answer) {
+                                    data.label = answer.edgeWeight;
+                                    callback(data);
+                                    mainDisplayedGraph.graph.editEdge(data);
+                                }
+                            }
+                        })
+                    }
+                },
+                deleteEdge(data, callback) {
+                    callback(data);
+                    data.edges.forEach(edge => {
+                        edge = mainDisplayedGraph.graph.edgesKeyedById[edge];
+                        mainDisplayedGraph.graph.removeEdge(edge)
+                    });
+                }
             }
         };
 
@@ -35,6 +128,8 @@ class DisplayedGraph {
             nodes: this._nodesDataSet,
             edges: this._edgesDataSet
         }, this._options);
+
+        this._network.on('click', data => eventHub.$emit('network-clicked', data));
 
         Object.assign(this._options, this._network.defaultOptions);
     }
