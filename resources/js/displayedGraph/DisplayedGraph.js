@@ -32,7 +32,7 @@ class DisplayedGraph {
             // TODO: move to edit actions
             // TODO: make own callbacks and edit the _graph too
             manipulation: {
-                addNode: function (data, callback) {
+                addNode(data, callback) {
                     eventHub.$emit('question', {
                         header: 'Add node',
                         fields: [
@@ -44,26 +44,42 @@ class DisplayedGraph {
                         ],
                         ok: {
                             text: 'Add',
-                            callback: (answer) => {
+                            callback(answer) {
                                 data.label = answer.nodeLabel;
                                 callback(data);
+                                mainDisplayedGraph.graph.addNode(data);
                                 eventHub.$emit('network-element-added');
                             }
                         }
                     });
                 },
-                editNode: function (data, callback) {
+                editNode(data, callback) {
                     console.log('editNode', data, callback);
                 },
-                addEdge: function (data, callback) {
+                deleteNode(data, callback) {
+                    callback(data);
+                    data.nodes.forEach(node => {
+                        node = mainDisplayedGraph.graph.nodesKeyedById[node];
+                        mainDisplayedGraph.graph.removeNode(node)
+                    });
+                },
+                addEdge(data, callback) {
                     // TODO: make warning if graph wont be simple anymore
                     callback(data);
+                    mainDisplayedGraph.graph.addEdge(data);
                     eventHub.$emit('network-element-added');
                 },
                 editEdge: {
-                    editWithoutDrag: function (data, callback) {
+                    editWithoutDrag(data, callback) {
                         console.log('editWithoutDrag', data, callback);
                     }
+                },
+                deleteEdge(data, callback) {
+                    callback(data);
+                    data.edges.forEach(edge => {
+                        edge = mainDisplayedGraph.graph.edgesKeyedById[edge];
+                        mainDisplayedGraph.graph.removeEdge(edge)
+                    });
                 }
             }
         };

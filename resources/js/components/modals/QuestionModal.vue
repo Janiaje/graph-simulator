@@ -83,11 +83,15 @@
                     ],
                     cancel: {
                         text: 'Cancel',
-                        callback: () => console.log('Question Cancel button pressed')
+                        callback: () => {
+                            // console.log('Question Cancel button pressed');
+                        }
                     },
                     ok: {
                         text: 'OK',
-                        callback: () => console.log('Question OK button pressed')
+                        callback: () => {
+                            // console.log('Question OK button pressed');
+                        }
                     }
                 },
             };

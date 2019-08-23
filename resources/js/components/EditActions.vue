@@ -22,15 +22,23 @@
             </div>
             <div class="row" v-show="selected">
                 <div class="col-12">
+                    <button @click="edit">
+                        <font-awesome-icon icon="times"/>
+                        Edit {{ nodeSelected ? 'node' : 'edge' }}
+                    </button>
+                </div>
+            </div>
+            <div class="row" v-show="selected">
+                <div class="col-12">
                     <button @click="remove">
                         <font-awesome-icon icon="times"/>
-                        Remove {{ selected }}
+                        Remove {{ nodeSelected ? 'node' : 'edge' }}
                     </button>
                 </div>
             </div>
             <div id="stacked-content" v-show="helpText" @click="disableEditMode">
-                <p :style="{ 'line-height': this.selected ? '37px' : '18.5px' }">{{ helpText }}</p>
-                <p :style="{ 'line-height': this.selected ? '37px' : '18.5px' }">or click here to cancel</p>
+                <p :style="{ 'line-height': lineHeight }">{{ helpText }}</p>
+                <p :style="{ 'line-height': lineHeight }">or click here to cancel</p>
             </div>
         </div>
     </div>
@@ -42,7 +50,8 @@
         data() {
             return {
                 show: false,
-                selected: '',
+                nodeSelected: false,
+                edgeSelected: false,
                 helpText: '',
             }
         },
@@ -69,11 +78,11 @@
 
             networkClickedCallback(data) {
                 if (data.nodes.length > 0) {
-                    this.selected = 'node';
+                    this.nodeSelected = true;
                 } else if (data.edges.length > 0) {
-                    this.selected = 'edge';
+                    this.edgeSelected = true;
                 } else {
-                    this.selected = '';
+                    this.nothingSelected();
                 }
             },
 
@@ -84,7 +93,22 @@
 
             elementAddedCallback() {
                 this.helpText = '';
-                this.selected = '';
+                this.nothingSelected();
+            },
+
+            nothingSelected() {
+                this.nodeSelected = false;
+                this.edgeSelected = false
+            }
+        },
+
+        computed: {
+            selected() {
+                return this.nodeSelected || this.edgeSelected;
+            },
+
+            lineHeight() {
+                return this.selected ? '37px' : '18.5px';
             }
         },
 

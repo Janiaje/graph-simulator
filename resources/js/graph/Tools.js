@@ -219,13 +219,13 @@ class Tools {
             }
         });
 
-        for (
-            let i = indexes.pop();
-            indexes.length > 0;
-            i = indexes.pop()
-        ) {
+        for (let i; (i = indexes.pop()) !== undefined;) {
             array.splice(i, 1);
         }
+    }
+
+    static spliceById(array, edge) {
+        Tools.splice(array, edge, (a, b) => a.id === b.id)
     }
 
     static throwMethodNotImplemented(className, methodName) {
