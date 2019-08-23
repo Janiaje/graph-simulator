@@ -77,12 +77,20 @@
             },
 
             networkClickedCallback(data) {
+                this.nothingSelected();
+
                 if (data.nodes.length > 0) {
                     this.nodeSelected = true;
                 } else if (data.edges.length > 0) {
                     this.edgeSelected = true;
+                }
+            },
+
+            edit() {
+                if (this.nodeSelected) {
+                    mainDisplayedGraph.network.editNode();
                 } else {
-                    this.nothingSelected();
+                    mainDisplayedGraph.network.editEdgeMode();
                 }
             },
 

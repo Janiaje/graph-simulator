@@ -9,17 +9,15 @@
                  v-for="field in question.fields">
                 <label :for="field.id">{{ field.label }}</label>
 
-                <select v-if="field.type === 'select'" class="form-control" :id="field.id"
-                        :value="field.value !== undefined ? field.value : null"
-                        v-model="question.inputFields[field.id]">
+                <select v-if="field.type === 'select'" class="form-control" :id="field.id" v-model="field.value">
                     <option v-for="option in field.options">{{ option.text }}</option>
                 </select>
 
                 <input v-if="field.type === 'text'" type="text" class="form-control" :id="field.id"
-                       v-model="question.inputFields[field.id]">
+                       v-model="field.value">
 
                 <input v-if="field.type === 'number'" type="number" class="form-control" :id="field.id"
-                       v-model="question.inputFields[field.id]"
+                       v-model="field.value"
                        :min="field.min" :max="field.max">
             </div>
         </template>
@@ -55,7 +53,6 @@
                 question: {},
                 questionDefaults: {
                     header: undefined,
-                    inputFields: {},
                     fields: [
                         // {
                         //     id: 'something',
@@ -113,7 +110,12 @@
             },
 
             finished(callback) {
-                callback(this.question.inputFields);
+                let inputValues = {};
+                this.question.fields.forEach(field => {
+                    inputValues[field.id] = field.value;
+                });
+
+                callback(inputValues);
                 this.setToDefaults();
             },
 
