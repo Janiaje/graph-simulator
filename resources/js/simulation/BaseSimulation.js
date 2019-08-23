@@ -15,7 +15,6 @@ class BaseSimulation {
             step !== null;
             step = this._calculateNextStep(Tools.clone(step.graph))
         ) {
-            // TODO: rearrange the graph?
             steps.push(step);
         }
 
@@ -31,13 +30,7 @@ class BaseSimulation {
     }
 
     _createFirstStep(graph) {
-        this._makeFirstStepChanges(graph);
-
         return new SimulationStep(graph, new Graph, false);
-    }
-
-    _makeFirstStepChanges(graph) {
-
     }
 
     _calculateNextStep(graph) {

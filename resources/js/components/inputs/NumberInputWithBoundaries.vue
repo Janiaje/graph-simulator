@@ -1,6 +1,6 @@
 <template>
     <div class="form-group">
-        <label :for="id">{{ label }}</label>
+        <label v-if="label" :for="id">{{ label }}</label>
         <input
             :id="id"
             type="number"
@@ -22,8 +22,7 @@
                 required: true
             },
             label: {
-                type: String,
-                required: true
+                type: String
             },
             min: {
                 type: Number,

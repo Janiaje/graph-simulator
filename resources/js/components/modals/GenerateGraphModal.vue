@@ -14,7 +14,7 @@
                         :max="150"
                         :startingValue="numberOfNodes"
                         :placeholder="'Number of nodes'"
-                        @change="(newValue) => numberOfNodes = newValue"
+                        @change="newValue => numberOfNodes = newValue"
                     />
                 </div>
 
@@ -26,7 +26,7 @@
                         :max="1000"
                         :startingValue="numberOfEdges"
                         :placeholder="'Number of edges'"
-                        @change="(newValue) => numberOfEdges = newValue"
+                        @change="newValue => numberOfEdges = newValue"
                     />
                 </div>
             </div>

@@ -240,6 +240,21 @@ class Tools {
         return object.constructor.name;
     }
 
+    static runWithLoadingScreen(callback) {
+        eventHub.$emit('loading-show');
+
+        // TODO-low: find better solution: https://stackoverflow.com/questions/57536336
+        // only working in Chrome
+        app.$nextTick();
+
+        requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+                callback();
+
+                eventHub.$emit('loading-hide');
+            }));
+    }
+
 }
 
 export default Tools;

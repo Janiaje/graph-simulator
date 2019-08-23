@@ -12,6 +12,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import VueApexCharts from 'vue-apexcharts'
 // Import Simulations
 import GiantComponentSimulation from "./simulation/simulations/GiantComponentSimulation";
+import Tools from "./graph/Tools";
 
 require('./bootstrap');
 
@@ -42,7 +43,7 @@ Vue.component('apexchart', VueApexCharts);
 window.mainDisplayedGraph = null;
 window.eventHub = new Vue();
 
-const app = new Vue({
+window.app = new Vue({
     el: '#app',
     data() {
         return {
@@ -73,19 +74,13 @@ const app = new Vue({
         },
 
         runSimulation(simulation) {
-            eventHub.$emit('loading-show');
-
-            // TODO-low: find better solution: https://stackoverflow.com/questions/57536336
-            this.$nextTick();
-
-            requestAnimationFrame(() =>
-                requestAnimationFrame(() => {
-                    mainDisplayedGraph.simulation = new simulation(mainDisplayedGraph.graph);
-
-                    eventHub.$emit('loading-hide');
+            simulation.askQuestionBeforeRun(answer => {
+                Tools.runWithLoadingScreen(() => {
+                    let startGraph = simulation.createStartGraphFromAnswer(answer);
+                    mainDisplayedGraph.simulation = new simulation(startGraph);
                     eventHub.$emit('simulation-loaded');
-                }));
-
+                });
+            });
         }
     },
 

@@ -1,6 +1,7 @@
 import SimulationStep from "../SimulationStep";
 import DisplayedSimulation from "../DisplayedSimulation";
 import Stopwatch from "../../Stopwatch/Stopwatch";
+import Generator from "../../graph/Generator";
 
 class GiantComponentSimulation extends DisplayedSimulation {
 
@@ -8,9 +9,8 @@ class GiantComponentSimulation extends DisplayedSimulation {
         return 'Giant Component';
     }
 
-    _makeFirstStepChanges(graph) {
-        // TODO: make question about only nodes
-        graph.edges = [];
+    static createStartGraphFromAnswer(answer) {
+        return Generator.generateRandomGraph(answer.numberOfNodes, 0);
     }
 
     _calculateNextStep(graph) {

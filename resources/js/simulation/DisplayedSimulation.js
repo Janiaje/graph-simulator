@@ -7,6 +7,35 @@ class DisplayedSimulation extends BaseSimulation {
         Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getSimulationName');
     }
 
+    static askQuestionBeforeRun(okCallback) {
+        eventHub.$emit('question', {
+            header: `${this.getDisplayedName()} simulation`,
+            // TODO: descriptions + wiki links
+            // description: 'asdfasdf',
+            fields: [
+                {
+                    id: 'numberOfNodes',
+                    type: 'number',
+                    label: 'Number of starting nodes',
+                    min: 0,
+                    max: 150,
+                    value: 20
+                }
+            ],
+            alertText: 'This action is going to delete your current graph! Save/download the graph if you need it later!',
+            ok: {
+                text: 'Yes',
+                callback(answer) {
+                    okCallback(answer);
+                }
+            }
+        })
+    }
+
+    static createStartGraphFromAnswer(answer) {
+        Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'createStartGraphFromAnswer');
+    }
+
     constructor(startGraph) {
         super();
 

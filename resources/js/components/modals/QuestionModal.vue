@@ -5,6 +5,8 @@
         </template>
 
         <template v-slot:body>
+            <p v-if="question.description !== undefined">{{ question.description }}</p>
+
             <div v-if="question.fields !== undefined && question.fields.length !== 0" class="form-group"
                  v-for="field in question.fields">
                 <label :for="field.id">{{ field.label }}</label>
@@ -16,9 +18,20 @@
                 <input v-if="field.type === 'text'" type="text" class="form-control" :id="field.id"
                        v-model="field.value">
 
-                <input v-if="field.type === 'number'" type="number" class="form-control" :id="field.id"
-                       v-model="field.value"
-                       :min="field.min" :max="field.max">
+                <number-input-with-boundaries
+                    v-if="field.type === 'number'"
+                    :id="field.id"
+                    :min="field.min"
+                    :max="field.max"
+                    :startingValue="field.value"
+                    @change="newValue => field.value = newValue"
+                />
+
+            </div>
+
+            <div v-if="question.alertText !== undefined" class="alert alert-danger" role="alert">
+                <font-awesome-icon icon="exclamation-triangle"/>
+                {{ question.alertText }}
             </div>
         </template>
 
@@ -53,6 +66,7 @@
                 question: {},
                 questionDefaults: {
                     header: undefined,
+                    description: undefined,
                     fields: [
                         // {
                         //     id: 'something',
@@ -78,6 +92,7 @@
                         //     max: 10,
                         // },
                     ],
+                    alertText: undefined,
                     cancel: {
                         text: 'Cancel',
                         callback: () => {
