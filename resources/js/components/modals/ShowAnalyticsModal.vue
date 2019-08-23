@@ -31,7 +31,7 @@
         },
 
         methods: {
-            onShowCallback: () => {
+            onShowCallback() {
                 this.analytics = mainDisplayedGraph.getAnalytics();
             }
         }
