@@ -1,59 +1,58 @@
 <template>
-    <!-- TODO: out from the window on xs-12 => media => right 20px -->
-    <div id="simulation-actions" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12" v-show="show">
+    <div id="simulation-actions" class="inner-window" v-show="show">
         <div class="row">
             <div class="col-3">
-                <button type="button" class="btn btn-default" @click="stop">
+                <button @click="stop">
                     <font-awesome-icon icon="times"/>
                 </button>
             </div>
             <div class="col-9">
-                <button type="button" class="btn text-display-button">
+                <button class="text-display-button">
                     Step: {{ currentStep }} / {{ maxStep }}
                 </button>
             </div>
         </div>
         <div class="row">
             <div class="col-4">
-                <button type="button" class="btn btn-default" @click="slower">
+                <button @click="slower">
                     <font-awesome-icon icon="minus"/>
                 </button>
             </div>
             <div class="col-4">
-                <button type="button" class="btn text-display-button">
+                <button class="text-display-button">
                     Speed: {{ speed }}
                 </button>
             </div>
             <div class="col-4">
-                <button type="button" class="btn btn-default" @click="faster">
+                <button @click="faster">
                     <font-awesome-icon icon="plus"/>
                 </button>
             </div>
         </div>
         <div class="row">
             <div class="col-2 col-md-offset-1">
-                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.firstStep()">
+                <button onclick="mainDisplayedGraph.simulation.firstStep()">
                     <font-awesome-icon icon="fast-backward"/>
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.previousStep()">
+                <button onclick="mainDisplayedGraph.simulation.previousStep()">
                     <font-awesome-icon icon="step-backward"/>
                 </button>
             </div>
             <div class="col-4">
-                <button type="button" class="btn btn-default" @click="playPause">
+                <button @click="playPause">
                     <font-awesome-icon icon="play" v-if="!playing"/>
                     <font-awesome-icon icon="pause" v-if="playing"/>
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.nextStep()">
+                <button onclick="mainDisplayedGraph.simulation.nextStep()">
                     <font-awesome-icon icon="step-forward"/>
                 </button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-default" onclick="mainDisplayedGraph.simulation.lastStep()">
+                <button onclick="mainDisplayedGraph.simulation.lastStep()">
                     <font-awesome-icon icon="fast-forward"/>
                 </button>
             </div>
@@ -187,48 +186,6 @@
 
 <style lang="scss" scoped>
     #simulation-actions {
-        position: fixed;
         top: 65px;
-        left: 10px;
-        z-index: 955;
-
-        padding: 0 15px;
-
-        overflow: hidden;
-
-        outline: 0;
-
-        /*border: 1px rgba(0, 0, 0, 0.25) solid;*/
-        border-radius: 15px;
-
-        box-shadow: inset 0 0 0.4rem rgba(0, 0, 0, 0.25);
-        background: white;
-
-        .col-2, .col-3, .col-4, .col-5, .col-6, .col-9 {
-            padding: 0;
-        }
-    }
-
-    button, button:focus {
-        width: 100%;
-        height: 100%;
-
-        box-shadow: inset 0 0 0.4rem rgba(0, 0, 0, 0.25);
-        /*border: 1px rgba(0, 0, 0, 0.25) solid;*/
-        border-radius: 0;
-
-        outline: none;
-    }
-
-    button.btn-default:hover {
-        background: rgba(0, 0, 0, 0.05);
-    }
-
-    button.btn-default:active {
-        background: rgba(0, 0, 0, 0.15);
-    }
-
-    .text-display-button {
-        cursor: unset !important;
     }
 </style>

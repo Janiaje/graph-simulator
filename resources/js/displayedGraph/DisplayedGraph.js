@@ -28,6 +28,43 @@ class DisplayedGraph {
                 maxVelocity: 23,
                 minVelocity: 0.75,
                 timestep: 0.05
+            },
+            // TODO: move to edit actions
+            // TODO: make own callbacks and edit the _graph too
+            manipulation: {
+                addNode: function (data, callback) {
+                    eventHub.$emit('question', {
+                        header: 'Add node',
+                        fields: [
+                            {
+                                id: 'nodeLabel',
+                                type: 'text',
+                                label: 'Label'
+                            }
+                        ],
+                        ok: {
+                            text: 'Add',
+                            callback: (answer) => {
+                                data.label = answer.nodeLabel;
+                                callback(data);
+                                eventHub.$emit('network-element-added');
+                            }
+                        }
+                    });
+                },
+                editNode: function (data, callback) {
+                    console.log('editNode', data, callback);
+                },
+                addEdge: function (data, callback) {
+                    // TODO: make warning if graph wont be simple anymore
+                    callback(data);
+                    eventHub.$emit('network-element-added');
+                },
+                editEdge: {
+                    editWithoutDrag: function (data, callback) {
+                        console.log('editWithoutDrag', data, callback);
+                    }
+                }
             }
         };
 
@@ -35,6 +72,8 @@ class DisplayedGraph {
             nodes: this._nodesDataSet,
             edges: this._edgesDataSet
         }, this._options);
+
+        this._network.on('click', data => eventHub.$emit('network-clicked', data));
 
         Object.assign(this._options, this._network.defaultOptions);
     }

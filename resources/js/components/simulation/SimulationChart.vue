@@ -1,5 +1,5 @@
 <template>
-    <div id="simulation-chart" class="col-xl-3 col-md-4 col-md-4 col-sm-6 col-xs-12" v-show="show">
+    <div id="simulation-chart" class="inner-window" v-show="show">
         <div id="simulation-chart-inside">
             <apexchart width="500" type="line" :width="'100%'" :options="options" :series="series"/>
         </div>
@@ -53,22 +53,7 @@
 
 <style lang="scss" scoped>
     #simulation-chart {
-        position: fixed;
         top: 186px;
-        left: 10px;
-        z-index: 955;
-
-        padding: 0;
-
-        overflow: hidden;
-
-        outline: 0;
-
-        /*border: 1px rgba(0, 0, 0, 0.25) solid;*/
-        border-radius: 15px;
-
-        box-shadow: inset 0 0 0.4rem rgba(0, 0, 0, 0.25);
-        background: white;
     }
 
     #simulation-chart-inside {
