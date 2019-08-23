@@ -52,45 +52,36 @@
                             drop-placeholder="Drop file here..."
                         ></b-form-file>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="gephiFixed"
-                                           v-model="gephiFixed">
-                                    <label class="form-check-label" for="gephiFixed">Fix in place after import</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="gephiParseColor"
-                                           v-model="gephiParseColor">
-                                    <label class="form-check-label" for="gephiParseColor">Parse the color instead of
-                                        copy
-                                        (adds borders, highlights etc.)</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="directed" v-model="directed">
-                            <label class="form-check-label" for="directed">Directed graph</label>
-                        </div>
+                <div class="col-12" v-show="type === 'GephiJSON'">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="gephiFixed" v-model="gephiFixed">
+                        <label class="custom-control-label" for="gephiFixed">Fix in place after import</label>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="physicsAllowed"
-                                   v-model="physicsAllowed">
-                            <label class="form-check-label" for="physicsAllowed">Physics allowed</label>
-                        </div>
+                <div class="col-12" v-show="type === 'GephiJSON'">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="gephiParseColor"
+                               v-model="gephiParseColor">
+                        <label class="custom-control-label" for="gephiParseColor">
+                            Parse the color instead of copy (adds borders, highlights etc.)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="directed" v-model="directed">
+                        <label class="custom-control-label" for="directed">Directed graph</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="physicsAllowedImport"
+                               v-model="physicsAllowed">
+                        <label class="custom-control-label" for="physicsAllowedImport">Physics allowed</label>
                     </div>
                 </div>
             </div>
@@ -193,7 +184,5 @@
 </script>
 
 <style lang="scss" scoped>
-    label.line-through {
-        text-decoration: line-through;
-    }
+
 </style>

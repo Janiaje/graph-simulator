@@ -40,7 +40,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="modificationDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Modifications
+                            Edit
                         </a>
                         <div class="dropdown-menu" aria-labelledby="modificationDropdown">
                             <a class="dropdown-item" href="#" data-toggle="modal"
@@ -61,9 +61,19 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="modificationDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            View
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="modificationDropdown">
+                            <a class="dropdown-item" href="#" data-toggle="modal"
+                               data-target="#importGraph">Import</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="analyticsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Analytics
+                            Analise
                         </a>
                         <div class="dropdown-menu" aria-labelledby="analyticsDropdown">
                             <a class="dropdown-item" href="#" data-toggle="modal"
@@ -73,7 +83,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="simulationDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Simulations
+                            Simulate
                         </a>
                         <div class="dropdown-menu" aria-labelledby="simulationDropdown">
                             <a class="dropdown-item" href="#" @click="runSimulation(simulation.simulation)"
