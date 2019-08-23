@@ -77,13 +77,6 @@
                         <label class="custom-control-label" for="directed">Directed graph</label>
                     </div>
                 </div>
-                <div class="col-12">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="physicsAllowedImport"
-                               v-model="physicsAllowed">
-                        <label class="custom-control-label" for="physicsAllowedImport">Physics allowed</label>
-                    </div>
-                </div>
             </div>
         </template>
 
@@ -107,7 +100,6 @@
             return {
                 type: 'CSV',
                 directed: false,
-                physicsAllowed: true,
 
                 nodeListFile: null,
                 nodeListFileContent: null,
@@ -172,12 +164,6 @@
 
                 json = JSON.parse(json);
                 mainDisplayedGraph.importGephiJSON(json, this.directed, this.gephiFixed, this.gephiParseColor);
-            }
-        },
-
-        watch: {
-            physicsAllowed: function (value) {
-                mainDisplayedGraph.physicsAllowed(value);
             }
         }
     }

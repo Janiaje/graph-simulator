@@ -73,6 +73,13 @@
                                     <label class="custom-control-label" for="showDegrees">Degrees</label>
                                 </div>
                             </a>
+                            <a class="dropdown-item" href="#">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="physicsAllowedMenu"
+                                           v-model="physicsAllowed">
+                                    <label class="custom-control-label" for="physicsAllowedMenu">Physics</label>
+                                </div>
+                            </a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

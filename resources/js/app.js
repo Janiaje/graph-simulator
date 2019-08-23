@@ -52,7 +52,8 @@ const app = new Vue({
                 GiantComponentSimulation,
             ],
             simulations: [],
-            showDegrees: false
+            showDegrees: false,
+            physicsAllowed: true
         }
     },
 
@@ -95,6 +96,10 @@ const app = new Vue({
             } else {
                 mainDisplayedGraph.hideDegrees();
             }
+        },
+
+        physicsAllowed(value) {
+            mainDisplayedGraph.physicsAllowed(value);
         }
     },
 

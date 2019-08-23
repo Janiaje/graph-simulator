@@ -45,14 +45,6 @@
                         <label class="custom-control-label" for="directedGraph">Directed graph</label>
                     </div>
                 </div>
-
-                <div class="col-6">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="physicsAllowedGenerate"
-                               v-model="physicsAllowed">
-                        <label class="custom-control-label" for="physicsAllowedGenerate">Physics allowed</label>
-                    </div>
-                </div>
             </div>
         </template>
 
@@ -77,7 +69,6 @@
                 numberOfEdges: 7,
                 simpleGraph: true,
                 directedGraph: false,
-                physicsAllowed: true
             }
         },
 
@@ -86,12 +77,6 @@
                 eventHub.$emit('simulation-ended');
                 let graph = Generator.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
                 mainDisplayedGraph.display(graph);
-            }
-        },
-
-        watch: {
-            physicsAllowed: function (value) {
-                mainDisplayedGraph.physicsAllowed(value);
             }
         }
     }
