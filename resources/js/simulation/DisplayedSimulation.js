@@ -7,17 +7,20 @@ class DisplayedSimulation extends BaseSimulation {
         Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getSimulationName');
     }
 
+    static getDescription() {
+        Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getDescription');
+    }
+
     static askQuestionBeforeRun(okCallback) {
         eventHub.$emit('question', {
             header: `${this.getDisplayedName()} simulation`,
-            // TODO: descriptions + wiki links
-            // description: 'asdfasdf',
+            description: this.getDescription(),
             fields: [
                 {
                     id: 'numberOfNodes',
                     type: 'number',
                     label: 'Number of starting nodes',
-                    min: 0,
+                    min: 1,
                     max: 150,
                     value: 20
                 }

@@ -9,6 +9,18 @@ class GiantComponentSimulation extends DisplayedSimulation {
         return 'Giant Component';
     }
 
+    static getDescription() {
+        // TODO: descriptions + wiki links
+        return `
+            <span><b>Steps:</b></span>
+            <ol>
+                <li>Generate the given number of nodes</li>            
+                <li>Randomly add edges one by one</li>            
+                <li>If the giant component includes all the nodes: STOP</li>            
+            </ol>
+        `;
+    }
+
     static createStartGraphFromAnswer(answer) {
         return Generator.generateRandomGraph(answer.numberOfNodes, 0);
     }

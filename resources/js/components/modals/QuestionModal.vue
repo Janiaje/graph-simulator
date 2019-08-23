@@ -5,8 +5,12 @@
         </template>
 
         <template v-slot:body>
-            <p v-if="question.description !== undefined">{{ question.description }}</p>
+            <div class="form-group" v-if="question.description !== undefined">
+                <h2>Description</h2>
+                <span v-html="question.description"/>
+            </div>
 
+            <h2 v-if="question.description !== undefined">Settings</h2>
             <div v-if="question.fields !== undefined && question.fields.length !== 0" class="form-group"
                  v-for="field in question.fields">
                 <label :for="field.id">{{ field.label }}</label>
