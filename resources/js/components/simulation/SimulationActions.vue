@@ -1,12 +1,12 @@
 <template>
     <div id="simulation-actions" class="inner-window" v-show="show">
         <div class="row">
-            <div class="col-3">
+            <div class="col-2">
                 <button @click="stop">
                     <font-awesome-icon icon="times"/>
                 </button>
             </div>
-            <div class="col-9">
+            <div class="col-10">
                 <button class="text-display-button">
                     Step: {{ currentStep }} / {{ maxStep }}
                 </button>

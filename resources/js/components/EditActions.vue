@@ -2,13 +2,18 @@
     <div id="edit-actions" class="inner-window" v-show="show">
         <div id="container">
             <div class="row">
-                <div class="col-6">
+                <div class="col-2">
+                    <button @click="show = false">
+                        <font-awesome-icon icon="times"/>
+                    </button>
+                </div>
+                <div class="col-5">
                     <button @click="addNodeStart">
                         <font-awesome-icon icon="plus"/>
                         Add Node
                     </button>
                 </div>
-                <div class="col-6">
+                <div class="col-5">
                     <button @click="addEdgeStart">
                         <font-awesome-icon icon="plus"/>
                         Add Edge
@@ -36,13 +41,17 @@
         name: "EditActions",
         data() {
             return {
-                show: true,
+                show: false,
                 selected: '',
                 helpText: '',
             }
         },
 
         methods: {
+            networkEditCallback() {
+                this.show = true;
+            },
+
             addNodeStart() {
                 mainDisplayedGraph.network.addNodeMode();
                 this.helpText = 'Click somewhere to add a node';
@@ -80,11 +89,15 @@
         },
 
         mounted() {
+            eventHub.$on('network-edit', this.networkEditCallback);
+
             eventHub.$on('network-clicked', this.networkClickedCallback);
             eventHub.$on('network-element-added', this.elementAddedCallback);
         },
 
         destroyed() {
+            eventHub.$off('network-edit', this.networkEditCallback);
+
             eventHub.$off('network-clicked', this.networkClickedCallback);
             eventHub.$off('network-element-added', this.elementAddedCallback);
         }

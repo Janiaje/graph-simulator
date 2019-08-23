@@ -50,9 +50,10 @@
 
                             <div class="dropdown-divider"></div>
 
-                            <a class="dropdown-item" href="#" data-toggle="modal"
-                               data-target="#generateGraph">Generate</a>
-                            <a class="dropdown-item disabled" href="#">Edit (later)</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#generateGraph">
+                                Generate
+                            </a>
+                            <a class="dropdown-item" href="#" @click="editGraph">Edit</a>
 
                             <div class="dropdown-divider"></div>
 

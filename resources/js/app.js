@@ -64,6 +64,12 @@ const app = new Vue({
             mainDisplayedGraph.clear();
         },
 
+        editGraph() {
+            eventHub.$emit('network-edit');
+            // TODO: close the dropdown on click
+            $('#modificationDropdown').dropdown('toggle');
+        },
+
         runSimulation(simulation) {
             eventHub.$emit('loading-show');
 
