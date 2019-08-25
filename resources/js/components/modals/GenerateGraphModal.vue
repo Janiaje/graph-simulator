@@ -74,7 +74,9 @@
 
         methods: {
             generateRandomGraph() {
+                // TODO: It is calls the setter of DisplayedGraph.simulation => sets the default color to the current graph => not needed!
                 eventHub.$emit('simulation-ended');
+
                 let graph = Generator.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
                 mainDisplayedGraph.display(graph);
             }
