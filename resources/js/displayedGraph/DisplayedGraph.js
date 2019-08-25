@@ -171,12 +171,25 @@ class DisplayedGraph {
      * @param graph Graph
      */
     display(graph) {
-        // this.clear();
-
         this._graph = graph;
+
+        this._removeMissing(this._edgesDataSet, graph.edgesKeyedById);
+        this._removeMissing(this._nodesDataSet, graph.nodesKeyedById);
 
         this._nodesDataSet.update(graph.nodes);
         this._edgesDataSet.update(graph.edges);
+    }
+
+    _removeMissing(networkDataset, elements) {
+        let toRemove = [];
+
+        Object.keys(networkDataset._data).forEach(function (id) {
+            if (elements[id] === undefined) {
+                toRemove.push(id);
+            }
+        });
+
+        networkDataset.remove(toRemove);
     }
 
     /**

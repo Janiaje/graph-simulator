@@ -48,7 +48,6 @@ window.app = new Vue({
     data() {
         return {
             graphHeight: 0,
-            simulationEnded: () => mainDisplayedGraph.simulation = undefined,
             simulationTypes: [
                 GiantComponentSimulation,
             ],
@@ -60,7 +59,17 @@ window.app = new Vue({
 
     methods: {
         handleResize() {
-            this.graphHeight = window.innerHeight - 55;
+            let navbarHeight = 54;
+
+            if (this.$refs.navbar !== undefined) {
+                navbarHeight = this.$refs.navbar.clientHeight;
+            }
+
+            this.graphHeight = window.innerHeight - navbarHeight;
+        },
+
+        simulationEnded() {
+            mainDisplayedGraph.simulation = undefined
         },
 
         clearGraph() {
