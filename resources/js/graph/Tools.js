@@ -255,6 +255,10 @@ class Tools {
             }));
     }
 
+    static getCurrentMemoryUsage() {
+        return window.performance.memory !== undefined ? window.performance.memory.usedJSHeapSize : 0;
+    }
+
 }
 
 export default Tools;
