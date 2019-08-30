@@ -43,10 +43,12 @@
                             Edit
                         </a>
                         <div class="dropdown-menu" aria-labelledby="modificationDropdown">
-                            <a class="dropdown-item" href="#" data-toggle="modal"
-                               data-target="#importGraph">Import</a>
-                            <a class="dropdown-item" href="#" data-toggle="modal"
-                               data-target="#exportGraph">Export</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#importGraph">
+                                Import
+                            </a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#exportGraph">
+                                Export
+                            </a>
 
                             <div class="dropdown-divider"></div>
 
@@ -88,8 +90,9 @@
                             Analise
                         </a>
                         <div class="dropdown-menu" aria-labelledby="analyticsDropdown">
-                            <a class="dropdown-item" href="#" data-toggle="modal"
-                               data-target="#showAnalytics">Show</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#showAnalytics">
+                                Show
+                            </a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -98,8 +101,13 @@
                             Simulate
                         </a>
                         <div class="dropdown-menu" aria-labelledby="simulationDropdown">
-                            <a class="dropdown-item" href="#" @click="runSimulation(simulation.simulation)"
-                               v-for="simulation in simulations" v-html="simulation.name"></a>
+                            <a
+                                class="dropdown-item"
+                                href="#"
+                                @click="runSimulation(simulation.simulation)"
+                                v-for="simulation in simulations"
+                                v-html="simulation.name"
+                            ></a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
