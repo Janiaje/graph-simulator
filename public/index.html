@@ -116,9 +116,9 @@
                             About
                         </a>
                         <div class="dropdown-menu" aria-labelledby="simulationDropdown">
-                            <a class="dropdown-item" href="https://github.com/Janiaje/thesis/issues/new"
+                            <a class="dropdown-item" href="https://github.com/Janiaje/network-simulator/issues/new"
                                target="_blank">Request a feature</a>
-                            <a class="dropdown-item" href="https://github.com/Janiaje/thesis/issues/new"
+                            <a class="dropdown-item" href="https://github.com/Janiaje/network-simulator/issues/new"
                                target="_blank">Report a bug</a>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#about">About</a>
                         </div>
