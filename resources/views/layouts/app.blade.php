@@ -102,6 +102,19 @@
                                v-for="simulation in simulations" v-html="simulation.name"></a>
                         </div>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="simulationDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            About
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="simulationDropdown">
+                            <a class="dropdown-item" href="https://github.com/Janiaje/thesis/issues/new"
+                               target="_blank">Request a feature</a>
+                            <a class="dropdown-item" href="https://github.com/Janiaje/thesis/issues/new"
+                               target="_blank">Report a bug</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#about">About</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -14,6 +14,7 @@
         <show-analytics-modal/>
 
         <question-modal/>
+        <about-modal/>
     </div>
 </template>
 

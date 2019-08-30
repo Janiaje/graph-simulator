@@ -12,7 +12,7 @@ class GiantComponentSimulation extends DisplayedSimulation {
     static getDescription() {
         // TODO: descriptions + wiki links
         return `
-            <span><b>Steps:</b></span>
+            Steps:
             <ol>
                 <li>Generate the given number of nodes</li>            
                 <li>Randomly add edges one by one</li>            

@@ -6,11 +6,11 @@
 
         <template v-slot:body>
             <div class="form-group" v-if="question.description !== undefined">
-                <h2>Description</h2>
+                <h5>Description</h5>
                 <span v-html="question.description"/>
             </div>
 
-            <h2 v-if="question.description !== undefined">Settings</h2>
+            <h5 v-if="question.description !== undefined">Settings</h5>
             <div v-if="question.fields !== undefined && question.fields.length !== 0" class="form-group"
                  v-for="field in question.fields">
                 <label :for="field.id">{{ field.label }}</label>
