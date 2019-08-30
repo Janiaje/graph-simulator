@@ -2,7 +2,7 @@
 
 ## About
 
-This project is started as my Thesis project to the university.
+This project is started as my Thesis project at the university.
 My time is very limited so pls forgive for the mistakes and bugs you find and open a [bug report](https://github.com/Janiaje/thesis/issues/new) / pull request.
 
 
