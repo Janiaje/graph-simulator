@@ -1,4 +1,4 @@
-# Thesis
+# Network Simulator
 
 ## About
 
