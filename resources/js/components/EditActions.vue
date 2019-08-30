@@ -96,7 +96,7 @@
 
             remove() {
                 mainDisplayedGraph.network.deleteSelected();
-                this.selected = false;
+                this.nothingSelected();
             },
 
             elementAddedCallback() {
