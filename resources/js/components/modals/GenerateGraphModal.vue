@@ -60,6 +60,7 @@
 
 <script>
     import Generator from "../../graph/Generator";
+    import Tools from "../../graph/Tools";
 
     export default {
         name: "GenerateGraphModal",
@@ -77,8 +78,10 @@
                 // TODO: It is calls the setter of DisplayedGraph.simulation => sets the default color to the current graph => not needed!
                 eventHub.$emit('simulation-ended');
 
-                let graph = Generator.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
-                mainDisplayedGraph.display(graph);
+                Tools.runWithLoadingScreen(() => {
+                    let graph = Generator.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+                    mainDisplayedGraph.display(graph);
+                });
             }
         }
     }
