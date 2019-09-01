@@ -10739,10 +10739,6 @@ a.text-dark:focus {
   /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-.dropdown:hover > .dropdown-menu {
-  display: block;
-}
-
 .dropdown-item input {
   height: 30px;
 }
