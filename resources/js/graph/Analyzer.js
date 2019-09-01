@@ -5,7 +5,7 @@ let Analyzer = {
 
     getAverageDegree(type) {
         if (this.nodes.length === 0) {
-            return [];
+            return 'NaN';
         }
 
         this.fillDegrees();

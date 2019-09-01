@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row form-group">
                 <div class="col-12" v-show="type === 'GephiJSON'">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="gephiFixed" v-model="gephiFixed">

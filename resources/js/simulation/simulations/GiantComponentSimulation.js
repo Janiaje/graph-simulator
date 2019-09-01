@@ -5,7 +5,7 @@ import Generator from "../../graph/Generator";
 
 class GiantComponentSimulation extends DisplayedSimulation {
 
-    static getDisplayedName() {
+    static getName() {
         return 'Giant Component';
     }
 

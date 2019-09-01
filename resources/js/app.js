@@ -10,8 +10,11 @@ import {fas} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 // Import ApexCharts
 import VueApexCharts from 'vue-apexcharts'
+// Import Analyses
+import AverageDegreeAnalysis from "./analysis/analyses/AverageDegreeAnalysis";
 // Import Simulations
 import GiantComponentSimulation from "./simulation/simulations/GiantComponentSimulation";
+// Others
 import Tools from "./graph/Tools";
 
 require('./bootstrap');
@@ -48,6 +51,10 @@ window.app = new Vue({
     data() {
         return {
             graphHeight: 0,
+            analysisTypes: [
+                AverageDegreeAnalysis,
+            ],
+            analyses: [],
             simulationTypes: [
                 GiantComponentSimulation,
             ],
@@ -90,6 +97,10 @@ window.app = new Vue({
                     eventHub.$emit('simulation-loaded');
                 });
             });
+        },
+
+        showAnalysis(analysis) {
+            analysis.display();
         }
     },
 
@@ -111,10 +122,18 @@ window.app = new Vue({
         this.handleResize();
         window.addEventListener('resize', this.handleResize);
 
-        // Create the list for the simulations menu
+        // Create the list for the Analise menu
+        this.analysisTypes.forEach(analysis => {
+            this.analyses.push({
+                name: analysis.getName(),
+                analysis: analysis,
+            });
+        });
+
+        // Create the list for the Simulate menu
         this.simulationTypes.forEach(simulation => {
             this.simulations.push({
-                name: simulation.getDisplayedName(),
+                name: simulation.getName(),
                 simulation: simulation,
             });
         });

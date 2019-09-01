@@ -90,9 +90,13 @@
                             Analise
                         </a>
                         <div class="dropdown-menu" aria-labelledby="analyticsDropdown">
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#showAnalytics">
-                                Show
-                            </a>
+                            <a
+                                class="dropdown-item"
+                                href="#"
+                                @click="showAnalysis(analysis.analysis)"
+                                v-for="analysis in analyses"
+                                v-html="analysis.name"
+                            ></a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

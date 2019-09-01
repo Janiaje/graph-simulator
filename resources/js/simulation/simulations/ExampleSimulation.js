@@ -3,7 +3,7 @@ import SimulationStep from "../SimulationStep";
 
 class ExampleSimulation extends BaseSimulation {
 
-    static getDisplayedName() {
+    static getName() {
         return 'Example simulation';
     }
 

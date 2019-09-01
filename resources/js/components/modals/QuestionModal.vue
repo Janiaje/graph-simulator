@@ -6,31 +6,32 @@
 
         <template v-slot:body>
             <div class="form-group" v-if="question.description !== undefined">
-                <h5>Description</h5>
+                <h5 v-if="question.sectionTitles">Description</h5>
                 <span v-html="question.description"/>
             </div>
 
-            <h5 v-if="question.description !== undefined">Settings</h5>
-            <div v-if="question.fields !== undefined && question.fields.length !== 0" class="form-group"
-                 v-for="field in question.fields">
-                <label :for="field.id">{{ field.label }}</label>
+            <div v-if="question.fields !== undefined && question.fields.length !== 0" class="form-group">
+                <h5 v-if="question.sectionTitles">Settings</h5>
 
-                <select v-if="field.type === 'select'" class="form-control" :id="field.id" v-model="field.value">
-                    <option v-for="option in field.options">{{ option.text }}</option>
-                </select>
+                <div v-for="field in question.fields">
+                    <label :for="field.id">{{ field.label }}</label>
 
-                <input v-if="field.type === 'text'" type="text" class="form-control" :id="field.id"
-                       v-model="field.value">
+                    <select v-if="field.type === 'select'" class="form-control" :id="field.id" v-model="field.value">
+                        <option v-for="option in field.options">{{ option.text }}</option>
+                    </select>
 
-                <number-input-with-boundaries
-                    v-if="field.type === 'number'"
-                    :id="field.id"
-                    :min="field.min"
-                    :max="field.max"
-                    :startingValue="field.value"
-                    @change="newValue => field.value = newValue"
-                />
+                    <input v-if="field.type === 'text'" type="text" class="form-control" :id="field.id"
+                           v-model="field.value">
 
+                    <number-input-with-boundaries
+                        v-if="field.type === 'number'"
+                        :id="field.id"
+                        :min="field.min"
+                        :max="field.max"
+                        :startingValue="field.value"
+                        @change="newValue => field.value = newValue"
+                    />
+                </div>
             </div>
 
             <div v-if="question.alertText !== undefined" class="alert alert-danger" role="alert">
@@ -39,7 +40,7 @@
             </div>
         </template>
 
-        <template v-slot:footer>
+        <template v-slot:footer v-if="question.footer">
             <button
                 type="button" class="btn btn-secondary"
                 v-if="question.cancel !== undefined"
@@ -70,6 +71,7 @@
                 question: {},
                 questionDefaults: {
                     header: undefined,
+                    sectionTitles: true,
                     description: undefined,
                     fields: [
                         // {
@@ -97,6 +99,7 @@
                         // },
                     ],
                     alertText: undefined,
+                    footer: true,
                     cancel: {
                         text: 'Cancel',
                         callback: () => {

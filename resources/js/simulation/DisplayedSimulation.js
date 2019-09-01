@@ -3,7 +3,7 @@ import Tools from "../graph/Tools";
 
 class DisplayedSimulation extends BaseSimulation {
 
-    static getDisplayedName() {
+    static getName() {
         Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getSimulationName');
     }
 
@@ -13,7 +13,7 @@ class DisplayedSimulation extends BaseSimulation {
 
     static askQuestionBeforeRun(okCallback) {
         eventHub.$emit('question', {
-            header: `${this.getDisplayedName()} simulation`,
+            header: `${this.getName()} simulation`,
             description: this.getDescription(),
             fields: [
                 {
@@ -27,7 +27,7 @@ class DisplayedSimulation extends BaseSimulation {
             ],
             alertText: 'This action is going to delete your current graph! Save/download the graph if you need it later!',
             ok: {
-                text: 'Yes',
+                text: 'Run',
                 callback(answer) {
                     okCallback(answer);
                 }

@@ -11,7 +11,6 @@
         <import-modal/>
         <export-modal/>
         <generate-graph-modal/>
-        <show-analytics-modal/>
 
         <question-modal/>
         <about-modal/>

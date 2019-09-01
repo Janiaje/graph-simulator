@@ -229,7 +229,7 @@ class Tools {
     }
 
     static throwMethodNotImplemented(className, methodName) {
-        throw `'${className}.${methodName}' static method is not implemented in the simulation`;
+        throw `'${className}.${methodName}' method is not implemented!`;
     }
 
     static getClassNameFromStaticScope(classObject) {

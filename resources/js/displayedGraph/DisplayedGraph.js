@@ -275,29 +275,6 @@ class DisplayedGraph {
         this._updateOptions();
     }
 
-    getAnalytics() {
-        let analytics = [];
-
-        if (this._graph.nodes.length !== 0) {
-            let averageDegree = {
-                'title': 'Average degree',
-                'value': this._graph.directed ?
-                    `
-                    <ul>
-                        <li>Outgoing degree: ${this._graph.getAverageDegree('outgoingDegree')} </li>
-                        <li>Incoming degree: ${this._graph.getAverageDegree('incomingDegree')} </li>
-                    </ul>
-                    ` :
-                    this._graph.getAverageDegree('degree'),
-                'helpLink': 'http://networksciencebook.com/chapter/2#degree',
-            };
-
-            analytics.push(averageDegree)
-        }
-
-        return analytics;
-    }
-
     showDegrees() {
         this.graph.showDegrees();
         this.display(this.graph);

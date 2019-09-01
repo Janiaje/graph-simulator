@@ -11,9 +11,9 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header" v-show="$slots.header">
-                    <h5 class="modal-title" :id="id + 'ModalLabel'">
+                    <h4 class="modal-title" :id="id + 'ModalLabel'">
                         <slot name="header"></slot>
-                    </h5>
+                    </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -88,5 +88,7 @@
 </script>
 
 <style scoped>
-
+    .modal-body {
+        padding-bottom: 0;
+    }
 </style>

@@ -137,20 +137,17 @@
             play() {
                 this.playing = true;
 
-                // mainDisplayedGraph.physicsAllowed(false);
-
                 this._setInterval();
             },
 
             pause() {
                 this.playing = false;
 
-                // mainDisplayedGraph.physicsAllowed(true);
-
                 this._clearInterval();
             },
 
             stop() {
+                this.pause();
                 mainDisplayedGraph.simulation = undefined;
                 eventHub.$emit('simulation-ended');
             }

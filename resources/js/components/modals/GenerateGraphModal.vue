@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row form-group">
                 <div class="col-6">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="simpleGraph" v-model="simpleGraph">
