@@ -43,7 +43,12 @@
             <div class="row" v-show="type === 'GephiJSON'">
                 <div class="col-12">
                     <div class="form-group">
-                        <label for="gephiFile">Upload Gephi JSON file</label>
+                        <label for="gephiFile">
+                            Upload
+                            <a href="https://gephi.org/plugins/#/plugin/jsonexporter-plugin" target="_blank">Gephi
+                                JSON</a>
+                            file
+                        </label>
                         <b-form-file
                             id="gephiFile"
                             v-model="gephiFile"

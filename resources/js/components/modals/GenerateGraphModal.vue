@@ -35,14 +35,27 @@
                 <div class="col-6">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="simpleGraph" v-model="simpleGraph">
-                        <label class="custom-control-label" for="simpleGraph">Simple graph</label>
+                        <label class="custom-control-label" for="simpleGraph">
+                            Simple graph
+
+                            <span data-toggle="tooltip"
+                                  title="Graph which is not containing any parallel or loop edges">
+                                <font-awesome-icon icon="info-circle"/>
+                            </span>
+                        </label>
                     </div>
                 </div>
 
                 <div class="col-6">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="directedGraph" v-model="directedGraph">
-                        <label class="custom-control-label" for="directedGraph">Directed graph</label>
+                        <label class="custom-control-label" for="directedGraph">
+                            Directed graph
+
+                            <span data-toggle="tooltip" title="Graph where the edges have directions">
+                                <font-awesome-icon icon="info-circle"/>
+                            </span>
+                        </label>
                     </div>
                 </div>
             </div>

@@ -158,6 +158,10 @@ window.app = new Vue({
 
         // Starting point for the application
         $('#generateGraph').modal('show');
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     },
 
     destroyed() {
