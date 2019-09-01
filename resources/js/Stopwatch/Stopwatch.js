@@ -3,11 +3,17 @@ import Tools from "../graph/Tools";
 
 class Stopwatch {
 
+    /**
+     * Starts the stopwatch.
+     */
     static start() {
         this._cycles = [];
         this.newCycle();
     }
 
+    /**
+     * Starts a new cycle.
+     */
     static newCycle() {
         if (this.cycle !== undefined) {
             this.cycle.finished();
@@ -16,6 +22,9 @@ class Stopwatch {
         this.cycles.push(new StopwatchCycle)
     }
 
+    /**
+     * Creates a checkpoint.
+     */
     static checkpoint(id) {
         this.cycle.checkpoint(id);
     }
@@ -36,6 +45,9 @@ class Stopwatch {
         return this._cycles;
     }
 
+    /**
+     * Prints out the results to the console.
+     */
     static results() {
         this.cycle.finished();
 

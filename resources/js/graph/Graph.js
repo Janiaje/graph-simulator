@@ -6,10 +6,10 @@ import Generator from "./Generator";
 class Graph {
 
     /**
-     * @param nodes Array
-     * @param edges Array
-     * @param directed Boolean
-     * @param simple Boolean
+     * @param nodes {Array.<Object>}
+     * @param edges {Array.<Object>}
+     * @param directed {Boolean}
+     * @param simple {Boolean}
      */
     constructor(nodes = [], edges = [], directed = false, simple = true) {
         this._nodes = nodes;
@@ -69,7 +69,16 @@ class Graph {
         this._simple = value;
     }
 
+    /**
+     * Returns the remaining edges to make a simple full graph.
+     *
+     * @returns {Array.<Object>|undefined}
+     */
     get remainingEdges() {
+        if (!this.simple) {
+            return undefined;
+        }
+
         if (this._remainingEdges === undefined) {
             let fullGraphEdges = Generator.generateEdgesForFullGraph(this.nodes, this.directed);
             this._remainingEdges = fullGraphEdges.filter(edge => !this.containsEdge(edge));
@@ -78,6 +87,11 @@ class Graph {
         return this._remainingEdges;
     }
 
+    /**
+     * Returns an Object keyed with the IDs of the nodes.
+     *
+     * @returns {Object}
+     */
     get nodesKeyedById() {
         if (this._nodesKeyedById === undefined) {
             this._nodesKeyedById = Tools.sortArrayIntoObject(this._nodes);
@@ -86,6 +100,11 @@ class Graph {
         return this._nodesKeyedById;
     }
 
+    /**
+     * Returns an Object keyed with the IDs of the edges.
+     *
+     * @returns {Object}
+     */
     get edgesKeyedById() {
         if (this._edgesKeyedById === undefined) {
             this._edgesKeyedById = Tools.sortArrayIntoObject(this._edges);
@@ -94,6 +113,11 @@ class Graph {
         return this._edgesKeyedById;
     }
 
+    /**
+     * Returns an Object keyed with the 'from' IDs of the edges.
+     *
+     * @returns {Object}
+     */
     get edgesKeyedByFrom() {
         if (this._edgesKeyedByFrom === undefined) {
             this._edgesKeyedByFrom = Tools.groupBy(this._edges, 'from');
@@ -102,6 +126,11 @@ class Graph {
         return this._edgesKeyedByFrom;
     }
 
+    /**
+     * Returns an Object keyed with the 'to' IDs of the edges.
+     *
+     * @returns {Object}
+     */
     get edgesKeyedByTo() {
         if (this._edgesKeyedByTo === undefined) {
             this._edgesKeyedByTo = Tools.groupBy(this._edges, 'to');
@@ -124,6 +153,11 @@ class Graph {
         });
     }
 
+    /**
+     * Adds a random edge to the Graph.
+     *
+     * @returns {Object|null}
+     */
     addRandomEdge() {
         let edge;
 
@@ -134,7 +168,7 @@ class Graph {
 
             edge = this.remainingEdges[Math.floor(Math.random() * this.remainingEdges.length)];
 
-            Tools.splice(this._remainingEdges, edge, (a, b) => a.id === b.id);
+            Tools.spliceById(this._remainingEdges, edge);
         } else {
             let from = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
             let to = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
@@ -147,6 +181,11 @@ class Graph {
         return edge;
     }
 
+    /**
+     * Adds the given edge to the Graph.
+     *
+     * @param edge {Object}
+     */
     addEdge(edge) {
         this._edges.push(edge);
 
@@ -196,6 +235,11 @@ class Graph {
         this._largestComponent = undefined;
     }
 
+    /**
+     * Removes the given edge from the Graph.
+     *
+     * @param edge {Object}
+     */
     removeEdge(edge) {
         Tools.spliceById(this._edges, edge);
 
@@ -225,6 +269,11 @@ class Graph {
         this._largestComponent = undefined;
     }
 
+    /**
+     * Adds the given node to the Graph.
+     *
+     * @param node {Object}
+     */
     addNode(node) {
         this._nodes.push(node);
 
@@ -237,10 +286,20 @@ class Graph {
         }
     }
 
+    /**
+     * Updates the given node.
+     *
+     * @param node {Object}
+     */
     editNode(node) {
         this.nodesKeyedById[node.id] = node;
     }
 
+    /**
+     * Removes the given node (and the associated edges) from the Graph.
+     *
+     * @param node {Object}
+     */
     removeNode(node) {
         Tools.spliceById(this._nodes, node);
 
@@ -260,8 +319,11 @@ class Graph {
         this._largestComponent = undefined;
     }
 
+    /**
+     * Updates the nodes' titles to show the degrees of the nodes.
+     */
     showDegrees() {
-        this.fillDegrees();
+        this._fillDegrees();
 
         this._nodes.map(node => {
             node.originalLabel = node.label;
@@ -274,6 +336,9 @@ class Graph {
         });
     }
 
+    /**
+     * Updates the nodes' titles to hide the degrees of nodes.
+     */
     hideDegrees() {
         this._nodes.map(node => {
             if (node.originalLabel === undefined) {

@@ -110,11 +110,7 @@ window.app = new Vue({
 
     watch: {
         showDegrees(value) {
-            if (value) {
-                mainDisplayedGraph.showDegrees();
-            } else {
-                mainDisplayedGraph.hideDegrees();
-            }
+            mainDisplayedGraph.showDegrees(value);
         },
 
         physicsAllowed(value) {

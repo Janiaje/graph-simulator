@@ -4,10 +4,10 @@ class Tools {
     /**
      * Create range (array containing all the numbers from-to the given parameters).
      *
-     * @param from int
-     * @param to int
+     * @param from {Number}
+     * @param to {Number}
      *
-     * @returns {Array.<int>}
+     * @returns {Array.<Number>}
      */
     static range(from, to) {
         return [...Array(to - from + 1).keys()]
@@ -17,9 +17,9 @@ class Tools {
     /**
      * Checks if array includes object.
      *
-     * @param array Array
-     * @param object Object
-     * @param comparison Lambda
+     * @param array {Array}
+     * @param object {Object}
+     * @param comparison {function(Object, Object):Boolean}
      *
      * @returns {Boolean}
      */
@@ -34,11 +34,11 @@ class Tools {
     }
 
     /**
-     * Clone the given parameter(copy the array in the memory)
+     * Clone the given parameter (copy the variable in the memory).
      *
-     * @param variable
+     * @param variable {*}
      *
-     * @returns *
+     * @returns {*}
      */
     static clone(variable) {
         return cloneDeep(variable);
@@ -49,8 +49,8 @@ class Tools {
      * eg.: 'a1.a2.a3' will result in the same as
      *      object['a1']['a2']['a3']
      *
-     * @param object Object
-     * @param string String
+     * @param object {Object}
+     * @param string {String}
      *
      * @returns {Object}
      */
@@ -78,8 +78,8 @@ class Tools {
     /**
      * Returns a nodeList with only the properties specified in the _exportNodeListFormat list.
      *
-     * @param propertyNamesArray Array.String
-     * @param arrayOfObjects Array.<Object>
+     * @param propertyNamesArray {Array.<string>}
+     * @param arrayOfObjects {Array.<Object>}
      *
      * @returns {Array.<Object>}
      */
@@ -96,7 +96,7 @@ class Tools {
     /**
      * Returns data string with the given separator line by line for the header.
      *
-     * @param separator string
+     * @param separator {string}
      * @param header Array.<string>
      * @param rows Array.<Object>
      *
@@ -124,17 +124,16 @@ class Tools {
     /**
      * Returns parsed data string as object.
      *
-     * @param separator string
-     * @param dataString string
+     * @param separator {string}
+     * @param dataString {string}
      *
      * @returns {{nodes: *, header: *}}
      */
     static parseDataFile(separator, dataString) {
-        dataString = dataString.split("\n");
+        let parts = dataString.split("\n");
+        let header = parts.shift().split(separator);
 
-        let header = dataString.shift().split(separator);
-
-        return dataString.map(row => {
+        return parts.map(row => {
             row = row.split(separator);
             let rowObject = {};
 
@@ -149,7 +148,7 @@ class Tools {
     /**
      * Returns the current epoch time.
      *
-     * @returns Integer
+     * @returns {Number}
      */
     static getEpochTime() {
         return (new Date).getTime();
@@ -158,7 +157,7 @@ class Tools {
     /**
      * Returns formatted date-time string.
      *
-     * @returns String
+     * @returns {string}
      */
     static getFormattedDate() {
         const date = new Date();
@@ -168,8 +167,8 @@ class Tools {
     /**
      * Returns formatted date-time string.
      *
-     * @param filename String
-     * @param text String
+     * @param filename {string}
+     * @param text {string}
      */
     static downloadText(filename, text) {
         // TODO: refactor (cant handle long texts)
@@ -185,6 +184,14 @@ class Tools {
         document.body.removeChild(element);
     }
 
+    /**
+     * Same as groupBy but it only uses the last value of duplicates in the array.
+     *
+     * @param array {Array.<Object>}
+     * @param objectKey {string}
+     *
+     * @returns {Object}
+     */
     static sortArrayIntoObject(array, objectKey = 'id') {
         let object = {};
 
@@ -193,6 +200,14 @@ class Tools {
         return object;
     }
 
+    /**
+     * Groups the array into an Object by the given key.
+     *
+     * @param array {Array.<Object>}
+     * @param objectKey {string}
+     *
+     * @returns {Object}
+     */
     static groupBy(array, objectKey = 'id') {
         let object = {};
 
@@ -206,15 +221,28 @@ class Tools {
         return object;
     }
 
+    /**
+     * Returns only the distinct values in the given array.
+     *
+     * @param array {Array}
+     *
+     * @returns {Array}
+     */
     static distinct(array) {
         return [...new Set(array)];
     }
 
-    static splice(array, value, compareLambda) {
+    /**
+     * Same as filter only changing the the original array.
+     *
+     * @param array {Array.<Object>}
+     * @param compareLambda {function(Object):Boolean}
+     */
+    static splice(array, compareLambda) {
         let indexes = [];
 
         array.forEach((item, index) => {
-            if (compareLambda(item, value)) {
+            if (compareLambda(item)) {
                 indexes.push(index);
             }
         });
@@ -224,22 +252,55 @@ class Tools {
         }
     }
 
+    /**
+     * Splice out the edge from the array.
+     *
+     * @param array {Array.<Object>}
+     * @param edge {Object}
+     */
     static spliceById(array, edge) {
-        Tools.splice(array, edge, (a, b) => a.id === b.id)
+        Tools.splice(array, (a) => a.id === edge.id)
     }
 
+    /**
+     * Throws an exception with the method not implemented text.
+     *
+     * @param className {string}
+     * @param methodName {string}
+     *
+     * @throws Exception
+     */
     static throwMethodNotImplemented(className, methodName) {
         throw `'${className}.${methodName}' method is not implemented!`;
     }
 
+    /**
+     * Returns the class' name from the static scope.
+     *
+     * @param classObject {Object}
+     *
+     * @returns {string}
+     */
     static getClassNameFromStaticScope(classObject) {
         return classObject.toString().split('(' || /s+/)[0].split(' ' || /s+/)[1];
     }
 
+    /**
+     * Returns the class' name of the object.
+     *
+     * @param object {Object}
+     *
+     * @returns {string}
+     */
     static getClassName(object) {
         return object.constructor.name;
     }
 
+    /**
+     * Run the given callback while showing the loading screen.
+     *
+     * @param callback {function():void}
+     */
     static runWithLoadingScreen(callback) {
         eventHub.$emit('loading-show');
 

@@ -3,12 +3,19 @@ import Graph from "./Graph";
 
 let Analyzer = {
 
+    /**
+     * Returns the average degree of the Graph.
+     *
+     * @param type {string}
+     *
+     * @returns {Number|String}
+     */
     getAverageDegree(type) {
         if (this.nodes.length === 0) {
             return 'NaN';
         }
 
-        this.fillDegrees();
+        this._fillDegrees();
 
         let summedDegree = this.nodes
             .map(node => node[type])
@@ -19,7 +26,10 @@ let Analyzer = {
         return summedDegree / this.nodes.length;
     },
 
-    fillDegrees() {
+    /**
+     * Fills the degrees of the nodes.
+     */
+    _fillDegrees() {
         this._nodes.map(node => {
             node.outgoingDegree = Tools.clone(this._edges).filter(edge => edge.from === node.id).length;
 
@@ -31,10 +41,24 @@ let Analyzer = {
         });
     },
 
+    /**
+     * Determines if the Graph contains the given node or not.
+     *
+     * @param node {Object}
+     *
+     * @returns {Boolean}
+     */
     containsNode(node) {
         return this.nodesKeyedById[node.id] !== undefined;
     },
 
+    /**
+     * Determines if the Graph contains the given edge or not.
+     *
+     * @param edge {Object}
+     *
+     * @returns {Boolean}
+     */
     containsEdge(edge) {
         if (this.directed) {
             return this.edgesKeyedById[edge.id] !== undefined;
@@ -51,6 +75,15 @@ let Analyzer = {
             );
     },
 
+    /**
+     * Determines if the given edge is contained by the list or not.
+     *
+     * @param edge {Object}
+     * @param list {Array.<Object>}
+     * @param directed {Boolean}
+     *
+     * @returns {Number|Boolean}
+     */
     edgeInList(edge, list, directed = false) {
         for (let i = 0; i < list.length; i++) {
             if (
@@ -71,6 +104,13 @@ let Analyzer = {
         return false;
     },
 
+    /**
+     * Returns the adjacent nodes of a node.
+     *
+     * @param node {Object}
+     *
+     * @returns {Array.<Object>}
+     */
     getAdjacentNodes(node) {
         let adjacentNodes = [];
 
@@ -93,6 +133,11 @@ let Analyzer = {
         return adjacentNodes;
     },
 
+    /**
+     * Returns the list of components of the Graph.
+     *
+     * @returns {Array.<Graph>}
+     */
     getComponents() {
         let components = [];
         let visited = {};
@@ -144,6 +189,11 @@ let Analyzer = {
         return components;
     },
 
+    /**
+     * Returns the largest component of the Graph.
+     *
+     * @returns {Graph}
+     */
     getLargestComponent() {
         let components = this.getComponents();
 
@@ -154,6 +204,7 @@ let Analyzer = {
         // Can be more than one
         return filtered[0];
     }
+
 };
 
 export default Analyzer;

@@ -4,11 +4,19 @@ import Graph from "../graph/Graph";
 
 let Parser = {
 
+    /**
+     * List of keys, what information to include use about a node.
+     * @type {Array.<string>}
+     */
     _exportNodeListFormat: [
         'id',
         'label',
     ],
 
+    /**
+     * List of keys, what information to include use about an edge.
+     * @type {Array.<string>}
+     */
     _exportEdgeListFormat: [
         'id',
         'from',
@@ -57,11 +65,12 @@ let Parser = {
     /**
      * Imports graph from the given lists.
      *
-     * @param nodeList Array.<Object>
-     * @param edgeList Array.<Object>
-     * @param directed Boolean
+     * @param nodeList {Array.<Object>}
+     * @param edgeList {Array.<Object>}
+     * @param directed {Boolean}
      */
     importList(nodeList, edgeList, directed) {
+        // TODO: check if simple
         this.display(new Graph(nodeList, edgeList, directed));
     },
 
@@ -88,9 +97,9 @@ let Parser = {
     /**
      * Imports graph from the given CSVs.
      *
-     * @param nodeCSV string
-     * @param edgeCSV string
-     * @param directed Boolean
+     * @param nodeCSV {string}
+     * @param edgeCSV {string}
+     * @param directed {Boolean}
      */
     importCSV(nodeCSV, edgeCSV, directed) {
         let separator = ",";
@@ -98,6 +107,7 @@ let Parser = {
         let nodes = Tools.parseDataFile(separator, nodeCSV);
         let edges = Tools.parseDataFile(separator, edgeCSV);
 
+        // TODO: check if simple
         this.display(new Graph(nodes, edges, directed));
     },
 
@@ -106,10 +116,10 @@ let Parser = {
     /**
      * Imports graph from the given CSVs.
      *
-     * @param json String
-     * @param directed Boolean
-     * @param fixed Boolean
-     * @param parseColor Boolean
+     * @param json {string}
+     * @param directed {Boolean}
+     * @param fixed {Boolean}
+     * @param parseColor {Boolean}
      */
     importGephiJSON(json, directed, fixed = true, parseColor = true) {
         let options = {
@@ -119,6 +129,7 @@ let Parser = {
 
         let parsed = vis.network.gephiParser.parseGephi(json, options);
 
+        // TODO: check if simple
         this.display(new Graph(parsed.nodes, parsed.edges, directed))
     }
 

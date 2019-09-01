@@ -6,7 +6,7 @@ import Tools from "../graph/Tools";
 class DisplayedGraph {
 
     /**
-     * @param container HTML element
+     * @param container {string}
      */
     constructor(container) {
         // Graph
@@ -166,9 +166,9 @@ class DisplayedGraph {
     }
 
     /**
-     * Updates the graph to only show the given nodes and edges.
+     * Updates the network to only show the given nodes and edges.
      *
-     * @param graph Graph
+     * @param graph {Graph}
      */
     display(graph) {
         this._graph = graph;
@@ -180,6 +180,12 @@ class DisplayedGraph {
         this._edgesDataSet.update(graph.edges);
     }
 
+    /**
+     * Removes the elements from a DataSet which are not present in the given object.
+     *
+     * @param networkDataset {vis.DataSet}
+     * @param elements {Object}
+     */
     _removeMissing(networkDataset, elements) {
         let toRemove = [];
 
@@ -202,8 +208,8 @@ class DisplayedGraph {
     /**
      * Change network options.
      *
-     * @param key String
-     * @param value
+     * @param key {String}
+     * @param value {Object}
      */
     _changeOptions(key, value) {
         let keyParts = key.split('.');
@@ -220,7 +226,7 @@ class DisplayedGraph {
     /**
      * Turns physics on/off.
      *
-     * @param allowed Boolean
+     * @param allowed {Boolean}
      */
     physicsAllowed(allowed) {
         let physics = this._options.physics;
@@ -237,9 +243,9 @@ class DisplayedGraph {
     }
 
     /**
-     * Turns physics on/off.
+     * Turns low gravity on/off.
      *
-     * @param on Boolean
+     * @param on {Boolean}
      */
     lowGravity(on) {
         let physics = {};
@@ -275,15 +281,21 @@ class DisplayedGraph {
         this._updateOptions();
     }
 
-    showDegrees() {
-        this.graph.showDegrees();
+    /**
+     * Shows degrees on/off.
+     *
+     * @param show {Boolean}
+     */
+    showDegrees(show) {
+        if (show) {
+            this.graph.showDegrees();
+        } else {
+            this.graph.hideDegrees();
+        }
+
         this.display(this.graph);
     }
 
-    hideDegrees() {
-        this.graph.hideDegrees();
-        this.display(this.graph);
-    }
 }
 
 // Trait method assigns

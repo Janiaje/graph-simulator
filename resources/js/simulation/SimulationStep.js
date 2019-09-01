@@ -35,6 +35,7 @@ class SimulationStep {
     set lineChartData(value) {
         this._lineChartData = value;
     }
+
 }
 
 export default SimulationStep;

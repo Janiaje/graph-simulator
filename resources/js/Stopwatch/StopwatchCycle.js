@@ -17,6 +17,11 @@ class StopwatchCycle {
         return this._memoryFinish;
     }
 
+    /**
+     * Creates a checkpoint with the give ID.
+     *
+     * @param id {string|Number}
+     */
     checkpoint(id) {
         if (id === undefined) {
             id = this._checkpoints.length;
@@ -38,6 +43,9 @@ class StopwatchCycle {
         })
     }
 
+    /**
+     * Creates the last checkpoint.
+     */
     finished() {
         this.checkpoint('Finish');
         this._memoryFinish = Tools.getCurrentMemoryUsage();

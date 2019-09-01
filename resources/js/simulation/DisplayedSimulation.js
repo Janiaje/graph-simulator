@@ -3,14 +3,29 @@ import Tools from "../graph/Tools";
 
 class DisplayedSimulation extends BaseSimulation {
 
+    /**
+     * Returns the name to display for the simulation.
+     *
+     * @returns {string}
+     */
     static getName() {
         Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getSimulationName');
     }
 
+    /**
+     * Returns the description for the simulation.
+     *
+     * @returns {string}
+     */
     static getDescription() {
         Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getDescription');
     }
 
+    /**
+     * Asks question before running the simulation.
+     *
+     * @param okCallback {function(Object):void}
+     */
     static askQuestionBeforeRun(okCallback) {
         eventHub.$emit('question', {
             header: `${this.getName()} simulation`,
@@ -35,6 +50,13 @@ class DisplayedSimulation extends BaseSimulation {
         })
     }
 
+    /**
+     * Returns the starting Graph according to the answer given to the question.
+     *
+     * @param answer {Object}
+     *
+     * @returns {Graph}
+     */
     static createStartGraphFromAnswer(answer) {
         Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'createStartGraphFromAnswer');
     }
@@ -67,10 +89,16 @@ class DisplayedSimulation extends BaseSimulation {
         eventHub.$emit('simulation-step-changed', data);
     }
 
+    /**
+     * Rewinds the simulation to the first step.
+     */
     firstStep() {
         this.currentStepIndex = 0;
     }
 
+    /**
+     * Rewinds the simulation by 1 step.
+     */
     previousStep() {
         if (!this.currentStep.hasPreviousStep) {
             return;
@@ -79,6 +107,11 @@ class DisplayedSimulation extends BaseSimulation {
         this.currentStepIndex--;
     }
 
+    /**
+     * Winds forward the simulation by the given steps.
+     *
+     * @param incrementWith {Number}
+     */
     nextStep(incrementWith = 1) {
         if (!this.currentStep.hasNextStep) {
             eventHub.$emit('simulation-pause');
@@ -93,6 +126,9 @@ class DisplayedSimulation extends BaseSimulation {
         this.currentStepIndex += incrementWith;
     }
 
+    /**
+     * Winds forward the simulation to the last step.
+     */
     lastStep() {
         this.currentStepIndex = this._steps.length - 1;
     }

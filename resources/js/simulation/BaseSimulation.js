@@ -5,6 +5,13 @@ import Stopwatch from "../Stopwatch/Stopwatch";
 
 class BaseSimulation {
 
+    /**
+     * Calculate all the steps of the simulation.
+     *
+     * @param startGraph {Graph}
+     *
+     * @returns {Array.<SimulationStep>}
+     */
     simulate(startGraph) {
         let steps = [];
 
@@ -29,23 +36,55 @@ class BaseSimulation {
         return steps;
     }
 
+    /**
+     * Creates the first step from the given Graph.
+     *
+     * @param graph {Graph}
+     *
+     * @returns {SimulationStep}
+     */
     _createFirstStep(graph) {
         return new SimulationStep(graph, new Graph, false);
     }
 
+    /**
+     * Calculates the next step of the simulation from the given Graph.
+     *
+     * @param graph {Graph}
+     *
+     * @returns {SimulationStep}
+     */
     _calculateNextStep(graph) {
         Tools.throwMethodNotImplemented(Tools.getClassName(this), '_calculateNextStep');
     }
 
+    /**
+     * Set the last SimulationStep's _hasNextStep flag to false.
+     *
+     * @param steps {Array.<SimulationStep>}
+     */
     _lastStepHasNoNextStep(steps) {
         let lastStep = steps[steps.length - 1];
         lastStep.doesntHaveNextStep();
     }
 
+    /**
+     * Returns true if the linechart should be displayed.
+     *
+     * @returns {Boolean}
+     */
     isLineChartDisplayed() {
         return false;
     };
 
+    /**
+     * Returns a coordinate for the given SimulationStep Graph for the lincechart.
+     *
+     * @param graph {Graph}
+     * @param stepNumber {Number}
+     *
+     * @returns {Object}
+     */
     _getLineChartCoordinate(graph, stepNumber) {
         Tools.throwMethodNotImplemented(Tools.getClassName(this), '_getLineChartCoordinate');
     }

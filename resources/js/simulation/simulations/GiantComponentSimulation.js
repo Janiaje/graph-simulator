@@ -5,10 +5,20 @@ import Generator from "../../graph/Generator";
 
 class GiantComponentSimulation extends DisplayedSimulation {
 
+    /**
+     * Returns the name to display for the simulation.
+     *
+     * @returns {string}
+     */
     static getName() {
         return 'Giant Component';
     }
 
+    /**
+     * Returns the description for the simulation.
+     *
+     * @returns {string}
+     */
     static getDescription() {
         // TODO: descriptions + wiki links
         return `
@@ -21,10 +31,24 @@ class GiantComponentSimulation extends DisplayedSimulation {
         `;
     }
 
+    /**
+     * Returns the starting Graph according to the answer given to the question.
+     *
+     * @param answer {Object}
+     *
+     * @returns {Graph}
+     */
     static createStartGraphFromAnswer(answer) {
         return Generator.generateRandomGraph(answer.numberOfNodes, 0);
     }
 
+    /**
+     * Calculates the next step of the simulation from the given Graph.
+     *
+     * @param graph {Graph}
+     *
+     * @returns {SimulationStep}
+     */
     _calculateNextStep(graph) {
         Stopwatch.newCycle();
 
@@ -50,11 +74,24 @@ class GiantComponentSimulation extends DisplayedSimulation {
         return simulationStep;
     }
 
+    /**
+     * Returns true if the linechart should be displayed.
+     *
+     * @returns {Boolean}
+     */
     isLineChartDisplayed() {
         return true;
     };
 
-    _getLineChartCoordinate(graph) {
+    /**
+     * Returns a coordinate for the given SimulationStep Graph for the lincechart.
+     *
+     * @param graph {Graph}
+     * @param stepNumber {Number}
+     *
+     * @returns {Object}
+     */
+    _getLineChartCoordinate(graph, stepNumber) {
         let numberOfNodes = graph.nodes.length;
         let largestComponent = graph.getLargestComponent();
         let largestComponentPercentage = largestComponent.nodes.length / numberOfNodes;

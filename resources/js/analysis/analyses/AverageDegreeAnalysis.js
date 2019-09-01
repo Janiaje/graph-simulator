@@ -2,10 +2,20 @@ import DisplayedAnalysis from "../DisplayedAnalysis";
 
 class AverageDegreeAnalysis extends DisplayedAnalysis {
 
+    /**
+     * Returns the name of the Analysis.
+     *
+     * @returns {string}
+     */
     static getName() {
         return 'Average degree';
     }
 
+    /**
+     * Returns the description HTML for the Analysis.
+     *
+     * @returns {string}
+     */
     static getDescription() {
         let graph = mainDisplayedGraph.graph;
         let value;

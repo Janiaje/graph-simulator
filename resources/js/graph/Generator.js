@@ -3,12 +3,12 @@ import Graph from "./Graph";
 
 class Generator {
     /**
-     * Generate random graph
+     * Generate random graph.
      * .
-     * @param numberOfNodes Integer
-     * @param numberOfEdges Integer
-     * @param simpleGraph Boolean
-     * @param directed Boolean
+     * @param numberOfNodes {Integer}
+     * @param numberOfEdges {Integer}
+     * @param simpleGraph {Boolean}
+     * @param directed {Boolean}
      */
     static generateRandomGraph(numberOfNodes, numberOfEdges, simpleGraph = true, directed = false) {
         let nodes = Generator._generateNodes(numberOfNodes);
@@ -40,7 +40,7 @@ class Generator {
     /**
      * Generate nodes.
      *
-     * @param numberOfNodes Integer
+     * @param numberOfNodes {Integer}
      */
     static _generateNodes(numberOfNodes) {
         return Tools.range(1, numberOfNodes).map(value => {
@@ -54,8 +54,8 @@ class Generator {
     /**
      * Generate edges for full graph.
      *
-     * @param nodes Array
-     * @param directed Boolean
+     * @param nodes {Array}
+     * @param directed {Boolean}
      */
     static generateEdgesForFullGraph(nodes, directed) {
         let edges = [];
@@ -82,8 +82,8 @@ class Generator {
     /**
      * Deletes random elements of an array until the give count is reached.
      *
-     * @param edges Array.<Object>
-     * @param numberOfEdges Integer
+     * @param edges {Array.<Object>}
+     * @param numberOfEdges {Integer}
      *
      * @returns {Array.<Object>}
      */
@@ -96,6 +96,14 @@ class Generator {
         return edges;
     }
 
+    /**
+     * Returns generated edge.
+     *
+     * @param from {Number|String}
+     * @param to {Number|String}
+     *
+     * @returns {Object}
+     */
     static generateEdge(from, to) {
         return {
             id: `from${from}-to${to}-${Tools.getEpochTime()}`,
@@ -103,6 +111,7 @@ class Generator {
             to: to,
         };
     }
+
 }
 
 export default Generator;
