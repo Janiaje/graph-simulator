@@ -36,7 +36,6 @@ class StopwatchCycle {
         }
 
         this._checkpoints.push({
-            // TODO: remove T and still keep order
             id: `#${this._checkpoints.length + 1}: ${id}`,
             time: time,
             elapsedTime: elapsedTime
