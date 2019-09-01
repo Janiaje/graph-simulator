@@ -90,11 +90,14 @@
                             Analise
                         </a>
                         <div class="dropdown-menu" aria-labelledby="analyticsDropdown">
+                            <a class="dropdown-item" href="#">
+                                <input type="text" class="form-control" placeholder="Filter" v-model="analysesFilter">
+                            </a>
                             <a
                                 class="dropdown-item"
                                 href="#"
                                 @click="showAnalysis(analysis.analysis)"
-                                v-for="analysis in analyses"
+                                v-for="analysis in analysesMenuItems"
                                 v-html="analysis.name"
                             ></a>
                         </div>
@@ -105,11 +108,15 @@
                             Simulate
                         </a>
                         <div class="dropdown-menu" aria-labelledby="simulationDropdown">
+                            <a class="dropdown-item" href="#">
+                                <input type="text" class="form-control" placeholder="Filter"
+                                       v-model="simulationsFilter">
+                            </a>
                             <a
                                 class="dropdown-item"
                                 href="#"
                                 @click="runSimulation(simulation.simulation)"
-                                v-for="simulation in simulations"
+                                v-for="simulation in simulationsMenuItems"
                                 v-html="simulation.name"
                             ></a>
                         </div>

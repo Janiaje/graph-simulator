@@ -10743,6 +10743,10 @@ a.text-dark:focus {
   display: block;
 }
 
+.dropdown-item input {
+  height: 30px;
+}
+
 .inner-window {
   position: fixed;
   left: 10px;

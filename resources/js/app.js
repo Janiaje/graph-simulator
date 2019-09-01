@@ -55,10 +55,14 @@ window.app = new Vue({
                 AverageDegreeAnalysis,
             ],
             analyses: [],
+            analysesMenuItems: [],
+            analysesFilter: '',
             simulationTypes: [
                 GiantComponentSimulation,
             ],
             simulations: [],
+            simulationsMenuItems: [],
+            simulationsFilter: '',
             showDegrees: false,
             physicsAllowed: true
         }
@@ -115,6 +119,14 @@ window.app = new Vue({
 
         physicsAllowed(value) {
             mainDisplayedGraph.physicsAllowed(value);
+        },
+
+        analysesFilter(value) {
+            this.analysesMenuItems = this.analyses.filter(analysis => analysis.name.toLowerCase().includes(value.toLowerCase()));
+        },
+
+        simulationsFilter(value) {
+            this.simulationsMenuItems = this.simulations.filter(analysis => analysis.name.toLowerCase().includes(value.toLowerCase()));
         }
     },
 
@@ -129,6 +141,7 @@ window.app = new Vue({
                 analysis: analysis,
             });
         });
+        this.analysesMenuItems = this.analyses;
 
         // Create the list for the Simulate menu
         this.simulationTypes.forEach(simulation => {
@@ -137,6 +150,7 @@ window.app = new Vue({
                 simulation: simulation,
             });
         });
+        this.simulationsMenuItems = this.simulations;
     },
 
     mounted() {

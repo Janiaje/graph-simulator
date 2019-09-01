@@ -18,6 +18,10 @@
     display: block;
 }
 
+.dropdown-item input {
+    height: 30px;
+}
+
 .inner-window {
     @extend .col-xl-3;
     @extend .col-md-4;
