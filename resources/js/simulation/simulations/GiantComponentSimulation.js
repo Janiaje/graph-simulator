@@ -26,8 +26,6 @@ class GiantComponentSimulation extends DisplayedSimulation {
     }
 
     _calculateNextStep(graph) {
-        // TODO: not working correctly for simple directed graphs
-
         Stopwatch.newCycle();
 
         // If the giant component reached the graph's size

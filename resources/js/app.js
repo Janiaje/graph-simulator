@@ -70,7 +70,7 @@ window.app = new Vue({
 
     methods: {
         handleResize() {
-            let navbarHeight = 54;
+            let navbarHeight = 55;
 
             if (this.$refs.navbar !== undefined) {
                 navbarHeight = this.$refs.navbar.clientHeight;
