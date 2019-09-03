@@ -12,10 +12,16 @@
 */
 
 Route::get('/', function () {
-    file_put_contents(public_path('index.html'), view('layouts.app'));
-
-    return view('layouts.app');
+    return view('layouts.view');
 });
+
+if (config('app.env') === 'local') {
+    Route::get('/generate', function () {
+        file_put_contents(public_path('index.html'), view('layouts.generate'));
+
+        return 'Done';
+    });
+}
 
 //Auth::routes();
 
