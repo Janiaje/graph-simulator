@@ -19,8 +19,5 @@ Ex. Generate `N` random edges [...]
 A clear and concise description of how the next graph should be generated from the previous one.
 Ex. Add a random edge to the graph [...]
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
 **Additional context**
 Add any other context, links or screenshots about the feature request here.
