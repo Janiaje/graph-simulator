@@ -1,6 +1,6 @@
 ---
 name: Feature request - new analysis
-about: Request new simulation
+about: Request new analysis
 title: '*** analysis'
 labels: enhancement,graph analysis
 assignees: Janiaje
