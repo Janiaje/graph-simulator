@@ -1,8 +1,8 @@
 ---
 name: Feature request - new simulation
 about: Request new simulation
-title: 'simulation'
-labels: enhancement
+title: '*** simulation'
+labels: enhancement,simulation
 assignees: Janiaje
 
 ---
