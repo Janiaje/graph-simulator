@@ -19,5 +19,9 @@ Ex. Generate `N` random edges [...]
 A clear and concise description of how the next graph should be generated from the previous one.
 Ex. Add a random edge to the graph [...]
 
+**End condition**
+A clear and concise description of what the condition should be, in which case the algorithm should be considered as finished.
+Ex. The graph became full graph [...]
+
 **Additional context**
 Add any other context, links or screenshots about the feature request here.
