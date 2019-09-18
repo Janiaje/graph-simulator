@@ -1,5 +1,5 @@
 ---
-name: Feature request - new simulation
+name: Feature request - new analysis
 about: Request new simulation
 title: '*** analysis'
 labels: enhancement,graph analysis
