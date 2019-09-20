@@ -22,6 +22,24 @@ class DisplayedSimulation extends BaseSimulation {
     }
 
     /**
+     * Returns the fields needed to run the simulation.
+     *
+     * @returns {Array.Object}
+     */
+    static getQuestionFields() {
+        return [
+            {
+                id: 'numberOfNodes',
+                type: 'number',
+                label: 'Number of starting nodes',
+                min: 1,
+                max: 150,
+                value: 20
+            }
+        ];
+    }
+
+    /**
      * Asks question before running the simulation.
      *
      * @param okCallback {function(Object):void}
@@ -30,16 +48,7 @@ class DisplayedSimulation extends BaseSimulation {
         eventHub.$emit('question', {
             header: `${this.getName()} simulation`,
             description: this.getDescription(),
-            fields: [
-                {
-                    id: 'numberOfNodes',
-                    type: 'number',
-                    label: 'Number of starting nodes',
-                    min: 1,
-                    max: 150,
-                    value: 20
-                }
-            ],
+            fields: this.getQuestionFields(),
             alertText: 'This action is going to delete your current graph! Save/download the graph if you need it later!',
             ok: {
                 text: 'Run',
@@ -61,10 +70,10 @@ class DisplayedSimulation extends BaseSimulation {
         Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'createStartGraphFromAnswer');
     }
 
-    constructor(startGraph) {
+    constructor(startGraph, answer) {
         super();
 
-        this._steps = this.simulate(startGraph);
+        this._steps = this.simulate(startGraph, answer);
         this.currentStepIndex = 0;
     }
 
