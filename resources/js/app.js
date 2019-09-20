@@ -14,6 +14,8 @@ import VueApexCharts from 'vue-apexcharts'
 import AverageDegreeAnalysis from "./analysis/analyses/AverageDegreeAnalysis";
 // Import Simulations
 import GiantComponentSimulation from "./simulation/simulations/GiantComponentSimulation";
+import RandomModelGNPSimulation from "./simulation/simulations/RandomModelGNPSimulation";
+import RandomModelGNLSimulation from "./simulation/simulations/RandomModelGNLSimulation";
 // Others
 import Tools from "./graph/Tools";
 
@@ -59,6 +61,8 @@ window.app = new Vue({
             analysesFilter: '',
             simulationTypes: [
                 GiantComponentSimulation,
+                RandomModelGNPSimulation,
+                RandomModelGNLSimulation,
             ],
             simulations: [],
             simulationsMenuItems: [],
@@ -97,7 +101,7 @@ window.app = new Vue({
             simulation.askQuestionBeforeRun(answer => {
                 Tools.runWithLoadingScreen(() => {
                     let startGraph = simulation.createStartGraphFromAnswer(answer);
-                    mainDisplayedGraph.simulation = new simulation(startGraph);
+                    mainDisplayedGraph.simulation = new simulation(startGraph, answer);
                     eventHub.$emit('simulation-loaded');
                 });
             });

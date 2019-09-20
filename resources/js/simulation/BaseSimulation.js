@@ -5,14 +5,21 @@ import Stopwatch from "../Stopwatch/Stopwatch";
 
 class BaseSimulation {
 
+    get answer() {
+        return this._answers;
+    }
+
     /**
      * Calculate all the steps of the simulation.
      *
      * @param startGraph {Graph}
+     * @param answers {Object}
      *
      * @returns {Array.<SimulationStep>}
      */
-    simulate(startGraph) {
+    simulate(startGraph, answers) {
+        this._answers = answers;
+
         let steps = [];
 
         Stopwatch.start();
@@ -29,7 +36,7 @@ class BaseSimulation {
 
         this._lastStepHasNoNextStep(steps);
 
-        if (this.isLineChartDisplayed()) {
+        if (this.displayLineChart()) {
             this._fillLineChartSeries(steps);
         }
 
@@ -73,7 +80,7 @@ class BaseSimulation {
      *
      * @returns {Boolean}
      */
-    isLineChartDisplayed() {
+    displayLineChart() {
         return false;
     };
 

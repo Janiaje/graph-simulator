@@ -35,7 +35,7 @@ class ExampleSimulation extends BaseSimulation {
      *
      * @returns {Boolean}
      */
-    isLineChartDisplayed() {
+    displayLineChart() {
         return true;
     };
 
