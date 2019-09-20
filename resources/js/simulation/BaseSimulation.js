@@ -36,7 +36,7 @@ class BaseSimulation {
 
         this._lastStepHasNoNextStep(steps);
 
-        if (this.isLineChartDisplayed()) {
+        if (this.displayLineChart()) {
             this._fillLineChartSeries(steps);
         }
 
@@ -80,7 +80,7 @@ class BaseSimulation {
      *
      * @returns {Boolean}
      */
-    isLineChartDisplayed() {
+    displayLineChart() {
         return false;
     };
 

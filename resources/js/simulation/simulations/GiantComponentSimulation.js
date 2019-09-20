@@ -79,7 +79,7 @@ class GiantComponentSimulation extends DisplayedSimulation {
      *
      * @returns {Boolean}
      */
-    isLineChartDisplayed() {
+    displayLineChart() {
         return true;
     };
 

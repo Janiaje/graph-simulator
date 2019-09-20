@@ -15,6 +15,7 @@ import AverageDegreeAnalysis from "./analysis/analyses/AverageDegreeAnalysis";
 // Import Simulations
 import GiantComponentSimulation from "./simulation/simulations/GiantComponentSimulation";
 import RandomModelGNPSimulation from "./simulation/simulations/RandomModelGNPSimulation";
+import RandomModelGNLSimulation from "./simulation/simulations/RandomModelGNLSimulation";
 // Others
 import Tools from "./graph/Tools";
 
@@ -61,6 +62,7 @@ window.app = new Vue({
             simulationTypes: [
                 GiantComponentSimulation,
                 RandomModelGNPSimulation,
+                RandomModelGNLSimulation,
             ],
             simulations: [],
             simulationsMenuItems: [],

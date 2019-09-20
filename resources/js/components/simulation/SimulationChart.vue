@@ -13,11 +13,9 @@
             return {
                 show: false,
                 showCallback: () => {
-                    // TODO: make only one toggle lambda
-                    this.show = true;
+                    this.show = mainDisplayedGraph.simulation.displayLineChart();
                 },
                 hideCallback: () => {
-                    // TODO: make only one toggle lambda
                     this.show = false;
                 },
 
