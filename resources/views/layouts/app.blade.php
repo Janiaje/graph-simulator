@@ -64,6 +64,9 @@
                             View
                         </a>
                         <div class="dropdown-menu" aria-labelledby="modificationDropdown">
+                            <a class="dropdown-item" href="#" @click="resetView">
+                                Reset view
+                            </a>
                             <a class="dropdown-item" href="#">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="showDegrees"

@@ -109,7 +109,16 @@ window.app = new Vue({
 
         showAnalysis(analysis) {
             analysis.display();
-        }
+        },
+
+        resetView() {
+            mainDisplayedGraph.network.fit({
+                offset: {x: 0, y: 0},
+                duration: 1000,
+                easingFunction: "easeInOutQuad",
+                animation: true
+            })
+        },
     },
 
     watch: {
