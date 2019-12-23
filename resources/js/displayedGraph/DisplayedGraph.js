@@ -2,6 +2,7 @@ import vis from "vis";
 import Parser from "./Parser";
 import Graph from "../graph/Graph";
 import Tools from "../graph/Tools";
+import Colors from "../graph/Colors";
 
 class DisplayedGraph {
 
@@ -19,6 +20,21 @@ class DisplayedGraph {
         this._nodesDataSet = new vis.DataSet();
         this._edgesDataSet = new vis.DataSet();
         this._options = {
+            nodes: {
+                shape: 'ellipse',
+                size: 20,
+                font: {
+                    size: 25,
+                    color: '#ffffff'
+                },
+                margin: 15,
+                borderWidth: 2,
+                color: Colors.nodeDefault
+            },
+            edges: {
+                width: 2,
+                color: Colors.edgeDefault
+            },
             physics: {
                 barnesHut: {
                     centralGravity: 0.35,

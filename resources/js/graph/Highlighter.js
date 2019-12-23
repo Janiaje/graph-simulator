@@ -1,58 +1,6 @@
+import Colors from "./Colors";
+
 let Highlighter = {
-
-    /**
-     * Default color settings for nodes.
-     * @type {Object}
-     */
-    _colorNodeDefault: {
-        background: '#3490dc',
-        border: '#3781ea',
-        highlight: {
-            background: '#36aeff',
-            border: '#3b8eff'
-        },
-        hover: {
-            background: '#349ae8',
-            border: '#378cf5'
-        },
-    },
-
-    /**
-     * Default color settings for edges.
-     * @type {Object}
-     */
-    _colorEdgeDefault: {
-        color: '#3490dc',
-        highlight: '#36aeff',
-        hover: '#349ae8',
-    },
-
-    /**
-     * Highlight color settings for nodes.
-     * @type {Object}
-     */
-    _colorNodeHighlighted: {
-        background: '#7be141',
-        border: '#50b413',
-        highlight: {
-            background: '#8dff48',
-            border: '#71ff1b'
-        },
-        hover: {
-            background: '#86f044',
-            border: '#61da17'
-        },
-    },
-
-    /**
-     * Highlight color settings for edges.
-     * @type {Object}
-     */
-    _colorEdgeHighlighted: {
-        color: '#7be141',
-        highlight: '#8dff48',
-        hover: '#86f044',
-    },
 
     /**
      * Highlights subGraph.
@@ -64,9 +12,9 @@ let Highlighter = {
         this.nodes.forEach(node => {
 
             if (subgraph.containsNode(node)) {
-                node.color = this._colorNodeHighlighted;
+                node.color = Colors.nodeHighlighted;
             } else {
-                node.color = this._colorNodeDefault;
+                node.color = Colors.nodeDefault;
             }
 
         });
@@ -74,9 +22,9 @@ let Highlighter = {
         this.edges.forEach(edge => {
 
             if (subgraph.containsEdge(edge)) {
-                edge.color = this._colorEdgeHighlighted;
+                edge.color = Colors.edgeHighlighted;
             } else {
-                edge.color = this._colorEdgeDefault;
+                edge.color = Colors.edgeDefault;
             }
 
         });
@@ -87,11 +35,11 @@ let Highlighter = {
      */
     setToDefaultColor() {
         this.nodes.forEach(node => {
-            node.color = this._colorNodeDefault;
+            node.color = Colors.nodeDefault;
         });
 
         this.edges.forEach(edge => {
-            edge.color = this._colorEdgeDefault;
+            edge.color = Colors.edgeDefault;
         });
     }
 

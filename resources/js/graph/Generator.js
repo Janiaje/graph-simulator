@@ -46,7 +46,7 @@ class Generator {
         return Tools.range(1, numberOfNodes).map(value => {
             return {
                 id: value,
-                label: 'Node ' + value
+                label: '#' + value
             };
         });
     }
