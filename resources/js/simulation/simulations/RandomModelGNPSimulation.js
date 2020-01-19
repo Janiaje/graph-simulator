@@ -24,8 +24,8 @@ class RandomModelGNPSimulation extends DisplayedSimulation {
         return `
             Steps:
             <ol>
-                <li>Generate the given number of nodes</li>            
-                <li>Generate an edge between each node with the given probability</li>            
+                <li>Generate the given number of nodes</li>
+                <li>Generate an edge between each node with the given probability</li>
             </ol>
         `;
     }
@@ -39,7 +39,7 @@ class RandomModelGNPSimulation extends DisplayedSimulation {
         return [
             {
                 id: 'numberOfNodes',
-                type: 'number',
+                type: 'number-with-boundaries',
                 label: 'Number of starting nodes',
                 min: 1,
                 max: 150,
@@ -47,7 +47,7 @@ class RandomModelGNPSimulation extends DisplayedSimulation {
             },
             {
                 id: 'probability',
-                type: 'number',
+                type: 'number-with-boundaries',
                 label: 'Probability for edge generation',
                 min: 0,
                 max: 100,

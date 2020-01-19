@@ -30,7 +30,7 @@ class DisplayedSimulation extends BaseSimulation {
         return [
             {
                 id: 'numberOfNodes',
-                type: 'number',
+                type: 'number-with-boundaries',
                 label: 'Number of starting nodes',
                 min: 1,
                 max: 150,

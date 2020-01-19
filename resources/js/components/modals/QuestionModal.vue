@@ -23,8 +23,11 @@
                     <input v-if="field.type === 'text'" type="text" class="form-control" :id="field.id"
                            v-model="field.value">
 
+                    <input v-if="field.type === 'number'" type="number" class="form-control" :id="field.id"
+                           v-model="field.value">
+
                     <number-input-with-boundaries
-                        v-if="field.type === 'number'"
+                        v-if="field.type === 'number-with-boundaries'"
                         :id="field.id"
                         :min="field.min"
                         :max="field.max"
@@ -83,19 +86,28 @@
                         //             text: 'A1',
                         //             value: 'A1'
                         //         }
-                        //     ]
+                        //     ],
+                        //     value: 'A1'
                         // },
                         // {
                         //     id: 'something',
                         //     type: 'text',
-                        //     label: 'Something'
+                        //     label: 'Something',
+                        //     value: 'A1'
                         // },
                         // {
                         //     id: 'something',
                         //     type: 'number',
                         //     label: 'Something',
+                        //     value: '123'
+                        // },
+                        // {
+                        //     id: 'something',
+                        //     type: 'number-with-boundaries',
+                        //     label: 'Something',
                         //     min: 1,
                         //     max: 10,
+                        //     value: '123'
                         // },
                     ],
                     alertText: undefined,

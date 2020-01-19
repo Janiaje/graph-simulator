@@ -24,10 +24,10 @@ class RandomModelGNLSimulation extends DisplayedSimulation {
         return `
             Steps:
             <ol>
-                <li>Generate the given number of nodes</li>            
-                <li>Take a random node pair</li>            
-                <li>Generate an edge between them</li>            
-                <li>Repeat the last 2 steps until L number of edges reached</li>            
+                <li>Generate the given number of nodes</li>
+                <li>Take a random node pair</li>
+                <li>Generate an edge between them</li>
+                <li>Repeat the last 2 steps until L number of edges reached</li>
             </ol>
         `;
     }
@@ -41,7 +41,7 @@ class RandomModelGNLSimulation extends DisplayedSimulation {
         return [
             {
                 id: 'numberOfNodes',
-                type: 'number',
+                type: 'number-with-boundaries',
                 label: 'Number of starting nodes',
                 min: 1,
                 max: 150,
@@ -49,7 +49,7 @@ class RandomModelGNLSimulation extends DisplayedSimulation {
             },
             {
                 id: 'numberOfEdges',
-                type: 'number',
+                type: 'number-with-boundaries',
                 label: 'Number of edges',
                 min: 0,
                 max: 1000,
