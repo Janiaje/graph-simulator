@@ -2,6 +2,7 @@ import Analyzer from "./Analyzer";
 import Highlighter from "./Highlighter";
 import Tools from "./Tools";
 import Generator from "./Generator";
+import Edge from "./Edge";
 
 class Graph {
 
@@ -173,7 +174,7 @@ class Graph {
             let from = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
             let to = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
 
-            edge = Generator.generateEdge(from, to);
+            edge = new Edge(from, to);
         }
 
         this.addEdge(edge);
@@ -233,6 +234,15 @@ class Graph {
 
         this._components = undefined;
         this._largestComponent = undefined;
+    }
+
+    /**
+     * Updates the given edge.
+     *
+     * @param edge {Object}
+     */
+    editEdge(edge) {
+        this.edgesKeyedById[edge.id] = edge;
     }
 
     /**

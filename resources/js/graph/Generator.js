@@ -1,5 +1,7 @@
 import Tools from "./Tools";
 import Graph from "./Graph";
+import Node from "./Node";
+import Edge from "./Edge";
 
 class Generator {
     /**
@@ -27,6 +29,7 @@ class Generator {
             });
         }
 
+        // TODO: create a menu option like Degrees/Physics
         if (directed) {
             edges.map(edge => {
                 edge.arrows = 'to';
@@ -44,10 +47,7 @@ class Generator {
      */
     static _generateNodes(numberOfNodes) {
         return Tools.range(1, numberOfNodes).map(value => {
-            return {
-                id: value,
-                label: '#' + value
-            };
+            return new Node(value, '#' + value);
         });
     }
 
@@ -72,7 +72,7 @@ class Generator {
             }
 
             toNodes.forEach(toNode => {
-                edges.push(Generator.generateEdge(fromNode.id, toNode.id))
+                edges.push(new Edge(fromNode.id, toNode.id))
             })
         });
 
@@ -94,22 +94,6 @@ class Generator {
         }
 
         return edges;
-    }
-
-    /**
-     * Returns generated edge.
-     *
-     * @param from {Number|String}
-     * @param to {Number|String}
-     *
-     * @returns {Object}
-     */
-    static generateEdge(from, to) {
-        return {
-            id: `from${from}-to${to}-${Tools.getEpochTime()}`,
-            from: from,
-            to: to,
-        };
     }
 
 }
