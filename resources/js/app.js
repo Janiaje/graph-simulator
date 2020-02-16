@@ -13,6 +13,7 @@ import VueApexCharts from 'vue-apexcharts'
 // Import Analyses
 import AverageDegreeAnalysis from "./analysis/analyses/AverageDegreeAnalysis";
 // Import Simulations
+import DijkstraSimulation from "./simulation/simulations/DijkstraSimulation";
 import GiantComponentSimulation from "./simulation/simulations/GiantComponentSimulation";
 import RandomModelGNPSimulation from "./simulation/simulations/RandomModelGNPSimulation";
 import RandomModelGNLSimulation from "./simulation/simulations/RandomModelGNLSimulation";
@@ -60,6 +61,7 @@ window.app = new Vue({
             analysesMenuItems: [],
             analysesFilter: '',
             simulationTypes: [
+                DijkstraSimulation,
                 GiantComponentSimulation,
                 RandomModelGNPSimulation,
                 RandomModelGNLSimulation,

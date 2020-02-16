@@ -1,10 +1,10 @@
 import Graph from "../graph/Graph";
 
 class SimulationStep {
-
     constructor(graph, toHighlight = new Graph, hasPreviousStep = true) {
         this._graph = graph;
         this._graph.highlightSubgraph(toHighlight);
+        this._highLighted = toHighlight;
 
         this._hasPreviousStep = hasPreviousStep;
         this._hasNextStep = true;
@@ -14,6 +14,10 @@ class SimulationStep {
 
     get graph() {
         return this._graph;
+    }
+
+    get highLighted() {
+        return this._highLighted;
     }
 
     get hasPreviousStep() {

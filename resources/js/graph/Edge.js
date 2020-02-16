@@ -28,7 +28,7 @@ class Edge {
 
     set weight(value) {
         this._weight = value;
-        this.label = value;
+        this.label = value.toString();
     }
 
 }

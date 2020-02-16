@@ -24,9 +24,9 @@ class GiantComponentSimulation extends DisplayedSimulation {
         return `
             Steps:
             <ol>
-                <li>Generate the given number of nodes</li>            
-                <li>Randomly add edges one by one</li>            
-                <li>If the giant component includes all the nodes: STOP</li>            
+                <li>Generate the given number of nodes</li>
+                <li>Randomly add edges one by one</li>
+                <li>If the giant component includes all the nodes: STOP</li>
             </ol>
         `;
     }
@@ -46,10 +46,11 @@ class GiantComponentSimulation extends DisplayedSimulation {
      * Calculates the next step of the simulation from the given Graph.
      *
      * @param graph {Graph}
+     * @param previousStep {SimulationStep}
      *
      * @returns {SimulationStep}
      */
-    _calculateNextStep(graph) {
+    _calculateNextStep(graph, previousStep) {
         Stopwatch.newCycle();
 
         // If the giant component reached the graph's size

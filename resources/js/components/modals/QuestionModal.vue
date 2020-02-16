@@ -17,7 +17,7 @@
                     <label :for="field.id">{{ field.label }}</label>
 
                     <select v-if="field.type === 'select'" class="form-control" :id="field.id" v-model="field.value">
-                        <option v-for="option in field.options">{{ option.text }}</option>
+                        <option v-for="option in field.options" :value="option.value">{{ option.text }}</option>
                     </select>
 
                     <input v-if="field.type === 'text'" type="text" class="form-control" :id="field.id"

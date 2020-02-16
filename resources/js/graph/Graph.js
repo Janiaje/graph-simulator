@@ -167,12 +167,12 @@ class Graph {
                 return undefined;
             }
 
-            edge = this.remainingEdges[Math.floor(Math.random() * this.remainingEdges.length)];
+            edge = this.remainingEdges[Tools.randomIntBetween(0, this.remainingEdges.length)];
 
             Tools.spliceById(this._remainingEdges, edge);
         } else {
-            let from = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
-            let to = this.nodes[Math.floor(Math.random() * this.nodes.length)].id;
+            let from = this.nodes[Tools.randomIntBetween(0, this.nodes.length)].id;
+            let to = this.nodes[Tools.randomIntBetween(0, this.nodes.length)].id;
 
             edge = new Edge(from, to);
         }
