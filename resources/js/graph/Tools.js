@@ -320,6 +320,10 @@ class Tools {
         return window.performance.memory !== undefined ? window.performance.memory.usedJSHeapSize : 0;
     }
 
+    static randomIntBetween(min, max) {
+        return Math.floor(Math.random() * max) + min;
+    }
+
 }
 
 export default Tools;

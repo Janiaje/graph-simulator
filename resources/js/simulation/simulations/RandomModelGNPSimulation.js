@@ -71,10 +71,11 @@ class RandomModelGNPSimulation extends DisplayedSimulation {
      * Calculates the next step of the simulation from the given Graph.
      *
      * @param graph {Graph}
+     * @param previousStep {SimulationStep}
      *
      * @returns {SimulationStep}
      */
-    _calculateNextStep(graph) {
+    _calculateNextStep(graph, previousStep) {
 
         if (this._steps === undefined) {
             this._steps = graph.remainingEdges;

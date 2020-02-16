@@ -1,8 +1,9 @@
 import vis from "vis";
 import Parser from "./Parser";
 import Graph from "../graph/Graph";
+import Node from "../graph/Node";
 import Tools from "../graph/Tools";
-import Colors from "../graph/Colors";
+import Edge from "../graph/Edge";
 
 class DisplayedGraph {
 
@@ -20,21 +21,8 @@ class DisplayedGraph {
         this._nodesDataSet = new vis.DataSet();
         this._edgesDataSet = new vis.DataSet();
         this._options = {
-            nodes: {
-                shape: 'ellipse',
-                size: 20,
-                font: {
-                    size: 25,
-                    color: '#ffffff'
-                },
-                margin: 15,
-                borderWidth: 2,
-                color: Colors.nodeDefault
-            },
-            edges: {
-                width: 2,
-                color: Colors.edgeDefault
-            },
+            nodes: Node.getDefaultOptions(),
+            edges: Edge.getDefaultOptions(),
             physics: {
                 barnesHut: {
                     centralGravity: 0.35,
@@ -46,11 +34,12 @@ class DisplayedGraph {
                 timestep: 0.05
             },
             // TODO: move to edit actions
-            // TODO: make own callbacks and edit the _graph too
+            // TODO: make own callbacks
             manipulation: {
                 addNode(data, callback) {
                     eventHub.$emit('question', {
                         header: 'Add node',
+                        sectionTitles: false,
                         fields: [
                             {
                                 id: 'nodeLabel',
@@ -62,16 +51,21 @@ class DisplayedGraph {
                             text: 'Add',
                             callback(answer) {
                                 data.label = answer.nodeLabel;
-                                callback(data);
+
                                 mainDisplayedGraph.graph.addNode(data);
+                                callback(data);
+
                                 eventHub.$emit('network-element-added');
                             }
                         }
                     });
                 },
                 editNode(data, callback) {
+                    let node = mainDisplayedGraph.graph.nodesKeyedById[data.id];
+
                     eventHub.$emit('question', {
                         header: 'Edit node',
+                        sectionTitles: false,
                         fields: [
                             {
                                 id: 'nodeLabel',
@@ -85,7 +79,9 @@ class DisplayedGraph {
                             callback(answer) {
                                 data.label = answer.nodeLabel;
                                 callback(data);
-                                mainDisplayedGraph.graph.editNode(data);
+
+                                node.label = answer.nodeLabel;
+                                mainDisplayedGraph.graph.editNode(node);
                             }
                         }
                     });
@@ -105,37 +101,37 @@ class DisplayedGraph {
                 },
                 editEdge: {
                     editWithoutDrag(data, callback) {
-                        return;
-                        // Coming later for weights
-                        console.log('editWithoutDrag', data, callback);
+                        let edge = mainDisplayedGraph._graph.edgesKeyedById[data.id];
 
                         eventHub.$emit('question', {
                             header: 'Edit edge',
+                            sectionTitles: false,
                             fields: [
                                 {
                                     id: 'edgeWeight',
                                     type: 'number',
                                     label: 'Weight',
-                                    value: data.label // ???
+                                    value: edge.weight
                                 }
                             ],
                             ok: {
                                 text: 'Edit',
                                 callback(answer) {
-                                    data.label = answer.edgeWeight;
-                                    callback(data);
-                                    mainDisplayedGraph.graph.editEdge(data);
+                                    edge.weight = answer.edgeWeight;
+                                    mainDisplayedGraph.graph.editEdge(edge);
+                                    callback(edge);
                                 }
                             }
                         })
                     }
                 },
                 deleteEdge(data, callback) {
-                    callback(data);
                     data.edges.forEach(edge => {
                         edge = mainDisplayedGraph.graph.edgesKeyedById[edge];
                         mainDisplayedGraph.graph.removeEdge(edge)
                     });
+
+                    callback(data);
                 }
             }
         };
@@ -177,8 +173,8 @@ class DisplayedGraph {
     clear() {
         this._graph = new Graph();
 
-        this._nodesDataSet.clear();
         this._edgesDataSet.clear();
+        this._nodesDataSet.clear();
     }
 
     /**
@@ -227,7 +223,7 @@ class DisplayedGraph {
      * @param key {String}
      * @param value {Object}
      */
-    _changeOptions(key, value) {
+    changeOptions(key, value) {
         let keyParts = key.split('.');
         key = keyParts.pop();
 

@@ -1,6 +1,7 @@
 import BaseSimulation from "../BaseSimulation";
 import SimulationStep from "../SimulationStep";
 
+// TODO: update example with new methods
 class ExampleSimulation extends BaseSimulation {
 
     /**
@@ -16,10 +17,11 @@ class ExampleSimulation extends BaseSimulation {
      * Calculates the next step of the simulation from the given Graph.
      *
      * @param graph {Graph}
+     * @param previousStep {SimulationStep}
      *
      * @returns {SimulationStep}
      */
-    _calculateNextStep(graph) {
+    _calculateNextStep(graph, previousStep) {
 
         if (noMoreSteps) {
             return null;
@@ -55,3 +57,5 @@ class ExampleSimulation extends BaseSimulation {
     }
 
 }
+
+export default ExampleSimulation;

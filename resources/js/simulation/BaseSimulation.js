@@ -25,9 +25,9 @@ class BaseSimulation {
         Stopwatch.start();
 
         for (
-            let step = this._createFirstStep(startGraph);
+            let step = this._createFirstStep(startGraph, answers);
             step !== null;
-            step = this._calculateNextStep(Tools.clone(step.graph))
+            step = this._calculateNextStep(Tools.clone(step.graph), step)
         ) {
             steps.push(step);
         }
@@ -47,10 +47,11 @@ class BaseSimulation {
      * Creates the first step from the given Graph.
      *
      * @param graph {Graph}
+     * @param answers {Object}
      *
      * @returns {SimulationStep}
      */
-    _createFirstStep(graph) {
+    _createFirstStep(graph, answers) {
         return new SimulationStep(graph, new Graph, false);
     }
 
@@ -58,10 +59,11 @@ class BaseSimulation {
      * Calculates the next step of the simulation from the given Graph.
      *
      * @param graph {Graph}
+     * @param previousStep {SimulationStep}
      *
      * @returns {SimulationStep}
      */
-    _calculateNextStep(graph) {
+    _calculateNextStep(graph, previousStep) {
         Tools.throwMethodNotImplemented(Tools.getClassName(this), '_calculateNextStep');
     }
 

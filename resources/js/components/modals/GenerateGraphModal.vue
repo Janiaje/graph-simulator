@@ -58,6 +58,46 @@
                         </label>
                     </div>
                 </div>
+
+                <div class="col-6">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="weightedGraph" v-model="weightedGraph">
+                        <label class="custom-control-label" for="weightedGraph">
+                            Wighted graph
+
+                            <span data-toggle="tooltip" title="Graph where the edges have weights">
+                                <font-awesome-icon icon="info-circle"/>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-12" v-show="weightedGraph">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="minWeightValue">Minimum weight value</label>
+                                <number-input-with-boundaries
+                                    :id="'minWeightValue'"
+                                    :min="1"
+                                    :max="NaN"
+                                    :startingValue="minWeightValue"
+                                    @change="newValue => minWeightValue = newValue"
+                                />
+                            </div>
+                            <div class="col-6">
+                                <label for="maxWeightValue">Minimum weight value</label>
+                                <number-input-with-boundaries
+                                    :id="'maxWeightValue'"
+                                    :min="1"
+                                    :max="NaN"
+                                    :startingValue="maxWeightValue"
+                                    @change="newValue => maxWeightValue = newValue"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </template>
 
@@ -83,6 +123,9 @@
                 numberOfEdges: 7,
                 simpleGraph: true,
                 directedGraph: false,
+                weightedGraph: true,
+                minWeightValue: 1,
+                maxWeightValue: 100
             }
         },
 
@@ -92,7 +135,16 @@
                 eventHub.$emit('simulation-ended');
 
                 Tools.runWithLoadingScreen(() => {
-                    let graph = Generator.generateRandomGraph(this.numberOfNodes, this.numberOfEdges, this.simpleGraph, this.directedGraph);
+                    let graph = Generator.generateRandomGraph(
+                        this.numberOfNodes,
+                        this.numberOfEdges,
+                        this.simpleGraph,
+                        this.directedGraph,
+                        this.weightedGraph,
+                        this.minWeightValue,
+                        this.maxWeightValue
+                    );
+
                     mainDisplayedGraph.display(graph);
                 });
             }
