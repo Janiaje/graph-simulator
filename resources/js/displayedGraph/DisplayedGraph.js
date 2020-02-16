@@ -223,7 +223,7 @@ class DisplayedGraph {
      * @param key {String}
      * @param value {Object}
      */
-    _changeOptions(key, value) {
+    changeOptions(key, value) {
         let keyParts = key.split('.');
         key = keyParts.pop();
 

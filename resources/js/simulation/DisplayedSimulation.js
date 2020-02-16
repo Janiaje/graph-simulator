@@ -22,6 +22,15 @@ class DisplayedSimulation extends BaseSimulation {
     }
 
     /**
+     * Returns the alert text for the simulation.
+     *
+     * @returns {string}
+     */
+    static getAlertText() {
+        return 'This action is going to delete your current graph! Save/download the graph if you need it later!';
+    }
+
+    /**
      * Returns the fields needed to run the simulation.
      *
      * @returns {Array.Object}
@@ -49,7 +58,7 @@ class DisplayedSimulation extends BaseSimulation {
             header: `${this.getName()} simulation`,
             description: this.getDescription(),
             fields: this.getQuestionFields(),
-            alertText: 'This action is going to delete your current graph! Save/download the graph if you need it later!',
+            alertText: this.getAlertText(),
             ok: {
                 text: 'Run',
                 callback(answer) {

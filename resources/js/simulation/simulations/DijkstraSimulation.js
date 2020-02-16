@@ -21,8 +21,24 @@ class DijkstraSimulation extends DisplayedSimulation {
     static getDescription() {
         // TODO: descriptions + wiki links
         return `
-            TODO description
+            Steps:
+            <ol>
+                <li>Create 'visited nodes list', put starting node in it</li>
+                <li>Create 'distances table' containing distances from the 'visited nodes list' (in this case the starting node); Set every distance to infinity</li>
+                <li>Add first node to 'visited nodes list' having smallest distance from the visited nodes</li>
+                <li>Update 'distances table'</li>
+                <li>Repeat the last 2 steps until all nodes are in the 'visited nodes list' or all the unvisited nodes distances are Infinity</li>
+            </ol>
         `;
+    }
+
+    /**
+     * Returns the alert text for the simulation.
+     *
+     * @returns {string}
+     */
+    static getAlertText() {
+        return undefined;
     }
 
     /**
@@ -80,7 +96,7 @@ class DijkstraSimulation extends DisplayedSimulation {
         let distances = {};
         graph.nodes.forEach((node) => {
             return distances[node.id] = {
-                value: null,
+                value: Infinity,
                 usingEdgeId: null
             };
         });
@@ -112,11 +128,7 @@ class DijkstraSimulation extends DisplayedSimulation {
     _updateDistancesByDirection(edges, distances, reachedNodes, direction) {
         edges.forEach((edge) => {
             let currentDistance = distances[edge[direction]].value;
-            if (
-                (currentDistance != null && currentDistance <= edge.weight)
-                || reachedNodes[edge[direction]]
-
-            ) {
+            if (currentDistance <= edge.weight || reachedNodes[edge[direction]]) {
                 return;
             }
 
@@ -142,7 +154,7 @@ class DijkstraSimulation extends DisplayedSimulation {
 
         let cannotReachMore = true;
         unReachedNodes.forEach((nodeId) => {
-            if (distances[nodeId].value !== null) {
+            if (distances[nodeId].value !== Infinity) {
                 cannotReachMore = false;
             }
         });
@@ -153,19 +165,13 @@ class DijkstraSimulation extends DisplayedSimulation {
 
         let minDistance = {
             toNode: null,
-            value: null,
+            value: Infinity,
             usingEdgeId: null
         };
 
         unReachedNodes.forEach((nodeId) => {
             let distance = distances[nodeId];
-            if (
-                distance.value !== null
-                && (
-                    minDistance.value === null
-                    || distance.value < minDistance.value
-                )
-            ) {
+            if (distance.value < minDistance.value) {
                 minDistance = distance;
                 minDistance.toNode = nodeId;
             }
