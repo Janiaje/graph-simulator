@@ -8,8 +8,6 @@
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {fas} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
-// Import ApexCharts
-import VueApexCharts from 'vue-apexcharts'
 // Import Analyses
 import AverageDegreeAnalysis from "./analysis/analyses/AverageDegreeAnalysis";
 // Import Simulations
@@ -38,7 +36,6 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 // Register external components
 library.add(fas);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
-Vue.component('apexchart', VueApexCharts);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

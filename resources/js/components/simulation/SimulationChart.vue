@@ -1,16 +1,19 @@
 <template>
     <div id="simulation-chart" class="inner-window" v-show="show">
         <div id="simulation-chart-inside">
-            <apexchart width="500" type="line" :width="'100%'" :options="options" :series="series"/>
+            <div id="apexChart"></div>
         </div>
     </div>
 </template>
 
 <script>
+    import ApexCharts from 'apexcharts';
+
     export default {
         name: "SimulationDiagram",
         data() {
             return {
+                chart: null,
                 show: false,
                 showCallback: () => {
                     this.show = mainDisplayedGraph.simulation.displayLineChart();
@@ -26,11 +29,11 @@
                             show: false,
                             // TODO: zoom and other options
                         }
-                    }
+                    },
+                    series: [],
                 },
-                series: [],
                 stepChangedListener: (data) => {
-                    this.series = data.series;
+                    this.chart.updateSeries(data.series);
                 }
             }
         },
@@ -39,12 +42,17 @@
             eventHub.$on('simulation-loaded', this.showCallback);
             eventHub.$on('simulation-ended', this.hideCallback);
             eventHub.$on('simulation-step-changed', this.stepChangedListener);
+
+            this.chart = new ApexCharts(document.querySelector("#apexChart"), this.options);
+            this.chart.render();
         },
 
         destroyed() {
             eventHub.$off('simulation-loaded', this.showCallback);
             eventHub.$off('simulation-ended', this.hideCallback);
             eventHub.$off('simulation-step-changed', this.stepChangedListener);
+
+            this.chart.destroy()
         }
     }
 </script>
