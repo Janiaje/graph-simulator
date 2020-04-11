@@ -125,6 +125,10 @@
                         // TODO: better binding
 
                         file = $('#nodeListFile')[0].files[0];
+                        if (file === undefined) {
+                            alert('Your current browser does not support drag & drop!');
+                            return;
+                        }
                         reader = new FileReader();
                         reader.onload = (e) => {
                             this.nodeListFileContent = e.target.result;
@@ -133,6 +137,10 @@
                         reader.readAsText(file);
 
                         file = $('#edgeListFile')[0].files[0];
+                        if (file === undefined) {
+                            alert('Your current browser does not support drag & drop!');
+                            return;
+                        }
                         reader = new FileReader();
                         reader.onload = (e) => {
                             this.edgeListFileContent = e.target.result;
@@ -143,6 +151,10 @@
                         break;
                     case 'GephiJSON':
                         file = $('#gephiFile')[0].files[0];
+                        if (file === undefined) {
+                            alert('Your current browser does not support drag & drop!');
+                            return;
+                        }
                         reader = new FileReader();
                         reader.onload = (e) => {
                             this.gephiJSONUploadFinished(e.target.result);
