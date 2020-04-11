@@ -95,7 +95,7 @@ class DijkstraSimulation extends DisplayedSimulation {
 
         let distances = {};
         graph.nodes.forEach((node) => {
-            return distances[node.id] = {
+            distances[node.id] = {
                 value: Infinity,
                 usingEdgeId: null
             };
@@ -128,12 +128,16 @@ class DijkstraSimulation extends DisplayedSimulation {
     _updateDistancesByDirection(edges, distances, reachedNodes, direction) {
         edges.forEach((edge) => {
             let currentDistance = distances[edge[direction]].value;
-            if (currentDistance <= edge.weight || reachedNodes[edge[direction]]) {
+
+            let edgeDistance = edge.weight;
+            let edgeStartDistance = distances[edge[direction === "to" ? "from" : "to"]].value;
+
+            if (edgeStartDistance + edgeDistance >= currentDistance || reachedNodes[edge[direction]]) {
                 return;
             }
 
             distances[edge[direction]] = {
-                value: edge.weight,
+                value: edgeStartDistance + edgeDistance,
                 usingEdgeId: edge.id
             };
         });
@@ -179,10 +183,6 @@ class DijkstraSimulation extends DisplayedSimulation {
 
         reachedNodes[minDistance.toNode] = true;
         unReachedNodes.splice(unReachedNodes.indexOf(minDistance.toNode), 1);
-        distances[minDistance.toNode] = {
-            value: 0,
-            usingEdgeId: null
-        };
 
         this._updateDistances(graph, minDistance.toNode, distances, reachedNodes);
 
