@@ -94,9 +94,10 @@ class DisplayedGraph {
                     });
                 },
                 addEdge(data, callback) {
-                    // TODO: make warning if graph wont be simple anymore
-                    callback(data);
-                    mainDisplayedGraph.graph.addEdge(data);
+                    // TODO: make warning if graph wont be simple anymore + change graph property
+                    let edge = new Edge(data.from, data.to);
+                    mainDisplayedGraph.graph.addEdge(edge);
+                    callback(edge);
                     eventHub.$emit('network-element-added');
                 },
                 editEdge: {
@@ -117,7 +118,7 @@ class DisplayedGraph {
                             ok: {
                                 text: 'Edit',
                                 callback(answer) {
-                                    edge.weight = answer.edgeWeight;
+                                    edge.weight = parseInt(answer.edgeWeight);
                                     mainDisplayedGraph.graph.editEdge(edge);
                                     callback(edge);
                                 }
