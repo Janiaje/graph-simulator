@@ -15,6 +15,10 @@ class Node {
         };
     }
 
+    static createFromObject(object) {
+        return new Node(object.id, object.label);
+    }
+
     constructor(id, label) {
         this.id = id;
         this.label = label;

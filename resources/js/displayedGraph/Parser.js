@@ -1,6 +1,8 @@
 import vis from "vis";
 import Tools from "../graph/Tools";
 import Graph from "../graph/Graph";
+import Node from "../graph/Node";
+import Edge from "../graph/Edge";
 
 let Parser = {
 
@@ -21,6 +23,8 @@ let Parser = {
         'id',
         'from',
         'to',
+        'label',
+        '_weight',
         'arrows',
     ],
 
@@ -104,8 +108,10 @@ let Parser = {
     importCSV(nodeCSV, edgeCSV, directed) {
         let separator = ",";
 
-        let nodes = Tools.parseDataFile(separator, nodeCSV);
-        let edges = Tools.parseDataFile(separator, edgeCSV);
+        let nodes = Tools.parseDataFile(separator, nodeCSV)
+            .map(node => Node.createFromObject(node));
+        let edges = Tools.parseDataFile(separator, edgeCSV)
+            .map(edge => Edge.createFromObject(edge));
 
         // TODO: check if simple
         this.display(new Graph(nodes, edges, directed));

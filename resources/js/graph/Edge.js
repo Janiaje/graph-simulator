@@ -14,10 +14,21 @@ class Edge {
         };
     }
 
+    static createFromObject(object) {
+        let edge = new Edge(object.from, object.to);
+        Object.assign(edge, object);
+
+        if (edge._weight !== undefined) {
+            edge._weight = parseInt(edge._weight);
+        }
+
+        return edge;
+    }
+
     constructor(from, to) {
+        this.id = `from${from}-to${to}-${Tools.getEpochTime()}`;
         this.from = from;
         this.to = to;
-        this.id = `from${from}-to${to}-${Tools.getEpochTime()}`;
         this.label = undefined;
         this._weight = null;
     }
@@ -27,7 +38,7 @@ class Edge {
     }
 
     set weight(value) {
-        this._weight = value;
+        this._weight = parseInt(value);
         this.label = value.toString();
     }
 
