@@ -5,41 +5,68 @@
         </template>
 
         <template v-slot:body>
-            <div class="form-group" v-if="question.description !== undefined">
-                <h5 v-if="question.sectionTitles">Description</h5>
-                <span v-html="question.description"/>
-            </div>
+            <div v-for="section in question.body">
 
-            <div v-if="question.fields !== undefined && question.fields.length !== 0" class="form-group">
-                <h5 v-if="question.sectionTitles">Settings</h5>
+                <div v-if="section.type === 'form-group'" class="form-group">
+                    <h5 v-if="section.title !== undefined">{{ section.title }}</h5>
 
-                <div v-for="field in question.fields">
-                    <label :for="field.id">{{ field.label }}</label>
+                    <div v-for="item in section.body">
+                        <div v-if="item.type === 'text'" v-html="item.body"/>
 
-                    <select v-if="field.type === 'select'" class="form-control" :id="field.id" v-model="field.value">
-                        <option v-for="option in field.options" :value="option.value">{{ option.text }}</option>
-                    </select>
+                        <div v-if="item.type.includes('input-')">
+                            <label v-if="item.label !== undefined" :for="item.id">{{ item.label }}</label>
 
-                    <input v-if="field.type === 'text'" type="text" class="form-control" :id="field.id"
-                           v-model="field.value">
+                            <select
+                                v-if="item.type === 'input-select'"
+                                class="form-control"
+                                :id="item.id"
+                                v-model="item.value"
+                            >
+                                <option v-for="option in item.options" :value="option.value">{{ option.text }}</option>
+                            </select>
 
-                    <input v-if="field.type === 'number'" type="number" class="form-control" :id="field.id"
-                           v-model="field.value">
+                            <input
+                                v-if="item.type === 'input-text'"
+                                type="text"
+                                class="form-control"
+                                :id="item.id"
+                                v-model="item.value"
+                            >
 
-                    <number-input-with-boundaries
-                        v-if="field.type === 'number-with-boundaries'"
-                        :id="field.id"
-                        :min="field.min"
-                        :max="field.max"
-                        :startingValue="field.value"
-                        @change="newValue => field.value = newValue"
-                    />
+                            <input
+                                v-if="item.type === 'input-number'"
+                                type="number"
+                                class="form-control"
+                                :id="item.id"
+                                v-model="item.value"
+                            >
+
+                            <number-input-with-boundaries
+                                v-if="item.type === 'input-number-with-boundaries'"
+                                :id="item.id"
+                                :min="item.min"
+                                :max="item.max"
+                                :startingValue="item.value"
+                                @change="newValue => item.value = newValue"
+                            />
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div v-if="question.alertText !== undefined" class="alert alert-danger" role="alert">
-                <font-awesome-icon icon="exclamation-triangle"/>
-                {{ question.alertText }}
+                <div
+                    v-if="section.type === 'alert' && section.body !== undefined"
+                    class="alert"
+                    :class="'alert-' + section.alert_type"
+                    role="alert"
+                >
+                    <font-awesome-icon
+                        v-if="section.alert_type === 'danger'"
+                        icon='exclamation-triangle'
+                    />
+
+                    <span v-html="section.body"/>
+                </div>
+
             </div>
         </template>
 
@@ -74,43 +101,56 @@
                 question: {},
                 questionDefaults: {
                     header: undefined,
-                    sectionTitles: true,
-                    description: undefined,
-                    fields: [
+                    body: [
                         // {
-                        //     id: 'something',
-                        //     type: 'select',
-                        //     label: 'Something',
-                        //     options: [
+                        //     type: 'form-group',
+                        //     title: 'Some section title!',
+                        //     body: [
                         //         {
-                        //             text: 'A1',
+                        //             type: 'text',
+                        //             body: 'Some text...'
+                        //         },
+                        //         {
+                        //             id: 'something',
+                        //             type: 'input-select',
+                        //             title: 'Something',
+                        //             options: [
+                        //                 {
+                        //                     text: 'A1',
+                        //                     value: 'A1'
+                        //                 }
+                        //             ],
                         //             value: 'A1'
-                        //         }
-                        //     ],
-                        //     value: 'A1'
+                        //         },
+                        //         {
+                        //             id: 'something',
+                        //             type: 'input-text',
+                        //             title: 'Something',
+                        //             value: 'A1'
+                        //         },
+                        //         {
+                        //             id: 'something',
+                        //             type: 'input-number',
+                        //             title: 'Something',
+                        //             value: '123'
+                        //         },
+                        //         {
+                        //             id: 'something',
+                        //             type: 'input-number-with-boundaries',
+                        //             title: 'Something',
+                        //             min: 1,
+                        //             max: 10,
+                        //             value: '123'
+                        //         },
+                        //     ]
                         // },
                         // {
-                        //     id: 'something',
-                        //     type: 'text',
-                        //     label: 'Something',
-                        //     value: 'A1'
-                        // },
-                        // {
-                        //     id: 'something',
-                        //     type: 'number',
-                        //     label: 'Something',
-                        //     value: '123'
-                        // },
-                        // {
-                        //     id: 'something',
-                        //     type: 'number-with-boundaries',
-                        //     label: 'Something',
-                        //     min: 1,
-                        //     max: 10,
-                        //     value: '123'
+                        //     type: 'alert',
+                        //     alert_type: 'danger',
+                        //     header: 'Some title',
+                        //     body: 'Some text...'
                         // },
                     ],
-                    alertText: undefined,
                     footer: true,
                     cancel: {
                         text: 'Cancel',
@@ -145,8 +185,18 @@
 
             finished(callback) {
                 let inputValues = {};
-                this.question.fields.forEach(field => {
-                    inputValues[field.id] = field.value;
+                this.question.body.forEach(section => {
+                    if (section.type !== 'form-group') {
+                        return;
+                    }
+
+                    section.body.forEach(item => {
+                        if (!item.type.includes("input-")) {
+                            return;
+                        }
+
+                        inputValues[item.id] = item.value;
+                    });
                 });
 
                 callback(inputValues);

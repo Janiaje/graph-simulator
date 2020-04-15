@@ -26,8 +26,17 @@ class DisplayedAnalysis {
     static display() {
         eventHub.$emit('question', {
             header: `${this.getName()}`,
-            sectionTitles: false,
-            description: this.getDescription(),
+            body: [
+                {
+                    type: 'form-group',
+                    body: [
+                        {
+                            type: 'text',
+                            body: this.getDescription(),
+                        },
+                    ],
+                }
+            ],
             footer: false,
         })
     }

@@ -57,7 +57,7 @@ class DijkstraSimulation extends DisplayedSimulation {
         return [
             {
                 id: 'startingPoint',
-                type: 'select',
+                type: 'input-select',
                 label: 'Choose starting point',
                 options: options,
                 value: options[0].value

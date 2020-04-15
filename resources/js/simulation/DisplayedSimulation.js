@@ -39,7 +39,7 @@ class DisplayedSimulation extends BaseSimulation {
         return [
             {
                 id: 'numberOfNodes',
-                type: 'number-with-boundaries',
+                type: 'input-number-with-boundaries',
                 label: 'Number of starting nodes',
                 min: 1,
                 max: 150,
@@ -56,9 +56,24 @@ class DisplayedSimulation extends BaseSimulation {
     static askQuestionBeforeRun(okCallback) {
         eventHub.$emit('question', {
             header: `${this.getName()} simulation`,
-            description: this.getDescription(),
-            fields: this.getQuestionFields(),
-            alertText: this.getAlertText(),
+            body: [
+                {
+                    type: 'form-group',
+                    title: 'Description',
+                    body: [
+                        {
+                            type: 'text',
+                            body: this.getDescription(),
+                        },
+                        ...this.getQuestionFields(),
+                    ],
+                },
+                {
+                    type: 'alert',
+                    alert_type: 'danger',
+                    body: this.getAlertText(),
+                }
+            ],
             ok: {
                 text: 'Run',
                 callback(answer) {

@@ -39,13 +39,17 @@ class DisplayedGraph {
                 addNode(data, callback) {
                     eventHub.$emit('question', {
                         header: 'Add node',
-                        sectionTitles: false,
-                        fields: [
+                        body: [
                             {
-                                id: 'nodeLabel',
-                                type: 'text',
-                                label: 'Label'
-                            }
+                                type: 'form-group',
+                                body: [
+                                    {
+                                        id: 'nodeLabel',
+                                        type: 'input-text',
+                                        label: 'Label'
+                                    },
+                                ],
+                            },
                         ],
                         ok: {
                             text: 'Add',
@@ -65,14 +69,18 @@ class DisplayedGraph {
 
                     eventHub.$emit('question', {
                         header: 'Edit node',
-                        sectionTitles: false,
-                        fields: [
+                        body: [
                             {
-                                id: 'nodeLabel',
-                                type: 'text',
-                                label: 'Label',
-                                value: data.label
-                            }
+                                type: 'form-group',
+                                body: [
+                                    {
+                                        id: 'nodeLabel',
+                                        type: 'input-text',
+                                        label: 'Label',
+                                        value: data.label
+                                    },
+                                ],
+                            },
                         ],
                         ok: {
                             text: 'Edit',
@@ -82,8 +90,8 @@ class DisplayedGraph {
 
                                 node.label = answer.nodeLabel;
                                 mainDisplayedGraph.graph.editNode(node);
-                            }
-                        }
+                            },
+                        },
                     });
                 },
                 deleteNode(data, callback) {
@@ -106,14 +114,18 @@ class DisplayedGraph {
 
                         eventHub.$emit('question', {
                             header: 'Edit edge',
-                            sectionTitles: false,
-                            fields: [
+                            body: [
                                 {
-                                    id: 'edgeWeight',
-                                    type: 'number',
-                                    label: 'Weight',
-                                    value: edge.weight
-                                }
+                                    type: 'form-group',
+                                    body: [
+                                        {
+                                            id: 'edgeWeight',
+                                            type: 'input-number',
+                                            label: 'Weight',
+                                            value: edge.weight
+                                        },
+                                    ],
+                                },
                             ],
                             ok: {
                                 text: 'Edit',
