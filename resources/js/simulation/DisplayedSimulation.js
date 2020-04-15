@@ -58,15 +58,14 @@ class DisplayedSimulation extends BaseSimulation {
             header: `${this.getName()} simulation`,
             body: [
                 {
-                    type: 'form-group',
+                    type: 'text',
                     title: 'Description',
-                    body: [
-                        {
-                            type: 'text',
-                            body: this.getDescription(),
-                        },
-                        ...this.getQuestionFields(),
-                    ],
+                    body: this.getDescription(),
+                },
+                {
+                    type: 'form-group',
+                    title: 'Inputs',
+                    body: this.getQuestionFields(),
                 },
                 {
                     type: 'alert',

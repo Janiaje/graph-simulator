@@ -7,12 +7,15 @@
         <template v-slot:body>
             <div v-for="section in question.body">
 
+                <div v-if="section.type === 'text'" class="form-group">
+                    <h5 v-if="section.title !== undefined">{{ section.title }}</h5>
+                    <div v-html="section.body"/>
+                </div>
+
                 <div v-if="section.type === 'form-group'" class="form-group">
                     <h5 v-if="section.title !== undefined">{{ section.title }}</h5>
 
                     <div v-for="item in section.body">
-                        <div v-if="item.type === 'text'" v-html="item.body"/>
-
                         <div v-if="item.type.includes('input-')">
                             <label v-if="item.label !== undefined" :for="item.id">{{ item.label }}</label>
 

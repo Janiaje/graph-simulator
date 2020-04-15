@@ -28,13 +28,8 @@ class DisplayedAnalysis {
             header: `${this.getName()}`,
             body: [
                 {
-                    type: 'form-group',
-                    body: [
-                        {
-                            type: 'text',
-                            body: this.getDescription(),
-                        },
-                    ],
+                    type: 'text',
+                    body: this.getDescription(),
                 }
             ],
             footer: false,
