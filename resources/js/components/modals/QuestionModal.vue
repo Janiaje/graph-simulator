@@ -187,7 +187,7 @@
                 this.finished(this.question.cancel.callback);
             },
 
-            finished(callback) {
+            collectInputsValues() {
                 let inputValues = {};
                 this.question.body.forEach(section => {
                     if (section.type !== 'form-group') {
@@ -203,8 +203,14 @@
                     });
                 });
 
-                callback(inputValues);
+                return inputValues;
+            },
+
+            finished(callback) {
+                let inputValues = this.collectInputsValues();
                 this.setToDefaults();
+
+                callback(inputValues);
             },
 
             setToDefaults() {

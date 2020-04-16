@@ -14,10 +14,10 @@ class DisplayedAnalysis {
     /**
      * Returns the description HTML for the Analysis.
      *
-     * @returns {string}
+     * @returns {{type: string, body: string}[]}
      */
-    static getDescription() {
-        Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getDescription');
+    static getQuestionBody() {
+        Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getQuestionBody');
     }
 
     /**
@@ -26,12 +26,7 @@ class DisplayedAnalysis {
     static display() {
         eventHub.$emit('question', {
             header: `${this.getName()}`,
-            body: [
-                {
-                    type: 'text',
-                    body: this.getDescription(),
-                }
-            ],
+            body: this.getQuestionBody(),
             footer: false,
         })
     }
