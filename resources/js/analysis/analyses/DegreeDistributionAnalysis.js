@@ -37,6 +37,7 @@ class DegreeDistributionAnalysis extends DisplayedAnalysis {
 
         let xaxisCategories = Object.keys(chartData);
         let dataPoints = Object.values(chartData);
+        dataPoints = dataPoints.map(value => value / nodes.length);
 
         let chartOptions = ApexChartDefaultOptions.barChart();
         chartOptions.xaxis = {
