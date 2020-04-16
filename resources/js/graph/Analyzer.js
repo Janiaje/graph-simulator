@@ -15,7 +15,7 @@ let Analyzer = {
             return 'NaN';
         }
 
-        this._fillDegrees();
+        this.fillDegrees();
 
         let summedDegree = this.nodes
             .map(node => node[type])
@@ -29,7 +29,7 @@ let Analyzer = {
     /**
      * Fills the degrees of the nodes.
      */
-    _fillDegrees() {
+    fillDegrees() {
         this._nodes.map(node => {
             node.outgoingDegree = Tools.clone(this._edges).filter(edge => edge.from === node.id).length;
 

@@ -10,6 +10,7 @@ import {fas} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 // Import Analyses
 import AverageDegreeAnalysis from "./analysis/analyses/AverageDegreeAnalysis";
+import DegreeDistributionAnalysis from "./analysis/analyses/DegreeDistributionAnalysis";
 // Import Simulations
 import DijkstraSimulation from "./simulation/simulations/DijkstraSimulation";
 import GiantComponentSimulation from "./simulation/simulations/GiantComponentSimulation";
@@ -53,6 +54,7 @@ window.app = new Vue({
             graphHeight: 0,
             analysisTypes: [
                 AverageDegreeAnalysis,
+                DegreeDistributionAnalysis,
             ],
             analyses: [],
             analysesMenuItems: [],
