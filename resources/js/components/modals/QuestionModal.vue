@@ -1,5 +1,5 @@
 <template>
-    <modal :id="'question'">
+    <modal :id="'question'" @modal-hidden="setToDefaults">
         <template v-slot:header v-if="question.header !== undefined">
             {{ question.header }}
         </template>
@@ -214,8 +214,6 @@
 
             finished(callback) {
                 let inputValues = this.collectInputsValues();
-                this.setToDefaults();
-
                 callback(inputValues);
             },
 
