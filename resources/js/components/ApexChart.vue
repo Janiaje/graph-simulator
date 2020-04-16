@@ -5,13 +5,14 @@
 <script>
     import ApexCharts from "apexcharts";
     import Tools from "../graph/Tools";
+    import ApexChartDefaultOptions from "./ApexChartDefaultOptions";
 
     export default {
         name: "ApexChart",
         props: {
             options: {
                 default: () => {
-                    return {}
+                    return ApexChartDefaultOptions.lineChart();
                 }
             },
             series: {
@@ -25,18 +26,11 @@
             return {
                 randomUniqueId: randomUniqueId,
                 chart: null,
-                defaultOptions: {
-                    chart: {
-                        id: randomUniqueId,
-                    },
-                }
-
             }
         },
 
         mounted() {
             let options = this.options;
-            Object.assign(options, this.defaultOptions);
             options.series = this.series;
 
             let domElement = document.querySelector('#' + this.randomUniqueId);
