@@ -12,6 +12,12 @@
                     <div v-html="section.body"/>
                 </div>
 
+                <div v-if="section.type === 'chart'" class="form-group">
+                    <h5 v-if="section.title !== undefined">{{ section.title }}</h5>
+
+                    <ApexChart :options="section.options" :series="section.series"/>
+                </div>
+
                 <div v-if="section.type === 'form-group'" class="form-group">
                     <h5 v-if="section.title !== undefined">{{ section.title }}</h5>
 
