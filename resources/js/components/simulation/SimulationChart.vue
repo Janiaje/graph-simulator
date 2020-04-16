@@ -1,19 +1,17 @@
 <template>
     <div id="simulation-chart" class="inner-window" v-show="show">
         <div id="simulation-chart-inside">
-            <div id="apexChart"></div>
+            <ApexChart :series="series"/>
         </div>
     </div>
 </template>
 
 <script>
-    import ApexCharts from 'apexcharts';
 
     export default {
-        name: "SimulationDiagram",
+        name: "SimulationChart",
         data() {
             return {
-                chart: null,
                 show: false,
                 showCallback: () => {
                     this.show = mainDisplayedGraph.simulation.displayLineChart();
@@ -22,18 +20,9 @@
                     this.show = false;
                 },
 
-                options: {
-                    chart: {
-                        id: 'simulation-chart-vuechart',
-                        toolbar: {
-                            show: false,
-                            // TODO: zoom and other options
-                        }
-                    },
-                    series: [],
-                },
+                series: [],
                 stepChangedListener: (data) => {
-                    this.chart.updateSeries(data.series);
+                    this.series = data.series;
                 }
             }
         },
@@ -42,17 +31,12 @@
             eventHub.$on('simulation-loaded', this.showCallback);
             eventHub.$on('simulation-ended', this.hideCallback);
             eventHub.$on('simulation-step-changed', this.stepChangedListener);
-
-            this.chart = new ApexCharts(document.querySelector("#apexChart"), this.options);
-            this.chart.render();
         },
 
         destroyed() {
             eventHub.$off('simulation-loaded', this.showCallback);
             eventHub.$off('simulation-ended', this.hideCallback);
             eventHub.$off('simulation-step-changed', this.stepChangedListener);
-
-            this.chart.destroy()
         }
     }
 </script>
@@ -60,10 +44,11 @@
 <style lang="scss" scoped>
     #simulation-chart {
         top: 186px;
+        padding-top: 3px;
     }
 
     #simulation-chart-inside {
         margin-left: -15px;
-        margin-bottom: -15px;
+        margin-bottom: -20px;
     }
 </style>
