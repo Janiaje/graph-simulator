@@ -324,6 +324,10 @@ class Tools {
         return Math.floor(Math.random() * max) + min;
     }
 
+    static round(number, decimals) {
+        let multiplier = Math.pow(10, decimals);
+        return Math.round(number * multiplier) / multiplier;
+    }
 }
 
 export default Tools;

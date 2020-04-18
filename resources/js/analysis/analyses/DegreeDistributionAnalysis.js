@@ -1,5 +1,6 @@
 import DisplayedAnalysis from "../DisplayedAnalysis";
 import ApexChartDefaultOptions from "../../components/ApexChartDefaultOptions";
+import Tools from "../../graph/Tools";
 
 class DegreeDistributionAnalysis extends DisplayedAnalysis {
 
@@ -35,13 +36,18 @@ class DegreeDistributionAnalysis extends DisplayedAnalysis {
             chartData[node.degree] = counter;
         });
 
-        let xaxisCategories = Object.keys(chartData);
-        let dataPoints = Object.values(chartData);
-        dataPoints = dataPoints.map(value => value / nodes.length);
+        let roundTo2Decimals = value => Tools.round(value, 2);
+
+        let xaxisCategories = Object.keys(chartData)
+            .map(roundTo2Decimals);
+
+        let dataPoints = Object.values(chartData)
+            .map(value => value / nodes.length)
+            .map(roundTo2Decimals);
 
         let chartOptions = ApexChartDefaultOptions.barChart();
         chartOptions.xaxis = {
-            categories: xaxisCategories
+            categories: xaxisCategories,
         };
 
         return [
