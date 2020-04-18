@@ -36,7 +36,7 @@ class DegreeDistributionAnalysis extends DisplayedAnalysis {
             chartData[node.degree] = counter;
         });
 
-        let roundTo2Decimals = value => Tools.round(value, 2);
+        let roundTo2Decimals = value => Tools.round(value, 4);
 
         let xaxisCategories = Object.keys(chartData)
             .map(roundTo2Decimals);
