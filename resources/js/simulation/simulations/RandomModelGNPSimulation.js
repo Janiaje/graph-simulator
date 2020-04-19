@@ -39,19 +39,22 @@ class RandomModelGNPSimulation extends DisplayedSimulation {
         return [
             {
                 id: 'numberOfNodes',
+                col: 'col-6',
                 type: 'input-number-with-boundaries',
                 label: 'Number of starting nodes',
                 min: 1,
                 max: 150,
-                value: 20
+                value: 20,
             },
             {
                 id: 'probability',
+                col: 'col-6',
                 type: 'input-number-with-boundaries',
                 label: 'Probability for edge generation',
                 min: 0,
                 max: 100,
-                value: 50
+                value: 50,
+                append: '%',
             }
         ];
     }

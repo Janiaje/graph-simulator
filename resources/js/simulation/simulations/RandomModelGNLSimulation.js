@@ -41,19 +41,21 @@ class RandomModelGNLSimulation extends DisplayedSimulation {
         return [
             {
                 id: 'numberOfNodes',
+                col: 'col-6',
                 type: 'input-number-with-boundaries',
                 label: 'Number of starting nodes',
                 min: 1,
                 max: 150,
-                value: 20
+                value: 20,
             },
             {
                 id: 'numberOfEdges',
+                col: 'col-6',
                 type: 'input-number-with-boundaries',
                 label: 'Number of edges',
                 min: 0,
                 max: 1000,
-                value: 50
+                value: 50,
             }
         ];
     }

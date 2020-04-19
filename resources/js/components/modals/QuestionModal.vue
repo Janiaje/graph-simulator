@@ -6,25 +6,22 @@
 
         <template v-slot:body>
             <div v-for="section in question.body">
+                <h5 v-if="section.title !== undefined">{{ section.title }}</h5>
 
                 <div v-if="section.type === 'text'" class="form-group">
-                    <h5 v-if="section.title !== undefined">{{ section.title }}</h5>
                     <div v-html="section.body"/>
                 </div>
 
                 <div v-if="section.type === 'chart'" class="form-group">
-                    <h5 v-if="section.title !== undefined">{{ section.title }}</h5>
-
                     <ApexChart :options="section.options" :series="section.series"/>
                 </div>
 
-                <div v-if="section.type === 'form-group'" class="form-group">
-                    <h5 v-if="section.title !== undefined">{{ section.title }}</h5>
+                <div v-if="section.type === 'form-group'" class="form-group row">
+                    <div v-for="item in section.body" class="input-group"
+                         :class="[item.col !== undefined ? item.col : 'col-12']">
+                        <label v-if="item.label !== undefined" :for="item.id">{{ item.label }}</label>
 
-                    <div v-for="item in section.body">
-                        <div v-if="item.type.includes('input-')">
-                            <label v-if="item.label !== undefined" :for="item.id">{{ item.label }}</label>
-
+                        <div class="input-group">
                             <select
                                 v-if="item.type === 'input-select'"
                                 class="form-control"
@@ -58,6 +55,10 @@
                                 :startingValue="item.value"
                                 @change="newValue => item.value = newValue"
                             />
+
+                            <div class="input-group-append" v-if="item.append">
+                                <span class="input-group-text">{{ item.append }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

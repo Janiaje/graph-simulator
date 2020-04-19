@@ -1,16 +1,13 @@
 <template>
-    <div class="form-group">
-        <label v-if="label" :for="id">{{ label }}</label>
-        <input
-            :id="id"
-            type="number"
-            :min="min"
-            :max="max"
-            class="form-control"
-            :placeholder="placeholder"
-            v-model.number="inputValue"
-        >
-    </div>
+    <input
+        :id="id"
+        type="number"
+        :min="min"
+        :max="max"
+        class="form-control"
+        :placeholder="placeholder"
+        v-model.number="inputValue"
+    >
 </template>
 
 <script>
@@ -20,9 +17,6 @@
             id: {
                 type: String,
                 required: true
-            },
-            label: {
-                type: String
             },
             min: {
                 type: Number,

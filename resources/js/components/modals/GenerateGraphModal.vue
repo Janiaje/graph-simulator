@@ -7,9 +7,9 @@
         <template v-slot:body>
             <div class="row">
                 <div class="col-6">
+                    <label for="numberOfNodes">Nodes</label>
                     <number-input-with-boundaries
                         :id="'numberOfNodes'"
-                        :label="'Nodes'"
                         :min="1"
                         :max="150"
                         :startingValue="numberOfNodes"
@@ -19,9 +19,9 @@
                 </div>
 
                 <div class="col-6">
+                    <label for="numberOfEdges">Edges</label>
                     <number-input-with-boundaries
                         :id="'numberOfEdges'"
-                        :label="'Edges'"
                         :min="0"
                         :max="1000"
                         :startingValue="numberOfEdges"
