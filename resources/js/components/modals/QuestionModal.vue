@@ -22,6 +22,10 @@
                         <label v-if="item.label !== undefined" :for="item.id">{{ item.label }}</label>
 
                         <div class="input-group">
+                            <div class="input-group-prepend" v-if="item.prepend">
+                                <span class="input-group-text">{{ item.prepend }}</span>
+                            </div>
+
                             <select
                                 v-if="item.type === 'input-select'"
                                 class="form-control"

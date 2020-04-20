@@ -5,29 +5,42 @@
         </template>
 
         <template v-slot:body>
-            <div class="row">
+            <!--            TODO: make it with a QuestionModal.vue -->
+            <div class="row mb-2">
                 <div class="col-6">
                     <label for="numberOfNodes">Nodes</label>
-                    <number-input-with-boundaries
-                        :id="'numberOfNodes'"
-                        :min="1"
-                        :max="150"
-                        :startingValue="numberOfNodes"
-                        :placeholder="'Number of nodes'"
-                        @change="newValue => numberOfNodes = newValue"
-                    />
+                    <div class="input-group">
+                        <number-input-with-boundaries
+                            :id="'numberOfNodes'"
+                            :min="1"
+                            :max="150"
+                            :startingValue="numberOfNodes"
+                            :placeholder="'Number of nodes'"
+                            class="form-control"
+                            @change="newValue => numberOfNodes = newValue"
+                        />
+                        <div class="input-group-append">
+                            <span class="input-group-text">pcs</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-6">
                     <label for="numberOfEdges">Edges</label>
-                    <number-input-with-boundaries
-                        :id="'numberOfEdges'"
-                        :min="0"
-                        :max="1000"
-                        :startingValue="numberOfEdges"
-                        :placeholder="'Number of edges'"
-                        @change="newValue => numberOfEdges = newValue"
-                    />
+                    <div class="input-group">
+                        <number-input-with-boundaries
+                            :id="'numberOfEdges'"
+                            :min="0"
+                            :max="1000"
+                            :startingValue="numberOfEdges"
+                            :placeholder="'Number of edges'"
+                            class="form-control"
+                            @change="newValue => numberOfEdges = newValue"
+                        />
+                        <div class="input-group-append">
+                            <span class="input-group-text">pcs</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 

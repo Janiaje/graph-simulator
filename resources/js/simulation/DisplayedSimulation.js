@@ -36,16 +36,7 @@ class DisplayedSimulation extends BaseSimulation {
      * @returns {Array.Object}
      */
     static getQuestionFields() {
-        return [
-            {
-                id: 'numberOfNodes',
-                type: 'input-number-with-boundaries',
-                label: 'Number of starting nodes',
-                min: 1,
-                max: 150,
-                value: 20
-            }
-        ];
+        Tools.throwMethodNotImplemented(Tools.getClassNameFromStaticScope(this), 'getQuestionFields');
     }
 
     /**

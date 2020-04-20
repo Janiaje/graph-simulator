@@ -60,5 +60,7 @@
 </script>
 
 <style scoped>
-
+    input {
+        text-align: right;
+    }
 </style>

@@ -24,11 +24,31 @@ class GiantComponentSimulation extends DisplayedSimulation {
         return `
             Steps:
             <ol>
-                <li>Generate the given number of nodes</li>
+                <li>Generate <b>N</b> number of nodes</li>
                 <li>Randomly add edges one by one</li>
                 <li>If the giant component includes all the nodes: STOP</li>
             </ol>
         `;
+    }
+
+    /**
+     * Returns the fields needed to run the simulation.
+     *
+     * @returns {Array.Object}
+     */
+    static getQuestionFields() {
+        return [
+            {
+                id: 'numberOfNodes',
+                type: 'input-number-with-boundaries',
+                label: 'Number of starting nodes',
+                prepend: 'N',
+                min: 1,
+                max: 150,
+                value: 20,
+                append: 'pcs',
+            }
+        ];
     }
 
     /**

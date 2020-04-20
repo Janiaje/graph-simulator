@@ -23,7 +23,7 @@ class DijkstraSimulation extends DisplayedSimulation {
         return `
             Steps:
             <ol>
-                <li>Create 'visited nodes list', put starting node in it</li>
+                <li>Create 'visited nodes list', put <b>starting node</b> in it</li>
                 <li>Create 'distances table' containing distances from the 'visited nodes list' (in this case the starting node); Set every distance to infinity</li>
                 <li>Add first node to 'visited nodes list' having smallest distance from the visited nodes</li>
                 <li>Update 'distances table'</li>
@@ -59,8 +59,9 @@ class DijkstraSimulation extends DisplayedSimulation {
                 id: 'startingPoint',
                 type: 'input-select',
                 label: 'Choose starting point',
+                prepend: 'Node',
                 options: options,
-                value: options[0].value
+                value: options[0].value,
             }
         ];
     }
