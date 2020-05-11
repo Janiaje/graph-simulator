@@ -333,7 +333,7 @@ class Graph {
      * Updates the nodes' titles to show the degrees of the nodes.
      */
     showDegrees() {
-        this._fillDegrees();
+        this.fillDegrees();
 
         this._nodes.map(node => {
             node.originalLabel = node.label;
