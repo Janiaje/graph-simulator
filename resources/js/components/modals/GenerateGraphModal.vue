@@ -76,7 +76,7 @@
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="weightedGraph" v-model="weightedGraph">
                         <label class="custom-control-label" for="weightedGraph">
-                            Wighted graph
+                            Weighted graph
 
                             <span data-toggle="tooltip" title="Graph where the edges have weights">
                                 <font-awesome-icon icon="info-circle"/>
