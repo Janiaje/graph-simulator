@@ -2,8 +2,7 @@
 
 ## About
 
-This project is started as my Thesis project at the university.
-My time is very limited so pls forgive for the mistakes and bugs you find and open a [bug report](https://github.com/Janiaje/network-simulator/issues/new?assignees=Janiaje&labels=bug&template=bug_report.md&title=) / pull request.
+This project is started as a hobby project, my free time is very limited so pls forgive for the mistakes and bugs you find and open a [bug report](https://github.com/Janiaje/network-simulator/issues/new?assignees=Janiaje&labels=bug&template=bug_report.md&title=) / pull request for them.
 
 
 ## Main goal
