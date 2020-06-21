@@ -19,7 +19,7 @@ Your wish might come true ;-)
 
 ## Use
 
-1) Download the [NetworkSimulator.html](https://github.com/Janiaje/network-simulator/releases/download/v1.0.0/NetworkSimulator.html) file from the [latest release](https://github.com/Janiaje/network-simulator/releases)
+1) Download the [NetworkSimulator.html](https://github.com/Janiaje/network-simulator/releases/download/v2.0.1/NetworkSimulator.html) file from the [latest release](https://github.com/Janiaje/network-simulator/releases)
 1) Open it in a browser
 1) Have fun!
 
