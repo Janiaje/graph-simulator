@@ -24,6 +24,12 @@ jobs:
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
+    - name: Set .env values
+      run: |
+        sed -i -e 's/APP_ENV=local/APP_ENV=prod/g' .env
+        sed -i -e 's/APP_DEBUG=true/APP_ENV=false/g' .env
+        sed -i -e 's/APP_URL=http:\/\/localhost/APP_ENV=https:\/\/grap-sim.com/g' .env
+
     - name: Install Composer Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev
 
