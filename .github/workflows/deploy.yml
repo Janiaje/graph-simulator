@@ -54,7 +54,7 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSH_KEY }}
-        script: php ${{ secrets.DEPLOY_FOLDER }}/artisan key:generate
+        script: php artisan key:generate
 
     - name: Setting directory permissions
       uses: appleboy/ssh-action@master
@@ -63,4 +63,4 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSH_KEY }}
-        script: chmod -R 777 ${{ secrets.DEPLOY_FOLDER }}/storage ${{ secrets.DEPLOY_FOLDER }}/bootstrap/cache
+        script: chmod -R 777 storage bootstrap/cache
