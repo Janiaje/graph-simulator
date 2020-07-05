@@ -32,6 +32,7 @@ jobs:
         sed -i -e 's/DB_CONNECTION=mysql/DB_CONNECTION=${{ secrets.DB_CONNECTION }}/g' .env
         sed -i -e 's/DB_HOST=127.0.0.1/DB_HOST=127.0.0.${{ secrets.DB_HOST }}/g' .env
         sed -i -e 's/DB_PORT=3306/DB_PORT=${{ secrets.DB_PORT }}/g' .env
+        sed -i -e 's/DB_DATABASE=homestead/DB_DATABASE=${{ secrets.DB_DATABASE }}/g' .env
         sed -i -e 's/DB_USERNAME=homestead/DB_USERNAME=${{ secrets.DB_USERNAME }}/g' .env
         sed -i -e 's/DB_PASSWORD=secret/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/g' .env
 
