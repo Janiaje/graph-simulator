@@ -24,8 +24,20 @@ jobs:
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
+    - name: Set .env values
+      run: |
+        sed -i -e 's/APP_ENV=local/APP_ENV=prod/g' .env
+        sed -i -e 's/APP_DEBUG=true/APP_ENV=false/g' .env
+        sed -i -e 's/APP_URL=http:\/\/localhost/APP_ENV=https:\/\/grap-sim.com/g' .env
+        sed -i -e 's/DB_CONNECTION=mysql/DB_CONNECTION=${{ secrets.DB_CONNECTION }}/g' .env
+        sed -i -e 's/DB_HOST=127.0.0.1/DB_HOST=127.0.0.${{ secrets.DB_HOST }}/g' .env
+        sed -i -e 's/DB_PORT=3306/DB_PORT=${{ secrets.DB_PORT }}/g' .env
+        sed -i -e 's/DB_DATABASE=homestead/DB_DATABASE=${{ secrets.DB_DATABASE }}/g' .env
+        sed -i -e 's/DB_USERNAME=homestead/DB_USERNAME=${{ secrets.DB_USERNAME }}/g' .env
+        sed -i -e 's/DB_PASSWORD=secret/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/g' .env
+
     - name: Install Composer Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev
 
     - name: Install NPM Dependencies
       run: npm install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -36,6 +48,15 @@ jobs:
     - name: Compile NPM Dependencies
       run: npm run prod -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+    - name: Laravel Down
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSH_KEY }}
+        script: php ${{ secrets.DEPLOY_FOLDER }}/artisan down
+        
     - name: Copy file via scp to PROD host
       uses: appleboy/scp-action@master
       env:
@@ -56,6 +77,15 @@ jobs:
         KEY: ${{ secrets.SSH_KEY }}
         script: php ${{ secrets.DEPLOY_FOLDER }}/artisan key:generate
 
+    - name: Printing commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSH_KEY }}
+        script: echo "chmod -R 777 ${{ secrets.DEPLOY_FOLDER }}/storage ${{ secrets.DEPLOY_FOLDER }}/bootstrap/cache" > ${{ secrets.DEPLOY_FOLDER }}/commands.txt
+
     - name: Setting directory permissions
       uses: appleboy/ssh-action@master
       with:
@@ -65,12 +95,38 @@ jobs:
         KEY: ${{ secrets.SSH_KEY }}
         script: chmod -R 777 ${{ secrets.DEPLOY_FOLDER }}/storage ${{ secrets.DEPLOY_FOLDER }}/bootstrap/cache
         
-    
-    - name: Printing commands
+    - name: Optimizing Configuration Loading
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSH_KEY }}
-        script: echo "chmod -R 777 ${{ secrets.DEPLOY_FOLDER }}/storage ${{ secrets.DEPLOY_FOLDER }}/bootstrap/cache" > ${{ secrets.DEPLOY_FOLDER }}/commands.txt
+        script: php ${{ secrets.DEPLOY_FOLDER }}/artisan config:cache
+
+    - name: Optimizing Route Loading
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSH_KEY }}
+        script: php ${{ secrets.DEPLOY_FOLDER }}/artisan route:cache
+
+    - name: Optimizing Route Loading
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSH_KEY }}
+        script: php ${{ secrets.DEPLOY_FOLDER }}/artisan view:cache
+        
+    - name: Laravel Down
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSH_KEY }}
+        script: php ${{ secrets.DEPLOY_FOLDER }}/artisan up
