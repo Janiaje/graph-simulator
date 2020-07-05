@@ -28,7 +28,7 @@ jobs:
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev
 
     - name: Install NPM Dependencies
-      run: npm ci
+      run: npm install
 
     - name: Compile NPM Dependencies
       run: npm run prod
