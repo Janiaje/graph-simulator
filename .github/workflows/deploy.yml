@@ -68,15 +68,6 @@ jobs:
         KEY: ${{ secrets.SSH_KEY }}
         script: php ${{ secrets.DEPLOY_FOLDER }}/artisan key:generate
 
-    - name: Printing commands
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSH_KEY }}
-        script: whoami
-
     - name: Setting directory permissions
       uses: appleboy/ssh-action@master
       with:
