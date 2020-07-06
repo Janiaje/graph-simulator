@@ -63,12 +63,11 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSH_KEY }}
+        username: ${{ secrets.USERNAME }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.SSH_KEY }}
         script: |
           php ${{ secrets.DEPLOY_FOLDER }}/artisan key:generate && \
-          chmod -R 777 ${{ secrets.DEPLOY_FOLDER }}/storage ${{ secrets.DEPLOY_FOLDER }}/bootstrap/cache && \
           php ${{ secrets.DEPLOY_FOLDER }}/artisan config:cache && \
           php ${{ secrets.DEPLOY_FOLDER }}/artisan route:cache && \
           php ${{ secrets.DEPLOY_FOLDER }}/artisan view:cache
