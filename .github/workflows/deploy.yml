@@ -68,7 +68,7 @@ jobs:
         KEY: ${{ secrets.SSH_KEY }}
         script: |
           php ${{ secrets.DEPLOY_FOLDER }}/artisan key:generate
-          chmod -R 777 storage bootstrap/cache
+          chmod -R 777 ${{ secrets.DEPLOY_FOLDER }}/storage ${{ secrets.DEPLOY_FOLDER }}/bootstrap/cache
           php ${{ secrets.DEPLOY_FOLDER }}/artisan config:cache
           php ${{ secrets.DEPLOY_FOLDER }}/artisan route:cache
           php ${{ secrets.DEPLOY_FOLDER }}/artisan view:cache
