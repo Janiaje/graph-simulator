@@ -70,8 +70,8 @@ jobs:
         port: ${{ secrets.PORT }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          ln -s ~/graph-sim.com/storage ${{ secrets.DEPLOY_FOLDER }}/storage
-          ln -s ~/graph-sim.com/bootstrap/cache ${{ secrets.DEPLOY_FOLDER }}/bootstrap/cache
+          ln -s ~/graph-sim.com/storage ${{ secrets.DEPLOY_FOLDER }}/storage && \
+          ln -s ~/graph-sim.com/bootstrap/cache ${{ secrets.DEPLOY_FOLDER }}/bootstrap/cache && \
           php ${{ secrets.DEPLOY_FOLDER }}/artisan key:generate && \
           php ${{ secrets.DEPLOY_FOLDER }}/artisan config:cache && \
           php ${{ secrets.DEPLOY_FOLDER }}/artisan view:cache
