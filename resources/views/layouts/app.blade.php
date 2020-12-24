@@ -86,7 +86,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="analyticsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Analise
+                            Analyse
                         </a>
                         <div class="dropdown-menu" aria-labelledby="analyticsDropdown">
                             <a class="dropdown-item" href="#">
